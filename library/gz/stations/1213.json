@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1213": {
+      "id": "1213",
+      "name": {
+        "zh-CN": "麓湖",
+        "en-US": "Luhu"
+      },
+      "x": 700.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}

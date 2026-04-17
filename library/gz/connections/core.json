@@ -41,6 +41,12 @@
       "toStationId": "F225",
       "type": "physical",
       "walkingTime": 1
+    },
+    {
+      "fromStationId": "1214",
+      "toStationId": "508",
+      "type": "virtual",
+      "walkingTime": 5
     }
   ]
 }

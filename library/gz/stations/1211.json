@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1211": {
+      "id": "1211",
+      "name": {
+        "zh-CN": "柯子岭",
+        "en-US": "Keziling"
+      },
+      "x": 700.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}

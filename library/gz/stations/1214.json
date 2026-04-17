@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1214": {
+      "id": "1214",
+      "name": {
+        "zh-CN": "建设六马路",
+        "en-US": "Jianshe 6th Road"
+      },
+      "x": 700.0,
+      "y": 150.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "13"
+      ]
+    }
+  }
+}

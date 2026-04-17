@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1210": {
+      "id": "1210",
+      "name": {
+        "zh-CN": "景泰",
+        "en-US": "Jingtai"
+      },
+      "x": 700.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}
