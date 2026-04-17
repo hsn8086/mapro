@@ -1,0 +1,36 @@
+.DS_Store
+
+# old repository backup
+.git_backup_*/
+
+# Python cache and environments
+__pycache__/
+.ruff_cache/
+.venv/
+*.pyc
+
+# generated logs and previews
+*.log
+*.png
+
+# local archives
+*.tar.xz
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

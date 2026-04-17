@@ -1,0 +1,19 @@
+{
+  "id": "gzm",
+  "meta": {
+    "name": {
+      "zh-CN": "广州&佛山地铁线网图",
+      "en-US": "Guangzhou & Foshan Metro Map"
+    },
+    "author": "hsn",
+    "version": "1.0.0",
+    "createTime": "2026-01-12T12:00:00Z",
+    "updateTime": "2026-01-16T07:37:11.765276",
+    "pricingScript": "\n      // Simple distance-based pricing (mock)\n      const basePrice = 2;\n      const unitPrice = 0.6;\n      let distance = 0;\n      \n      // Calculate total distance if segments are available\n      // Note: In real app, path finding would provide distance\n      // Here we mock it based on station count for simplicity if distance is missing\n      if (typeof totalDistance !== 'undefined') {\n        distance = totalDistance;\n      } else {\n         distance = (stationsList.length - 1) * 1.5; // Assume 1.5km per station avg\n      }\n\n      if (distance <= 4) return basePrice;\n      if (distance <= 12) return basePrice + Math.ceil((distance - 4) / 4) * 1;\n      if (distance <= 24) return basePrice + 2 + Math.ceil((distance - 12) / 6) * 1;\n      return basePrice + 4 + Math.ceil((distance - 24) / 8) * 1;\n    "
+  },
+  "pricing": {
+    "type": "distance",
+    "basePrice": 2,
+    "unitPrice": 0.6
+  }
+}

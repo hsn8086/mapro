@@ -1,0 +1,17 @@
+{
+  "lines": {
+    "l1": {
+      "id": "l1",
+      "name": {
+        "zh-CN": "1号线示例",
+        "en-US": "Line 1 Example"
+      },
+      "color": "#f4c20d",
+      "stations": [
+        "s1",
+        "s2",
+        "s3"
+      ]
+    }
+  }
+}

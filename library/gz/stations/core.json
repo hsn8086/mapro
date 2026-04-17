@@ -1,0 +1,5179 @@
+{
+  "stations": {
+    "101": {
+      "id": "101",
+      "name": {
+        "zh-CN": "西塱",
+        "en-US": "Xilang"
+      },
+      "x": 225.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "GF",
+        "10",
+        "22"
+      ]
+    },
+    "102": {
+      "id": "102",
+      "name": {
+        "zh-CN": "坑口",
+        "en-US": "Kengkou"
+      },
+      "x": 250.0,
+      "y": 350.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    },
+    "103": {
+      "id": "103",
+      "name": {
+        "zh-CN": "花地湾",
+        "en-US": "Huadiwan"
+      },
+      "x": 275.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    },
+    "104": {
+      "id": "104",
+      "name": {
+        "zh-CN": "芳村",
+        "en-US": "Fangcun"
+      },
+      "x": 300,
+      "y": 300,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "11",
+        "22"
+      ]
+    },
+    "105": {
+      "id": "105",
+      "name": {
+        "zh-CN": "黄沙",
+        "en-US": "Huangsha"
+      },
+      "x": 350.0,
+      "y": 250.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "6"
+      ]
+    },
+    "106": {
+      "id": "106",
+      "name": {
+        "zh-CN": "长寿路",
+        "en-US": "Changshou Lu"
+      },
+      "x": 425.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    },
+    "107": {
+      "id": "107",
+      "name": {
+        "zh-CN": "陈家祠",
+        "en-US": "Chen Clan Academy"
+      },
+      "x": 475.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "8"
+      ]
+    },
+    "108": {
+      "id": "108",
+      "name": {
+        "zh-CN": "西门口",
+        "en-US": "Ximenkou"
+      },
+      "x": 525.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    },
+    "109": {
+      "id": "109",
+      "name": {
+        "zh-CN": "公园前",
+        "en-US": "Gongyuanqian"
+      },
+      "x": 575.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom"
+          }
+        }
+      ],
+      "lines": [
+        "1",
+        "2"
+      ]
+    },
+    "110": {
+      "id": "110",
+      "name": {
+        "zh-CN": "农讲所",
+        "en-US": "Peasant Movement Institute"
+      },
+      "x": 625.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    },
+    "111": {
+      "id": "111",
+      "name": {
+        "zh-CN": "烈士陵园",
+        "en-US": "Martyrs' Park"
+      },
+      "x": 675.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "12"
+      ]
+    },
+    "112": {
+      "id": "112",
+      "name": {
+        "zh-CN": "东山口",
+        "en-US": "Dongshankou"
+      },
+      "x": 750.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "6"
+      ]
+    },
+    "113": {
+      "id": "113",
+      "name": {
+        "zh-CN": "杨箕",
+        "en-US": "Yangji"
+      },
+      "x": 800.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "5"
+      ]
+    },
+    "114": {
+      "id": "114",
+      "name": {
+        "zh-CN": "体育西路",
+        "en-US": "Tiyu Xilu"
+      },
+      "x": 900.0,
+      "y": 150.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "3"
+      ]
+    },
+    "115": {
+      "id": "115",
+      "name": {
+        "zh-CN": "体育中心",
+        "en-US": "Tianhe Sports Center"
+      },
+      "x": 950.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    },
+    "116": {
+      "id": "116",
+      "name": {
+        "zh-CN": "广州东站",
+        "en-US": "Guangzhou East Railway Station"
+      },
+      "x": 900.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "3",
+        "11",
+        "18"
+      ]
+    },
+    "201": {
+      "id": "201",
+      "name": {
+        "zh-CN": "广州南站",
+        "en-US": "Guangzhou South Railway Station"
+      },
+      "x": 650.0,
+      "y": 800.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "7",
+        "22",
+        "佛山2"
+      ]
+    },
+    "202": {
+      "id": "202",
+      "name": {
+        "zh-CN": "石壁",
+        "en-US": "Shibi"
+      },
+      "x": 700.0,
+      "y": 750.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "7"
+      ]
+    },
+    "203": {
+      "id": "203",
+      "name": {
+        "zh-CN": "会江",
+        "en-US": "Huijiang"
+      },
+      "x": 750.0,
+      "y": 700.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "204": {
+      "id": "204",
+      "name": {
+        "zh-CN": "南浦",
+        "en-US": "Nanpu"
+      },
+      "x": 750.0,
+      "y": 650.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "205": {
+      "id": "205",
+      "name": {
+        "zh-CN": "洛溪",
+        "en-US": "Luoxi"
+      },
+      "x": 750.0,
+      "y": 600.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "206": {
+      "id": "206",
+      "name": {
+        "zh-CN": "南洲",
+        "en-US": "Nanzhou"
+      },
+      "x": 725.0,
+      "y": 550.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "GF"
+      ]
+    },
+    "207": {
+      "id": "207",
+      "name": {
+        "zh-CN": "东晓南",
+        "en-US": "Dongxiao South"
+      },
+      "x": 700.0,
+      "y": 525.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "10"
+      ]
+    },
+    "208": {
+      "id": "208",
+      "name": {
+        "zh-CN": "江泰路",
+        "en-US": "Jiangtai Lu"
+      },
+      "x": 650.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "11"
+      ]
+    },
+    "209": {
+      "id": "209",
+      "name": {
+        "zh-CN": "昌岗",
+        "en-US": "Changgang"
+      },
+      "x": 575.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "8"
+      ]
+    },
+    "210": {
+      "id": "210",
+      "name": {
+        "zh-CN": "江南西",
+        "en-US": "Jiangnanxi"
+      },
+      "x": 575.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "211": {
+      "id": "211",
+      "name": {
+        "zh-CN": "市二宫",
+        "en-US": "The 2nd Workers' Cultural Palace"
+      },
+      "x": 575.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "212": {
+      "id": "212",
+      "name": {
+        "zh-CN": "海珠广场",
+        "en-US": "Haizhu Square"
+      },
+      "x": 575.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "6"
+      ]
+    },
+    "214": {
+      "id": "214",
+      "name": {
+        "zh-CN": "纪念堂",
+        "en-US": "Sun Yat-sen Memorial Hall"
+      },
+      "x": 575.0,
+      "y": 150.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "13",
+        "24"
+      ]
+    },
+    "215": {
+      "id": "215",
+      "name": {
+        "zh-CN": "越秀公园",
+        "en-US": "Yuexiu Park"
+      },
+      "x": 575.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "216": {
+      "id": "216",
+      "name": {
+        "zh-CN": "广州火车站",
+        "en-US": "Guangzhou Railway Station"
+      },
+      "x": 575.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "5",
+        "11",
+        "14",
+        "22"
+      ]
+    },
+    "217": {
+      "id": "217",
+      "name": {
+        "zh-CN": "三元里",
+        "en-US": "Sanyuanli"
+      },
+      "x": 575.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "218": {
+      "id": "218",
+      "name": {
+        "zh-CN": "飞翔公园",
+        "en-US": "Feixiang Park"
+      },
+      "x": 575.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "219": {
+      "id": "219",
+      "name": {
+        "zh-CN": "白云公园",
+        "en-US": "Baiyun Park"
+      },
+      "x": 600.0,
+      "y": -75.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "220": {
+      "id": "220",
+      "name": {
+        "zh-CN": "白云文化广场",
+        "en-US": "Baiyun Culture Square"
+      },
+      "x": 650.0,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "12"
+      ]
+    },
+    "221": {
+      "id": "221",
+      "name": {
+        "zh-CN": "萧岗",
+        "en-US": "Xiao-gang"
+      },
+      "x": 675.0,
+      "y": -150.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "222": {
+      "id": "222",
+      "name": {
+        "zh-CN": "江夏",
+        "en-US": "Jiangxia"
+      },
+      "x": 700.0,
+      "y": -175.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "223": {
+      "id": "223",
+      "name": {
+        "zh-CN": "黄边",
+        "en-US": "Huangbian"
+      },
+      "x": 725.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    },
+    "224": {
+      "id": "224",
+      "name": {
+        "zh-CN": "嘉禾望岗",
+        "en-US": "Jiahewanggang"
+      },
+      "x": 750.0,
+      "y": -225.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "3",
+        "14"
+      ]
+    },
+    "301-3": {
+      "id": "301-3",
+      "name": {
+        "zh-CN": "海涌路",
+        "en-US": "Haichonglu"
+      },
+      "x": 1300.0,
+      "y": 800.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "301-2": {
+      "id": "301-2",
+      "name": {
+        "zh-CN": "石碁南",
+        "en-US": "Shiqinan"
+      },
+      "x": 1250.0,
+      "y": 850.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "301-1": {
+      "id": "301-1",
+      "name": {
+        "zh-CN": "傍江",
+        "en-US": "Bangjiang"
+      },
+      "x": 1175.0,
+      "y": 850.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "301": {
+      "id": "301",
+      "name": {
+        "zh-CN": "番禺广场",
+        "en-US": "Panyu Square"
+      },
+      "x": 1100.0,
+      "y": 850.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "18",
+        "22"
+      ]
+    },
+    "302": {
+      "id": "302",
+      "name": {
+        "zh-CN": "市桥",
+        "en-US": "Shiqiao"
+      },
+      "x": 975.0,
+      "y": 850.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "303": {
+      "id": "303",
+      "name": {
+        "zh-CN": "汉溪长隆",
+        "en-US": "Hanxi Changlong"
+      },
+      "x": 900.0,
+      "y": 750.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "7"
+      ]
+    },
+    "304": {
+      "id": "304",
+      "name": {
+        "zh-CN": "大石",
+        "en-US": "Dashi"
+      },
+      "x": 900.0,
+      "y": 700.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "305": {
+      "id": "305",
+      "name": {
+        "zh-CN": "厦滘",
+        "en-US": "Xiajiao"
+      },
+      "x": 900.0,
+      "y": 625.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "306": {
+      "id": "306",
+      "name": {
+        "zh-CN": "沥滘",
+        "en-US": "Lijiao"
+      },
+      "x": 900.0,
+      "y": 550.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "GF"
+      ]
+    },
+    "307": {
+      "id": "307",
+      "name": {
+        "zh-CN": "大塘",
+        "en-US": "Datang"
+      },
+      "x": 900.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "11"
+      ]
+    },
+    "308": {
+      "id": "308",
+      "name": {
+        "zh-CN": "客村",
+        "en-US": "Kecun"
+      },
+      "x": 900.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "8"
+      ]
+    },
+    "309": {
+      "id": "309",
+      "name": {
+        "zh-CN": "广州塔",
+        "en-US": "Canton Tower"
+      },
+      "x": 900.0,
+      "y": 300.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "APM"
+      ]
+    },
+    "310": {
+      "id": "310",
+      "name": {
+        "zh-CN": "珠江新城",
+        "en-US": "Zhujiang New Town"
+      },
+      "x": 900.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "5"
+      ]
+    },
+    "312": {
+      "id": "312",
+      "name": {
+        "zh-CN": "石牌桥",
+        "en-US": "Shipaiqiao"
+      },
+      "x": 1000.0,
+      "y": 150.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "313": {
+      "id": "313",
+      "name": {
+        "zh-CN": "岗顶",
+        "en-US": "Gangding"
+      },
+      "x": 1025.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "314": {
+      "id": "314",
+      "name": {
+        "zh-CN": "华师",
+        "en-US": "South China Normal University"
+      },
+      "x": 1025.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "11"
+      ]
+    },
+    "315": {
+      "id": "315",
+      "name": {
+        "zh-CN": "五山",
+        "en-US": "Wushan"
+      },
+      "x": 1025.0,
+      "y": 25.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "316": {
+      "id": "316",
+      "name": {
+        "zh-CN": "天河客运站",
+        "en-US": "Tianhe Coach Terminal"
+      },
+      "x": 1025.0,
+      "y": 0.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "6"
+      ]
+    },
+    "317": {
+      "id": "317",
+      "name": {
+        "zh-CN": "林和西",
+        "en-US": "Linhexi"
+      },
+      "x": 900.0,
+      "y": 100.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "APM"
+      ]
+    },
+    "319": {
+      "id": "319",
+      "name": {
+        "zh-CN": "燕塘",
+        "en-US": "Yantang"
+      },
+      "x": 900.0,
+      "y": 0.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "6"
+      ]
+    },
+    "320": {
+      "id": "320",
+      "name": {
+        "zh-CN": "梅花园",
+        "en-US": "Meihuayuan"
+      },
+      "x": 900.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "321": {
+      "id": "321",
+      "name": {
+        "zh-CN": "京溪南方医院",
+        "en-US": "Jingxi Nanfang Hospital"
+      },
+      "x": 875.0,
+      "y": -100.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "322": {
+      "id": "322",
+      "name": {
+        "zh-CN": "同和",
+        "en-US": "Tonghe"
+      },
+      "x": 850.0,
+      "y": -125.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "323": {
+      "id": "323",
+      "name": {
+        "zh-CN": "永泰",
+        "en-US": "Yongtai"
+      },
+      "x": 800.0,
+      "y": -175.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "324": {
+      "id": "324",
+      "name": {
+        "zh-CN": "白云大道北",
+        "en-US": "Baiyundadaobei"
+      },
+      "x": 775.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "326": {
+      "id": "326",
+      "name": {
+        "zh-CN": "龙归",
+        "en-US": "Longgui"
+      },
+      "x": 750.0,
+      "y": -400.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    },
+    "327": {
+      "id": "327",
+      "name": {
+        "zh-CN": "人和",
+        "en-US": "Renhe"
+      },
+      "x": 750.0,
+      "y": -500.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "22"
+      ]
+    },
+    "328": {
+      "id": "328",
+      "name": {
+        "zh-CN": "高增",
+        "en-US": "Gaozeng"
+      },
+      "x": 750.0,
+      "y": -550.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "9"
+      ]
+    },
+    "329": {
+      "id": "329",
+      "name": {
+        "zh-CN": "机场南",
+        "en-US": "Airport South"
+      },
+      "x": 750.0,
+      "y": -650.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "22"
+      ]
+    },
+    "330": {
+      "id": "330",
+      "name": {
+        "zh-CN": "机场北",
+        "en-US": "Airport North"
+      },
+      "x": 750.0,
+      "y": -700.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "22"
+      ]
+    },
+    "401": {
+      "id": "401",
+      "name": {
+        "zh-CN": "南沙客运港",
+        "en-US": "Nansha Passenger Port"
+      },
+      "x": 1750.0,
+      "y": 1000.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "402": {
+      "id": "402",
+      "name": {
+        "zh-CN": "南横",
+        "en-US": "Nanheng"
+      },
+      "x": 1700.0,
+      "y": 1000.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "403": {
+      "id": "403",
+      "name": {
+        "zh-CN": "塘坑",
+        "en-US": "Tangkeng"
+      },
+      "x": 1650.0,
+      "y": 1000.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "404": {
+      "id": "404",
+      "name": {
+        "zh-CN": "大涌",
+        "en-US": "Dachong"
+      },
+      "x": 1600.0,
+      "y": 975.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "405": {
+      "id": "405",
+      "name": {
+        "zh-CN": "广隆",
+        "en-US": "Guanglong"
+      },
+      "x": 1575.0,
+      "y": 950.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "406": {
+      "id": "406",
+      "name": {
+        "zh-CN": "飞沙角",
+        "en-US": "Feishajiao"
+      },
+      "x": 1550.0,
+      "y": 925.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "407": {
+      "id": "407",
+      "name": {
+        "zh-CN": "金洲",
+        "en-US": "Jinzhou"
+      },
+      "x": 1525.0,
+      "y": 900.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "408": {
+      "id": "408",
+      "name": {
+        "zh-CN": "蕉门",
+        "en-US": "Jiaomen"
+      },
+      "x": 1500.0,
+      "y": 875.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "409": {
+      "id": "409",
+      "name": {
+        "zh-CN": "黄阁",
+        "en-US": "Huangge"
+      },
+      "x": 1475.0,
+      "y": 850.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "410": {
+      "id": "410",
+      "name": {
+        "zh-CN": "黄阁汽车城",
+        "en-US": "Huangge Auto Town"
+      },
+      "x": 1450.0,
+      "y": 825.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "411": {
+      "id": "411",
+      "name": {
+        "zh-CN": "庆盛",
+        "en-US": "Qingsheng"
+      },
+      "x": 1425.0,
+      "y": 800.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "412": {
+      "id": "412",
+      "name": {
+        "zh-CN": "东涌",
+        "en-US": "Dongyong"
+      },
+      "x": 1400.0,
+      "y": 775.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "413": {
+      "id": "413",
+      "name": {
+        "zh-CN": "低涌",
+        "en-US": "Dichong"
+      },
+      "x": 1375.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "414": {
+      "id": "414",
+      "name": {
+        "zh-CN": "海傍",
+        "en-US": "Haibang"
+      },
+      "x": 1350.0,
+      "y": 725.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "4"
+      ]
+    },
+    "415": {
+      "id": "415",
+      "name": {
+        "zh-CN": "石碁",
+        "en-US": "Shiqi"
+      },
+      "x": 1325.0,
+      "y": 700.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "416": {
+      "id": "416",
+      "name": {
+        "zh-CN": "官桥",
+        "en-US": "Guanqiao"
+      },
+      "x": 1300.0,
+      "y": 675.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "417": {
+      "id": "417",
+      "name": {
+        "zh-CN": "新造",
+        "en-US": "Xinzao"
+      },
+      "x": 1275.0,
+      "y": 650.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    },
+    "418": {
+      "id": "418",
+      "name": {
+        "zh-CN": "大学城南",
+        "en-US": "Higher Education Mega Center South"
+      },
+      "x": 1225.0,
+      "y": 600.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "7",
+        "12"
+      ]
+    },
+    "419": {
+      "id": "419",
+      "name": {
+        "zh-CN": "大学城北",
+        "en-US": "Higher Education Mega Center North"
+      },
+      "x": 1225.0,
+      "y": 525.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "12"
+      ]
+    },
+    "420": {
+      "id": "420",
+      "name": {
+        "zh-CN": "官洲",
+        "en-US": "Guanzhou"
+      },
+      "x": 1225.0,
+      "y": 450.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "12"
+      ]
+    },
+    "421": {
+      "id": "421",
+      "name": {
+        "zh-CN": "万胜围",
+        "en-US": "Wanshengwei"
+      },
+      "x": 1225.0,
+      "y": 350.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "8"
+      ]
+    },
+    "422": {
+      "id": "422",
+      "name": {
+        "zh-CN": "车陂南",
+        "en-US": "Chebeinan"
+      },
+      "x": 1225.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "5"
+      ]
+    },
+    "423": {
+      "id": "423",
+      "name": {
+        "zh-CN": "车陂",
+        "en-US": "Chebei"
+      },
+      "x": 1225.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "13"
+      ]
+    },
+    "424": {
+      "id": "424",
+      "name": {
+        "zh-CN": "黄村",
+        "en-US": "Huangcun"
+      },
+      "x": 1200.0,
+      "y": 125.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "21"
+      ]
+    },
+    "501": {
+      "id": "501",
+      "name": {
+        "zh-CN": "滘口",
+        "en-US": "Jiaokou"
+      },
+      "x": 200,
+      "y": 200,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "502": {
+      "id": "502",
+      "name": {
+        "zh-CN": "坦尾",
+        "en-US": "Tanwei"
+      },
+      "x": 250,
+      "y": 150,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "6"
+      ]
+    },
+    "503": {
+      "id": "503",
+      "name": {
+        "zh-CN": "中山八",
+        "en-US": "Zhongshanba"
+      },
+      "x": 300.0,
+      "y": 100,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "11"
+      ]
+    },
+    "504": {
+      "id": "504",
+      "name": {
+        "zh-CN": "西场",
+        "en-US": "Xichang"
+      },
+      "x": 425,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "13"
+      ]
+    },
+    "505": {
+      "id": "505",
+      "name": {
+        "zh-CN": "西村",
+        "en-US": "Xicun"
+      },
+      "x": 475,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "8"
+      ]
+    },
+    "507": {
+      "id": "507",
+      "name": {
+        "zh-CN": "小北",
+        "en-US": "Xiaobei"
+      },
+      "x": 650.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "508": {
+      "id": "508",
+      "name": {
+        "zh-CN": "淘金",
+        "en-US": "Taojin"
+      },
+      "x": 690.0,
+      "y": 125.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "509": {
+      "id": "509",
+      "name": {
+        "zh-CN": "区庄",
+        "en-US": "Ouzhuang"
+      },
+      "x": 750.0,
+      "y": 125.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "6"
+      ]
+    },
+    "510": {
+      "id": "510",
+      "name": {
+        "zh-CN": "动物园",
+        "en-US": "Zoo"
+      },
+      "x": 800.0,
+      "y": 125.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "512": {
+      "id": "512",
+      "name": {
+        "zh-CN": "五羊邨",
+        "en-US": "Wuyangcun"
+      },
+      "x": 825.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "10"
+      ]
+    },
+    "514": {
+      "id": "514",
+      "name": {
+        "zh-CN": "猎德",
+        "en-US": "Liede"
+      },
+      "x": 1025.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "515": {
+      "id": "515",
+      "name": {
+        "zh-CN": "潭村",
+        "en-US": "Tancun"
+      },
+      "x": 1075.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "516": {
+      "id": "516",
+      "name": {
+        "zh-CN": "员村",
+        "en-US": "Yuancun"
+      },
+      "x": 1125.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "11"
+      ]
+    },
+    "517": {
+      "id": "517",
+      "name": {
+        "zh-CN": "科韵路",
+        "en-US": "Keyunlu"
+      },
+      "x": 1175.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "519": {
+      "id": "519",
+      "name": {
+        "zh-CN": "东圃",
+        "en-US": "Dongpu"
+      },
+      "x": 1275.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "520": {
+      "id": "520",
+      "name": {
+        "zh-CN": "三溪",
+        "en-US": "Sanxi"
+      },
+      "x": 1350.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "521": {
+      "id": "521",
+      "name": {
+        "zh-CN": "鱼珠",
+        "en-US": "Yuzhu"
+      },
+      "x": 1400.0,
+      "y": 237.5,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "13"
+      ]
+    },
+    "522": {
+      "id": "522",
+      "name": {
+        "zh-CN": "大沙地",
+        "en-US": "Dashadi"
+      },
+      "x": 1450.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "523": {
+      "id": "523",
+      "name": {
+        "zh-CN": "大沙东",
+        "en-US": "Dashadong"
+      },
+      "x": 1500.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "7"
+      ]
+    },
+    "524": {
+      "id": "524",
+      "name": {
+        "zh-CN": "文冲",
+        "en-US": "Wenchong"
+      },
+      "x": 1550.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "525": {
+      "id": "525",
+      "name": {
+        "zh-CN": "双沙",
+        "en-US": "Shuangsha"
+      },
+      "x": 1600.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "526": {
+      "id": "526",
+      "name": {
+        "zh-CN": "庙头",
+        "en-US": "Miaotou"
+      },
+      "x": 1625.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "527": {
+      "id": "527",
+      "name": {
+        "zh-CN": "夏园",
+        "en-US": "Xiayuan"
+      },
+      "x": 1662.5,
+      "y": 237.5,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "13"
+      ]
+    },
+    "528": {
+      "id": "528",
+      "name": {
+        "zh-CN": "保盈大道",
+        "en-US": "Baoying Dadao"
+      },
+      "x": 1700.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "529": {
+      "id": "529",
+      "name": {
+        "zh-CN": "夏港",
+        "en-US": "Xiagang"
+      },
+      "x": 1750.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "530": {
+      "id": "530",
+      "name": {
+        "zh-CN": "黄埔新港",
+        "en-US": "Huangpu New Port"
+      },
+      "x": 1800.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    },
+    "601": {
+      "id": "601",
+      "name": {
+        "zh-CN": "浔峰岗",
+        "en-US": "Xunfenggang"
+      },
+      "x": 250,
+      "y": -50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "12"
+      ]
+    },
+    "602": {
+      "id": "602",
+      "name": {
+        "zh-CN": "横沙",
+        "en-US": "Hengsha"
+      },
+      "x": 250,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "603": {
+      "id": "603",
+      "name": {
+        "zh-CN": "沙贝",
+        "en-US": "Shabei"
+      },
+      "x": 250,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "604": {
+      "id": "604",
+      "name": {
+        "zh-CN": "河沙",
+        "en-US": "Hesha"
+      },
+      "x": 250,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "606": {
+      "id": "606",
+      "name": {
+        "zh-CN": "如意坊",
+        "en-US": "Ruyifang"
+      },
+      "x": 300.0,
+      "y": 200,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "11"
+      ]
+    },
+    "608": {
+      "id": "608",
+      "name": {
+        "zh-CN": "文化公园",
+        "en-US": "Cultural Park"
+      },
+      "x": 475.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "8"
+      ]
+    },
+    "609": {
+      "id": "609",
+      "name": {
+        "zh-CN": "一德路",
+        "en-US": "Yide Lu"
+      },
+      "x": 525.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "611": {
+      "id": "611",
+      "name": {
+        "zh-CN": "北京路",
+        "en-US": "Beijing Lu"
+      },
+      "x": 625.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "612": {
+      "id": "612",
+      "name": {
+        "zh-CN": "团一大广场",
+        "en-US": "Tuanyida Square"
+      },
+      "x": 700.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "613": {
+      "id": "613",
+      "name": {
+        "zh-CN": "东湖",
+        "en-US": "Donghu"
+      },
+      "x": 750.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "10",
+        "12"
+      ]
+    },
+    "616": {
+      "id": "616",
+      "name": {
+        "zh-CN": "黄花岗",
+        "en-US": "Huanghuagang"
+      },
+      "x": 775.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "617": {
+      "id": "617",
+      "name": {
+        "zh-CN": "沙河顶",
+        "en-US": "Shaheding"
+      },
+      "x": 800.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "618": {
+      "id": "618",
+      "name": {
+        "zh-CN": "沙河",
+        "en-US": "Shahe"
+      },
+      "x": 850.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "11"
+      ]
+    },
+    "619": {
+      "id": "619",
+      "name": {
+        "zh-CN": "天平架",
+        "en-US": "Tianpingjia"
+      },
+      "x": 875.0,
+      "y": 25.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "622": {
+      "id": "622",
+      "name": {
+        "zh-CN": "长湴",
+        "en-US": "Changban"
+      },
+      "x": 1075.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "623": {
+      "id": "623",
+      "name": {
+        "zh-CN": "植物园",
+        "en-US": "Botanical Garden"
+      },
+      "x": 1125.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "624": {
+      "id": "624",
+      "name": {
+        "zh-CN": "龙洞",
+        "en-US": "Longdong"
+      },
+      "x": 1175.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "625": {
+      "id": "625",
+      "name": {
+        "zh-CN": "柯木塱",
+        "en-US": "Kemulang"
+      },
+      "x": 1225.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "626": {
+      "id": "626",
+      "name": {
+        "zh-CN": "高塘石",
+        "en-US": "Gaotangshi"
+      },
+      "x": 1250.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "627": {
+      "id": "627",
+      "name": {
+        "zh-CN": "黄陂",
+        "en-US": "Huangbei"
+      },
+      "x": 1300.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "628": {
+      "id": "628",
+      "name": {
+        "zh-CN": "金峰",
+        "en-US": "Jinfeng"
+      },
+      "x": 1350.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "629": {
+      "id": "629",
+      "name": {
+        "zh-CN": "暹岗",
+        "en-US": "Xiangang"
+      },
+      "x": 1400.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "630": {
+      "id": "630",
+      "name": {
+        "zh-CN": "苏元",
+        "en-US": "Suyuan"
+      },
+      "x": 1450.0,
+      "y": -50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "21"
+      ]
+    },
+    "631": {
+      "id": "631",
+      "name": {
+        "zh-CN": "萝岗",
+        "en-US": "Luogang"
+      },
+      "x": 1500.0,
+      "y": -50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "7"
+      ]
+    },
+    "632": {
+      "id": "632",
+      "name": {
+        "zh-CN": "香雪",
+        "en-US": "Xiangxue"
+      },
+      "x": 1550.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    },
+    "703": {
+      "id": "703",
+      "name": {
+        "zh-CN": "谢村",
+        "en-US": "Xiecun"
+      },
+      "x": 800.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "704": {
+      "id": "704",
+      "name": {
+        "zh-CN": "钟村",
+        "en-US": "Zhongcun"
+      },
+      "x": 850.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "706": {
+      "id": "706",
+      "name": {
+        "zh-CN": "南村万博",
+        "en-US": "Nancun Wanbo"
+      },
+      "x": 1025.0,
+      "y": 750.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "18"
+      ]
+    },
+    "707": {
+      "id": "707",
+      "name": {
+        "zh-CN": "员岗",
+        "en-US": "Yuangang"
+      },
+      "x": 1100.0,
+      "y": 725.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "708": {
+      "id": "708",
+      "name": {
+        "zh-CN": "板桥",
+        "en-US": "Banqiao"
+      },
+      "x": 1175.0,
+      "y": 650.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "710": {
+      "id": "710",
+      "name": {
+        "zh-CN": "深井",
+        "en-US": "Shenjing"
+      },
+      "x": 1350.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "琶莲城际"
+      ]
+    },
+    "711": {
+      "id": "711",
+      "name": {
+        "zh-CN": "长洲",
+        "en-US": "Changzhou"
+      },
+      "x": 1450.0,
+      "y": 375.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "8"
+      ]
+    },
+    "712": {
+      "id": "712",
+      "name": {
+        "zh-CN": "洪圣沙",
+        "en-US": "Hongshengsha"
+      },
+      "x": 1500.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "713": {
+      "id": "713",
+      "name": {
+        "zh-CN": "裕丰围",
+        "en-US": "Yufengwei"
+      },
+      "x": 1500.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "13"
+      ]
+    },
+    "715": {
+      "id": "715",
+      "name": {
+        "zh-CN": "姬堂",
+        "en-US": "Jitang"
+      },
+      "x": 1500.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "716": {
+      "id": "716",
+      "name": {
+        "zh-CN": "加庄",
+        "en-US": "Jiazhuang"
+      },
+      "x": 1500.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "717": {
+      "id": "717",
+      "name": {
+        "zh-CN": "科丰路",
+        "en-US": "Kefeng Lu"
+      },
+      "x": 1500.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "719": {
+      "id": "719",
+      "name": {
+        "zh-CN": "水西",
+        "en-US": "Shuixi"
+      },
+      "x": 1450.0,
+      "y": -100.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "21"
+      ]
+    },
+    "720": {
+      "id": "720",
+      "name": {
+        "zh-CN": "燕山",
+        "en-US": "Yanshan"
+      },
+      "x": 1400.0,
+      "y": -100.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "801": {
+      "id": "801",
+      "name": {
+        "zh-CN": "滘心",
+        "en-US": "Jiaoxin"
+      },
+      "x": 425.0,
+      "y": -300.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "802": {
+      "id": "802",
+      "name": {
+        "zh-CN": "亭岗",
+        "en-US": "Tinggang"
+      },
+      "x": 425.0,
+      "y": -275.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "803": {
+      "id": "803",
+      "name": {
+        "zh-CN": "石井",
+        "en-US": "Shijing"
+      },
+      "x": 425.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "804": {
+      "id": "804",
+      "name": {
+        "zh-CN": "小坪",
+        "en-US": "Xiaoping"
+      },
+      "x": 425.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "805": {
+      "id": "805",
+      "name": {
+        "zh-CN": "石潭",
+        "en-US": "Shitan"
+      },
+      "x": 425.0,
+      "y": -175.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "广州白云站"
+      ]
+    },
+    "806": {
+      "id": "806",
+      "name": {
+        "zh-CN": "聚龙",
+        "en-US": "Julong"
+      },
+      "x": 425.0,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "12"
+      ]
+    },
+    "807": {
+      "id": "807",
+      "name": {
+        "zh-CN": "同德",
+        "en-US": "Tongde"
+      },
+      "x": 425.0,
+      "y": -75.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "808": {
+      "id": "808",
+      "name": {
+        "zh-CN": "上步",
+        "en-US": "Shangbu"
+      },
+      "x": 425.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "809": {
+      "id": "809",
+      "name": {
+        "zh-CN": "鹅掌坦",
+        "en-US": "Ezhangtan"
+      },
+      "x": 425.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "811": {
+      "id": "811",
+      "name": {
+        "zh-CN": "彩虹桥",
+        "en-US": "Caihongqiao"
+      },
+      "x": 475,
+      "y": 100.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "11",
+        "13",
+        "22"
+      ]
+    },
+    "813": {
+      "id": "813",
+      "name": {
+        "zh-CN": "华林寺",
+        "en-US": "Hualinsi Buddhist Temple"
+      },
+      "x": 475.0,
+      "y": 237.5,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "815": {
+      "id": "815",
+      "name": {
+        "zh-CN": "同福西",
+        "en-US": "Tongfuxi"
+      },
+      "x": 475.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "816": {
+      "id": "816",
+      "name": {
+        "zh-CN": "凤凰新村",
+        "en-US": "Fenghuang Xincun"
+      },
+      "x": 475.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "817": {
+      "id": "817",
+      "name": {
+        "zh-CN": "沙园",
+        "en-US": "Shayuan"
+      },
+      "x": 500.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "GF"
+      ]
+    },
+    "818": {
+      "id": "818",
+      "name": {
+        "zh-CN": "宝岗大道",
+        "en-US": "Baogang Dadao"
+      },
+      "x": 537.5,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "820": {
+      "id": "820",
+      "name": {
+        "zh-CN": "晓港",
+        "en-US": "Xiaogang"
+      },
+      "x": 650.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "821": {
+      "id": "821",
+      "name": {
+        "zh-CN": "中大",
+        "en-US": "Sun Yat-sen University"
+      },
+      "x": 725.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "822": {
+      "id": "822",
+      "name": {
+        "zh-CN": "鹭江",
+        "en-US": "Lujiang"
+      },
+      "x": 835.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "824": {
+      "id": "824",
+      "name": {
+        "zh-CN": "赤岗",
+        "en-US": "Chigang"
+      },
+      "x": 975.0,
+      "y": 375.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "12"
+      ]
+    },
+    "825": {
+      "id": "825",
+      "name": {
+        "zh-CN": "磨碟沙",
+        "en-US": "Modiesha"
+      },
+      "x": 1025.0,
+      "y": 350.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "18",
+        "28"
+      ]
+    },
+    "826": {
+      "id": "826",
+      "name": {
+        "zh-CN": "新港东",
+        "en-US": "Xingangdong"
+      },
+      "x": 1075.0,
+      "y": 350.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    },
+    "827": {
+      "id": "827",
+      "name": {
+        "zh-CN": "琶洲",
+        "en-US": "Pazhou"
+      },
+      "x": 1125.0,
+      "y": 350.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "11",
+        "28"
+      ]
+    },
+    "901": {
+      "id": "901",
+      "name": {
+        "zh-CN": "飞鹅岭",
+        "en-US": "Fei'eling"
+      },
+      "x": 200.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "902": {
+      "id": "902",
+      "name": {
+        "zh-CN": "花都汽车城",
+        "en-US": "Huadu Auto City"
+      },
+      "x": 250.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "903": {
+      "id": "903",
+      "name": {
+        "zh-CN": "广州北站",
+        "en-US": "Guangzhou North Railway Station"
+      },
+      "x": 300.0,
+      "y": -600.0,
+      "isTransfer": true,
+      "lines": [
+        "9",
+        "24",
+        "广清城际",
+        "广州东环城际"
+      ]
+    },
+    "904": {
+      "id": "904",
+      "name": {
+        "zh-CN": "花城路",
+        "en-US": "Huacheng Lu"
+      },
+      "x": 400.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "905": {
+      "id": "905",
+      "name": {
+        "zh-CN": "花果山公园",
+        "en-US": "Huaguoshan Park"
+      },
+      "x": 450.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "906": {
+      "id": "906",
+      "name": {
+        "zh-CN": "花都广场",
+        "en-US": "Huadu Square"
+      },
+      "x": 500.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "907": {
+      "id": "907",
+      "name": {
+        "zh-CN": "马鞍山公园",
+        "en-US": "Ma'anshan Park"
+      },
+      "x": 550.0,
+      "y": -600.0,
+      "isTransfer": true,
+      "lines": [
+        "9",
+        "18"
+      ]
+    },
+    "908": {
+      "id": "908",
+      "name": {
+        "zh-CN": "莲塘",
+        "en-US": "Liantang"
+      },
+      "x": 600.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "909": {
+      "id": "909",
+      "name": {
+        "zh-CN": "清㘵",
+        "en-US": "Qingbu"
+      },
+      "x": 650.0,
+      "y": -575.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "910": {
+      "id": "910",
+      "name": {
+        "zh-CN": "清塘",
+        "en-US": "Qingtang"
+      },
+      "x": 700.0,
+      "y": -550.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    },
+    "1002": {
+      "id": "1002",
+      "name": {
+        "zh-CN": "花围",
+        "en-US": "Huawei"
+      },
+      "x": 375.0,
+      "y": 550.0,
+      "isTransfer": true,
+      "lines": [
+        "10",
+        "佛山11"
+      ]
+    },
+    "1003": {
+      "id": "1003",
+      "name": {
+        "zh-CN": "东沙",
+        "en-US": "Dongsha"
+      },
+      "x": 450.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    },
+    "1004": {
+      "id": "1004",
+      "name": {
+        "zh-CN": "大干围",
+        "en-US": "Daganwei"
+      },
+      "x": 525.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    },
+    "1005": {
+      "id": "1005",
+      "name": {
+        "zh-CN": "工业大道南",
+        "en-US": "Gongye Dadao Nan"
+      },
+      "x": 600.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    },
+    "1007": {
+      "id": "1007",
+      "name": {
+        "zh-CN": "五凤",
+        "en-US": "Wufeng"
+      },
+      "x": 750.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "10",
+        "11"
+      ]
+    },
+    "1008": {
+      "id": "1008",
+      "name": {
+        "zh-CN": "中大南门",
+        "en-US": "SYU South Gate"
+      },
+      "x": 750.0,
+      "y": 425.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    },
+    "1009": {
+      "id": "1009",
+      "name": {
+        "zh-CN": "滨江东路",
+        "en-US": "Binjiang Dong Lu"
+      },
+      "x": 750.0,
+      "y": 350.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    },
+    "1012": {
+      "id": "1012",
+      "name": {
+        "zh-CN": "杨箕东",
+        "en-US": "Yangji East"
+      },
+      "x": 850.0,
+      "y": 225.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    },
+    "1101": {
+      "id": "1101",
+      "name": {
+        "zh-CN": "赤沙",
+        "en-US": "Chisha"
+      },
+      "x": 1100.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "12"
+      ]
+    },
+    "1104": {
+      "id": "1104",
+      "name": {
+        "zh-CN": "天河公园",
+        "en-US": "Tianhe Park"
+      },
+      "x": 1125.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "13",
+        "21"
+      ]
+    },
+    "1105": {
+      "id": "1105",
+      "name": {
+        "zh-CN": "华景路",
+        "en-US": "Huajing Lu"
+      },
+      "x": 1075.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1107": {
+      "id": "1107",
+      "name": {
+        "zh-CN": "龙口西",
+        "en-US": "Longkouxi"
+      },
+      "x": 950.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1110": {
+      "id": "1110",
+      "name": {
+        "zh-CN": "云台花园",
+        "en-US": "Yuntai Garden"
+      },
+      "x": 800.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1111": {
+      "id": "1111",
+      "name": {
+        "zh-CN": "大金钟路",
+        "en-US": "Dajinzhong Lu"
+      },
+      "x": 750.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1112": {
+      "id": "1112",
+      "name": {
+        "zh-CN": "中医药大学",
+        "en-US": "Univ. of Chinese Medicine"
+      },
+      "x": 700.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "12"
+      ]
+    },
+    "1113": {
+      "id": "1113",
+      "name": {
+        "zh-CN": "梓元岗",
+        "en-US": "Ziyuangang"
+      },
+      "x": 625.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "24"
+      ]
+    },
+    "1115": {
+      "id": "1115",
+      "name": {
+        "zh-CN": "流花",
+        "en-US": "Liuhua"
+      },
+      "x": 525,
+      "y": 100,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1119": {
+      "id": "1119",
+      "name": {
+        "zh-CN": "石围塘",
+        "en-US": "Shiweitang"
+      },
+      "x": 300,
+      "y": 250.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1121": {
+      "id": "1121",
+      "name": {
+        "zh-CN": "大冲口",
+        "en-US": "Dachongkou"
+      },
+      "x": 350,
+      "y": 350,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "GF20": {
+      "id": "GF20",
+      "name": {
+        "zh-CN": "沙涌",
+        "en-US": "Shayong"
+      },
+      "x": 400.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "GF"
+      ]
+    },
+    "1123": {
+      "id": "1123",
+      "name": {
+        "zh-CN": "鹤洞东",
+        "en-US": "Hedong East"
+      },
+      "x": 475.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "佛山11"
+      ]
+    },
+    "1124": {
+      "id": "1124",
+      "name": {
+        "zh-CN": "棣园",
+        "en-US": "Diyuan"
+      },
+      "x": 525.0,
+      "y": 475.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1128": {
+      "id": "1128",
+      "name": {
+        "zh-CN": "逸景路",
+        "en-US": "Yijing Lu"
+      },
+      "x": 800.0,
+      "y": 475.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1129": {
+      "id": "1129",
+      "name": {
+        "zh-CN": "上涌",
+        "en-US": "Shangyong"
+      },
+      "x": 850.0,
+      "y": 475.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    },
+    "1202": {
+      "id": "1202",
+      "name": {
+        "zh-CN": "浔峰岗北",
+        "en-US": "Xunfenggang North"
+      },
+      "x": 300,
+      "y": -100,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "南海有轨里水段"
+      ]
+    },
+    "1203": {
+      "id": "1203",
+      "name": {
+        "zh-CN": "西洲",
+        "en-US": "Xizhou"
+      },
+      "x": 375,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "13"
+      ]
+    },
+    "1205": {
+      "id": "1205",
+      "name": {
+        "zh-CN": "广州白云站",
+        "en-US": "Guangzhou Baiyun Railway Station"
+      },
+      "x": 475.0,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "8",
+        "22",
+        "24",
+        "广清城际"
+      ]
+    },
+    "1206": {
+      "id": "1206",
+      "name": {
+        "zh-CN": "棠涌",
+        "en-US": "Tangyong"
+      },
+      "x": 525.0,
+      "y": -125.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    },
+    "1207": {
+      "id": "1207",
+      "name": {
+        "zh-CN": "新市墟",
+        "en-US": "Xinshixu"
+      },
+      "x": 575.0,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "14"
+      ]
+    },
+    "1209": {
+      "id": "1209",
+      "name": {
+        "zh-CN": "广州体育馆",
+        "en-US": "Guangzhou Gymnasium"
+      },
+      "x": 700.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    },
+    "1217": {
+      "id": "1217",
+      "name": {
+        "zh-CN": "二沙岛",
+        "en-US": "Ersha Island"
+      },
+      "x": 800.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    },
+    "1218": {
+      "id": "1218",
+      "name": {
+        "zh-CN": "赤岗塔",
+        "en-US": "Chigang Pagoda"
+      },
+      "x": 850.0,
+      "y": 350.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "28"
+      ]
+    },
+    "1220": {
+      "id": "1220",
+      "name": {
+        "zh-CN": "赤沙北",
+        "en-US": "Chisha North"
+      },
+      "x": 1050.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    },
+    "1222": {
+      "id": "1222",
+      "name": {
+        "zh-CN": "北山",
+        "en-US": "Beishan"
+      },
+      "x": 1150.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    },
+    "1321": {
+      "id": "1321",
+      "name": {
+        "zh-CN": "棠下",
+        "en-US": "Tangxia"
+      },
+      "x": 1175.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1323": {
+      "id": "1323",
+      "name": {
+        "zh-CN": "天河珠村",
+        "en-US": "Tianhe Zhucun"
+      },
+      "x": 1300.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1326": {
+      "id": "1326",
+      "name": {
+        "zh-CN": "双岗",
+        "en-US": "Shuanggang"
+      },
+      "x": 1550.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1327": {
+      "id": "1327",
+      "name": {
+        "zh-CN": "南海神庙",
+        "en-US": "Nanhai God Temple"
+      },
+      "x": 1600.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1329": {
+      "id": "1329",
+      "name": {
+        "zh-CN": "南岗",
+        "en-US": "Nangang"
+      },
+      "x": 1725.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "13",
+        "黄埔有轨2"
+      ]
+    },
+    "1330": {
+      "id": "1330",
+      "name": {
+        "zh-CN": "沙村",
+        "en-US": "Shacun"
+      },
+      "x": 1775.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1331": {
+      "id": "1331",
+      "name": {
+        "zh-CN": "白江",
+        "en-US": "Baijiang"
+      },
+      "x": 1825.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1332": {
+      "id": "1332",
+      "name": {
+        "zh-CN": "新塘",
+        "en-US": "Xintang"
+      },
+      "x": 1875.0,
+      "y": 175.0,
+      "isTransfer": true,
+      "lines": [
+        "13",
+        "28",
+        "穗深城际"
+      ]
+    },
+    "1333": {
+      "id": "1333",
+      "name": {
+        "zh-CN": "官湖",
+        "en-US": "Guanhu"
+      },
+      "x": 1950.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1334": {
+      "id": "1334",
+      "name": {
+        "zh-CN": "新沙",
+        "en-US": "Xinsha"
+      },
+      "x": 2000.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    },
+    "1402": {
+      "id": "1402",
+      "name": {
+        "zh-CN": "乐嘉路",
+        "en-US": "Lejia Lu"
+      },
+      "x": 550.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1403": {
+      "id": "1403",
+      "name": {
+        "zh-CN": "云霄路",
+        "en-US": "Yunxiao Lu"
+      },
+      "x": 550.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1405": {
+      "id": "1405",
+      "name": {
+        "zh-CN": "马务",
+        "en-US": "Mawu"
+      },
+      "x": 600.0,
+      "y": -150.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1406": {
+      "id": "1406",
+      "name": {
+        "zh-CN": "鹤边",
+        "en-US": "Hebian"
+      },
+      "x": 625.0,
+      "y": -175.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1407": {
+      "id": "1407",
+      "name": {
+        "zh-CN": "鹤龙",
+        "en-US": "Helong"
+      },
+      "x": 650.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1408": {
+      "id": "1408",
+      "name": {
+        "zh-CN": "彭边",
+        "en-US": "Pengbian"
+      },
+      "x": 700.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1410": {
+      "id": "1410",
+      "name": {
+        "zh-CN": "白云东平",
+        "en-US": "Baiyun Dongping"
+      },
+      "x": 800.0,
+      "y": -225.0,
+      "isTransfer": true,
+      "lines": [
+        "14",
+        "18"
+      ]
+    },
+    "1411": {
+      "id": "1411",
+      "name": {
+        "zh-CN": "夏良",
+        "en-US": "Xialiang"
+      },
+      "x": 850.0,
+      "y": -275.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1412": {
+      "id": "1412",
+      "name": {
+        "zh-CN": "太和",
+        "en-US": "Taihe"
+      },
+      "x": 900.0,
+      "y": -325.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1413": {
+      "id": "1413",
+      "name": {
+        "zh-CN": "竹料",
+        "en-US": "Zhuliao"
+      },
+      "x": 950.0,
+      "y": -375.0,
+      "isTransfer": true,
+      "lines": [
+        "14",
+        "广州东环城际"
+      ]
+    },
+    "1414": {
+      "id": "1414",
+      "name": {
+        "zh-CN": "钟落潭",
+        "en-US": "Zhongluotan"
+      },
+      "x": 1000.0,
+      "y": -425.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1415": {
+      "id": "1415",
+      "name": {
+        "zh-CN": "马沥",
+        "en-US": "Mali"
+      },
+      "x": 1050.0,
+      "y": -475.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1416": {
+      "id": "1416",
+      "name": {
+        "zh-CN": "新和",
+        "en-US": "Xinhe"
+      },
+      "x": 1100.0,
+      "y": -525.0,
+      "isTransfer": true,
+      "lines": [
+        "14",
+        "14-支"
+      ]
+    },
+    "1417": {
+      "id": "1417",
+      "name": {
+        "zh-CN": "太平",
+        "en-US": "Taiping"
+      },
+      "x": 1137.5,
+      "y": -562.5,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1418": {
+      "id": "1418",
+      "name": {
+        "zh-CN": "神岗",
+        "en-US": "Shengang"
+      },
+      "x": 1175.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1419": {
+      "id": "1419",
+      "name": {
+        "zh-CN": "赤草",
+        "en-US": "Chicao"
+      },
+      "x": 1212.5,
+      "y": -637.5,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1420": {
+      "id": "1420",
+      "name": {
+        "zh-CN": "从化客运站",
+        "en-US": "Conghua Coach Terminal"
+      },
+      "x": 1250.0,
+      "y": -675.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1421": {
+      "id": "1421",
+      "name": {
+        "zh-CN": "东风",
+        "en-US": "Dongfeng"
+      },
+      "x": 1287.5,
+      "y": -712.5,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    },
+    "1422": {
+      "id": "1422",
+      "name": {
+        "zh-CN": "红卫",
+        "en-US": "Hongwei"
+      },
+      "x": 1150.0,
+      "y": -525.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1423": {
+      "id": "1423",
+      "name": {
+        "zh-CN": "新南",
+        "en-US": "Xinnan"
+      },
+      "x": 1200.0,
+      "y": -525.0,
+      "isTransfer": true,
+      "lines": [
+        "14-支",
+        "穗深城际"
+      ]
+    },
+    "1424": {
+      "id": "1424",
+      "name": {
+        "zh-CN": "枫下",
+        "en-US": "Fengxia"
+      },
+      "x": 1250.0,
+      "y": -525.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1425": {
+      "id": "1425",
+      "name": {
+        "zh-CN": "知识城",
+        "en-US": "Sino-Singapore Guangzhou Knowledge City"
+      },
+      "x": 1325.0,
+      "y": -475.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1426": {
+      "id": "1426",
+      "name": {
+        "zh-CN": "何棠下",
+        "en-US": "Hetangxia"
+      },
+      "x": 1375.0,
+      "y": -425.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1427": {
+      "id": "1427",
+      "name": {
+        "zh-CN": "旺村",
+        "en-US": "Wangcun"
+      },
+      "x": 1425.0,
+      "y": -375.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1428": {
+      "id": "1428",
+      "name": {
+        "zh-CN": "汤村",
+        "en-US": "Tangcun"
+      },
+      "x": 1475.0,
+      "y": -325.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1429": {
+      "id": "1429",
+      "name": {
+        "zh-CN": "镇龙北",
+        "en-US": "Zhenlongbei"
+      },
+      "x": 1525.0,
+      "y": -275.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    },
+    "1430": {
+      "id": "1430",
+      "name": {
+        "zh-CN": "镇龙",
+        "en-US": "Zhenlong"
+      },
+      "x": 1550.0,
+      "y": -225.0,
+      "isTransfer": true,
+      "lines": [
+        "14-支",
+        "21",
+        "穗深城际"
+      ]
+    },
+    "1801": {
+      "id": "1801",
+      "name": {
+        "zh-CN": "万顷沙",
+        "en-US": "Wanqingsha"
+      },
+      "x": 1760.0,
+      "y": 1075.0,
+      "isTransfer": true,
+      "lines": [
+        "18",
+        "南珠中城际"
+      ]
+    },
+    "1802": {
+      "id": "1802",
+      "name": {
+        "zh-CN": "横沥",
+        "en-US": "Hengli"
+      },
+      "x": 1600.0,
+      "y": 1075.0,
+      "isTransfer": false,
+      "lines": [
+        "18"
+      ]
+    },
+    "1805": {
+      "id": "1805",
+      "name": {
+        "zh-CN": "沙溪",
+        "en-US": "Shaxi"
+      },
+      "x": 1025.0,
+      "y": 600.0,
+      "isTransfer": false,
+      "lines": [
+        "18"
+      ]
+    },
+    "1806": {
+      "id": "1806",
+      "name": {
+        "zh-CN": "龙潭",
+        "en-US": "Longtan"
+      },
+      "x": 1025.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "18",
+        "11"
+      ]
+    },
+    "1808": {
+      "id": "1808",
+      "name": {
+        "zh-CN": "冼村",
+        "en-US": "Xiancun"
+      },
+      "x": 975.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "18",
+        "13"
+      ]
+    },
+    "2103": {
+      "id": "2103",
+      "name": {
+        "zh-CN": "棠东",
+        "en-US": "Tangdong"
+      },
+      "x": 1175.0,
+      "y": 150.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2105": {
+      "id": "2105",
+      "name": {
+        "zh-CN": "大观南路",
+        "en-US": "Daguannanlu"
+      },
+      "x": 1250.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2106": {
+      "id": "2106",
+      "name": {
+        "zh-CN": "天河智慧城",
+        "en-US": "Tianhe Smart City"
+      },
+      "x": 1325.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2107": {
+      "id": "2107",
+      "name": {
+        "zh-CN": "神舟路",
+        "en-US": "Shenzhou Lu"
+      },
+      "x": 1375.0,
+      "y": 25.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2108": {
+      "id": "2108",
+      "name": {
+        "zh-CN": "科学城",
+        "en-US": "Science City"
+      },
+      "x": 1425.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2111": {
+      "id": "2111",
+      "name": {
+        "zh-CN": "长平",
+        "en-US": "Changping"
+      },
+      "x": 1450.0,
+      "y": -150.0,
+      "isTransfer": true,
+      "lines": [
+        "21",
+        "黄埔有轨1"
+      ]
+    },
+    "2112": {
+      "id": "2112",
+      "name": {
+        "zh-CN": "金坑",
+        "en-US": "Jinkeng"
+      },
+      "x": 1450.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2113": {
+      "id": "2113",
+      "name": {
+        "zh-CN": "镇龙西",
+        "en-US": "Zhenlongxi"
+      },
+      "x": 1500.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2115": {
+      "id": "2115",
+      "name": {
+        "zh-CN": "中新",
+        "en-US": "Zhongxin"
+      },
+      "x": 1600.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2116": {
+      "id": "2116",
+      "name": {
+        "zh-CN": "坑贝",
+        "en-US": "Kengbei"
+      },
+      "x": 1650.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2117": {
+      "id": "2117",
+      "name": {
+        "zh-CN": "凤岗",
+        "en-US": "Fenggang"
+      },
+      "x": 1700.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2118": {
+      "id": "2118",
+      "name": {
+        "zh-CN": "朱村",
+        "en-US": "Zhucun"
+      },
+      "x": 1750.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2119": {
+      "id": "2119",
+      "name": {
+        "zh-CN": "山田",
+        "en-US": "Shantian"
+      },
+      "x": 1800.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2120": {
+      "id": "2120",
+      "name": {
+        "zh-CN": "钟岗",
+        "en-US": "Zhonggang"
+      },
+      "x": 1850.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2121": {
+      "id": "2121",
+      "name": {
+        "zh-CN": "增城广场",
+        "en-US": "Zengcheng Square"
+      },
+      "x": 1900.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    },
+    "2202": {
+      "id": "2202",
+      "name": {
+        "zh-CN": "市广路",
+        "en-US": "Shiguanglu"
+      },
+      "x": 900.0,
+      "y": 800.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    },
+    "2204": {
+      "id": "2204",
+      "name": {
+        "zh-CN": "陈头岗",
+        "en-US": "Chentougang"
+      },
+      "x": 450.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    },
+    "2205": {
+      "id": "2205",
+      "name": {
+        "zh-CN": "南浦西",
+        "en-US": "Nanpuxi"
+      },
+      "x": 300.0,
+      "y": 600.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    },
+    "2206": {
+      "id": "2206",
+      "name": {
+        "zh-CN": "南漖",
+        "en-US": "Nanjiao"
+      },
+      "x": 225.0,
+      "y": 500.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    },
+    "GF01": {
+      "id": "GF01",
+      "name": {
+        "zh-CN": "新城东",
+        "en-US": "Xincheng Dong"
+      },
+      "x": 50,
+      "y": 900,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF02": {
+      "id": "GF02",
+      "name": {
+        "zh-CN": "东平",
+        "en-US": "Dongping"
+      },
+      "x": 0,
+      "y": 900,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "佛山3",
+        "28",
+        "广肇城际"
+      ]
+    },
+    "GF03": {
+      "id": "GF03",
+      "name": {
+        "zh-CN": "世纪莲",
+        "en-US": "Shijilian"
+      },
+      "x": -50.0,
+      "y": 900,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF04": {
+      "id": "GF04",
+      "name": {
+        "zh-CN": "澜石",
+        "en-US": "Lanshi"
+      },
+      "x": -100.0,
+      "y": 900,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF05": {
+      "id": "GF05",
+      "name": {
+        "zh-CN": "魁奇路",
+        "en-US": "Kuiqi Lu"
+      },
+      "x": -125.0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "佛山2"
+      ]
+    },
+    "GF06": {
+      "id": "GF06",
+      "name": {
+        "zh-CN": "季华园",
+        "en-US": "Jihuayuan"
+      },
+      "x": -125.0,
+      "y": 775,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "佛山4"
+      ]
+    },
+    "GF07": {
+      "id": "GF07",
+      "name": {
+        "zh-CN": "同济路",
+        "en-US": "Tongji Lu"
+      },
+      "x": -125.0,
+      "y": 700,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF08": {
+      "id": "GF08",
+      "name": {
+        "zh-CN": "祖庙",
+        "en-US": "Zumiao"
+      },
+      "x": -125,
+      "y": 625,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF09": {
+      "id": "GF09",
+      "name": {
+        "zh-CN": "普君北路",
+        "en-US": "Pujun Beilu"
+      },
+      "x": -100.0,
+      "y": 575.0,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "28"
+      ]
+    },
+    "GF10": {
+      "id": "GF10",
+      "name": {
+        "zh-CN": "朝安",
+        "en-US": "Chao'an"
+      },
+      "x": -50,
+      "y": 575.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF11": {
+      "id": "GF11",
+      "name": {
+        "zh-CN": "桂城",
+        "en-US": "Guicheng"
+      },
+      "x": 0,
+      "y": 575,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "佛山3"
+      ]
+    },
+    "GF12": {
+      "id": "GF12",
+      "name": {
+        "zh-CN": "南桂路",
+        "en-US": "Nangui Lu"
+      },
+      "x": 25.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF13": {
+      "id": "GF13",
+      "name": {
+        "zh-CN": "𧒽岗",
+        "en-US": "Leigang"
+      },
+      "x": 25,
+      "y": 475,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "南海有轨1"
+      ]
+    },
+    "GF14": {
+      "id": "GF14",
+      "name": {
+        "zh-CN": "千灯湖",
+        "en-US": "Qiandenghu Lake"
+      },
+      "x": 25.0,
+      "y": 425,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF15": {
+      "id": "GF15",
+      "name": {
+        "zh-CN": "金融高新区",
+        "en-US": "Financial Hi-Tech Zone"
+      },
+      "x": 75.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF16": {
+      "id": "GF16",
+      "name": {
+        "zh-CN": "龙溪",
+        "en-US": "Longxi"
+      },
+      "x": 125.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF17": {
+      "id": "GF17",
+      "name": {
+        "zh-CN": "菊树",
+        "en-US": "Jushu"
+      },
+      "x": 175.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF19": {
+      "id": "GF19",
+      "name": {
+        "zh-CN": "鹤洞",
+        "en-US": "Hedong"
+      },
+      "x": 325.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "GF22": {
+      "id": "GF22",
+      "name": {
+        "zh-CN": "燕岗",
+        "en-US": "Yangang"
+      },
+      "x": 575.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "GF"
+      ]
+    },
+    "GF23": {
+      "id": "GF23",
+      "name": {
+        "zh-CN": "石溪",
+        "en-US": "Shixi"
+      },
+      "x": 700.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    },
+    "F211": {
+      "id": "F211",
+      "name": {
+        "zh-CN": "南庄",
+        "en-US": "Nanzhuang"
+      },
+      "x": -425.0,
+      "y": 925,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F212": {
+      "id": "F212",
+      "name": {
+        "zh-CN": "湖涌",
+        "en-US": "Huyong"
+      },
+      "x": -425.0,
+      "y": 875,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F213": {
+      "id": "F213",
+      "name": {
+        "zh-CN": "绿岛湖",
+        "en-US": "Lidaohu"
+      },
+      "x": -375.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F214": {
+      "id": "F214",
+      "name": {
+        "zh-CN": "智慧新城",
+        "en-US": "Zhihuixincheng"
+      },
+      "x": -325.0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山4"
+      ]
+    },
+    "F215": {
+      "id": "F215",
+      "name": {
+        "zh-CN": "张槎",
+        "en-US": "Zhangcha"
+      },
+      "x": -275.0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山4",
+        "广肇城际"
+      ]
+    },
+    "F216": {
+      "id": "F216",
+      "name": {
+        "zh-CN": "石湾",
+        "en-US": "Shiwan"
+      },
+      "x": -225.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F217": {
+      "id": "F217",
+      "name": {
+        "zh-CN": "沙岗",
+        "en-US": "Shagang"
+      },
+      "x": -175.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F219": {
+      "id": "F219",
+      "name": {
+        "zh-CN": "石梁",
+        "en-US": "Shiliang"
+      },
+      "x": -62.5,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F220": {
+      "id": "F220",
+      "name": {
+        "zh-CN": "湾华",
+        "en-US": "Wanhua"
+      },
+      "x": 0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山3"
+      ]
+    },
+    "F221": {
+      "id": "F221",
+      "name": {
+        "zh-CN": "登洲",
+        "en-US": "Dengzhou"
+      },
+      "x": 75.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F222": {
+      "id": "F222",
+      "name": {
+        "zh-CN": "花卉世界",
+        "en-US": "Huahuishijie"
+      },
+      "x": 150.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F223": {
+      "id": "F223",
+      "name": {
+        "zh-CN": "仙涌",
+        "en-US": "Xianyong"
+      },
+      "x": 225.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F224": {
+      "id": "F224",
+      "name": {
+        "zh-CN": "石洲",
+        "en-US": "Shizhou"
+      },
+      "x": 300.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    },
+    "F225": {
+      "id": "F225",
+      "name": {
+        "zh-CN": "林岳西",
+        "en-US": "Linyuexi"
+      },
+      "x": 375.0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "南海有轨1"
+      ]
+    },
+    "F226": {
+      "id": "F226",
+      "name": {
+        "zh-CN": "林岳东",
+        "en-US": "Linyuedong"
+      },
+      "x": 450.0,
+      "y": 825,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山11",
+        "南海有轨1"
+      ]
+    },
+    "F301": {
+      "id": "F301",
+      "name": {
+        "zh-CN": "顺德港",
+        "en-US": "Shunde Port"
+      },
+      "status": "under_construction",
+      "x": 775,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F302": {
+      "id": "F302",
+      "name": {
+        "zh-CN": "顺德学院站",
+        "en-US": "Shunde College Railway Station"
+      },
+      "x": 725,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F303": {
+      "id": "F303",
+      "name": {
+        "zh-CN": "顺德欢乐海岸",
+        "en-US": "Shunde OCT Harbour Plus"
+      },
+      "x": 675,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F304": {
+      "id": "F304",
+      "name": {
+        "zh-CN": "顺德一中",
+        "en-US": "Shunde No.1 High School"
+      },
+      "x": 625,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F305": {
+      "id": "F305",
+      "name": {
+        "zh-CN": "驹荣北路",
+        "en-US": "Jurong Beilu"
+      },
+      "x": 575,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F306": {
+      "id": "F306",
+      "name": {
+        "zh-CN": "东乐路",
+        "en-US": "Dongle Lu"
+      },
+      "x": 525,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F307": {
+      "id": "F307",
+      "name": {
+        "zh-CN": "大良钟楼",
+        "en-US": "Daliang Zhonglou"
+      },
+      "x": 475,
+      "y": 1250,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F308": {
+      "id": "F308",
+      "name": {
+        "zh-CN": "环市北",
+        "en-US": "Huanshi Bei"
+      },
+      "x": 450,
+      "y": 1225,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F309": {
+      "id": "F309",
+      "name": {
+        "zh-CN": "顺德人民医院",
+        "en-US": "The First People's Hospital of Shunde"
+      },
+      "x": 425,
+      "y": 1200,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F310": {
+      "id": "F310",
+      "name": {
+        "zh-CN": "荔村",
+        "en-US": "Licun"
+      },
+      "x": 400,
+      "y": 1175,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F311": {
+      "id": "F311",
+      "name": {
+        "zh-CN": "伦教",
+        "en-US": "Lunjiao"
+      },
+      "x": 375,
+      "y": 1150,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F312": {
+      "id": "F312",
+      "name": {
+        "zh-CN": "广教",
+        "en-US": "Guangjiao"
+      },
+      "x": 350,
+      "y": 1125,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F314": {
+      "id": "F314",
+      "name": {
+        "zh-CN": "高村",
+        "en-US": "Gaocun"
+      },
+      "x": 262.5,
+      "y": 1037.5,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F315": {
+      "id": "F315",
+      "name": {
+        "zh-CN": "北滘西站",
+        "en-US": "Beijiao West Railway Station"
+      },
+      "x": 225.0,
+      "y": 1000.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F316": {
+      "id": "F316",
+      "name": {
+        "zh-CN": "潭洲会展",
+        "en-US": "Tanzhou Convention & Exhibition Center"
+      },
+      "x": 175,
+      "y": 975,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F317": {
+      "id": "F317",
+      "name": {
+        "zh-CN": "岳步",
+        "en-US": "Yuebu"
+      },
+      "x": 100,
+      "y": 975,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F318": {
+      "id": "F318",
+      "name": {
+        "zh-CN": "大墩",
+        "en-US": "Dadun"
+      },
+      "x": 25,
+      "y": 975,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F321": {
+      "id": "F321",
+      "name": {
+        "zh-CN": "亚艺公园",
+        "en-US": "Yayi Park"
+      },
+      "x": 0,
+      "y": 775,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F322": {
+      "id": "F322",
+      "name": {
+        "zh-CN": "季华六路",
+        "en-US": "Jihua Liulu"
+      },
+      "x": 0,
+      "y": 700,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F323": {
+      "id": "F323",
+      "name": {
+        "zh-CN": "镇安",
+        "en-US": "Zhen'an"
+      },
+      "x": 0,
+      "y": 625,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F325": {
+      "id": "F325",
+      "name": {
+        "zh-CN": "西约",
+        "en-US": "Xiyue"
+      },
+      "x": -25.0,
+      "y": 525.0,
+      "isTransfer": true,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F326": {
+      "id": "F326",
+      "name": {
+        "zh-CN": "叠滘",
+        "en-US": "Diejiao"
+      },
+      "x": -75.0,
+      "y": 525,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F327": {
+      "id": "F327",
+      "name": {
+        "zh-CN": "中山公园",
+        "en-US": "Zhongshan Park"
+      },
+      "x": -125.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F328": {
+      "id": "F328",
+      "name": {
+        "zh-CN": "敦厚",
+        "en-US": "Dunhou"
+      },
+      "status": "under_construction",
+      "x": -175.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F329": {
+      "id": "F329",
+      "name": {
+        "zh-CN": "佛山站",
+        "en-US": "Foshan Railway Station"
+      },
+      "status": "under_construction",
+      "x": -225.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F330": {
+      "id": "F330",
+      "name": {
+        "zh-CN": "联合",
+        "en-US": "Lianhe"
+      },
+      "x": -275.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F331": {
+      "id": "F331",
+      "name": {
+        "zh-CN": "孝德东",
+        "en-US": "Xiaode Dong"
+      },
+      "x": -325.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F332": {
+      "id": "F332",
+      "name": {
+        "zh-CN": "罗村",
+        "en-US": "Luocun"
+      },
+      "x": -350.0,
+      "y": 475.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F333": {
+      "id": "F333",
+      "name": {
+        "zh-CN": "佛山西站",
+        "en-US": "Foshan West Railway Station"
+      },
+      "x": -350.0,
+      "y": 425.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F334": {
+      "id": "F334",
+      "name": {
+        "zh-CN": "兴业东路",
+        "en-US": "Xingye Donglu"
+      },
+      "x": -350.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F335": {
+      "id": "F335",
+      "name": {
+        "zh-CN": "科盛路",
+        "en-US": "Kesheng Lu"
+      },
+      "x": -350.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F336": {
+      "id": "F336",
+      "name": {
+        "zh-CN": "博爱中路",
+        "en-US": "Bo'ai Zhonglu"
+      },
+      "x": -350.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F337": {
+      "id": "F337",
+      "name": {
+        "zh-CN": "南海大学城",
+        "en-US": "Nanhai University Town"
+      },
+      "x": -350.0,
+      "y": 225.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "F338": {
+      "id": "F338",
+      "name": {
+        "zh-CN": "佛山大学",
+        "en-US": "Foshan University"
+      },
+      "x": -350.0,
+      "y": 175.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    },
+    "APM01": {
+      "id": "APM01",
+      "name": {
+        "zh-CN": "广州塔",
+        "en-US": "Canton Tower"
+      },
+      "x": 925.0,
+      "y": 280.0,
+      "isTransfer": true,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM02": {
+      "id": "APM02",
+      "name": {
+        "zh-CN": "海心沙",
+        "en-US": "Haixinsha"
+      },
+      "x": 925.0,
+      "y": 260.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM03": {
+      "id": "APM03",
+      "name": {
+        "zh-CN": "大剧院",
+        "en-US": "Guangzhou Opera House"
+      },
+      "x": 925.0,
+      "y": 240.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM04": {
+      "id": "APM04",
+      "name": {
+        "zh-CN": "花城大道",
+        "en-US": "Huacheng Dadao"
+      },
+      "x": 925.0,
+      "y": 220.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM05": {
+      "id": "APM05",
+      "name": {
+        "zh-CN": "妇儿中心",
+        "en-US": "Guangzhou Women & Children's Medical Center"
+      },
+      "x": 925.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM06": {
+      "id": "APM06",
+      "name": {
+        "zh-CN": "黄埔大道",
+        "en-US": "Huangpu Dadao"
+      },
+      "x": 925.0,
+      "y": 180.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM07": {
+      "id": "APM07",
+      "name": {
+        "zh-CN": "天河南",
+        "en-US": "Tianhenan"
+      },
+      "x": 925.0,
+      "y": 160.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM08": {
+      "id": "APM08",
+      "name": {
+        "zh-CN": "体育中心南",
+        "en-US": "Tianhe Sports Center South"
+      },
+      "x": 925.0,
+      "y": 140.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    },
+    "APM09": {
+      "id": "APM09",
+      "name": {
+        "zh-CN": "体育西路",
+        "en-US": "Tiyu Xilu"
+      },
+      "x": 925.0,
+      "y": 120.0,
+      "isTransfer": true,
+      "lines": [
+        "APM"
+      ]
+    },
+    "701-8": {
+      "id": "701-8",
+      "name": {
+        "zh-CN": "美的大道",
+        "en-US": "Meidi Dadao"
+      },
+      "x": 300,
+      "y": 1025,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "701-7": {
+      "id": "701-7",
+      "name": {
+        "zh-CN": "北滘公园",
+        "en-US": "Beijiao Park"
+      },
+      "x": 300,
+      "y": 1075,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "佛山3"
+      ]
+    },
+    "701-6": {
+      "id": "701-6",
+      "name": {
+        "zh-CN": "美的",
+        "en-US": "Midea"
+      },
+      "x": 350,
+      "y": 1100,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "701-5": {
+      "id": "701-5",
+      "name": {
+        "zh-CN": "南涌",
+        "en-US": "Nanchong"
+      },
+      "x": 400,
+      "y": 1050,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "701-4": {
+      "id": "701-4",
+      "name": {
+        "zh-CN": "锦龙",
+        "en-US": "Jinlong"
+      },
+      "x": 450,
+      "y": 1000,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "701-3": {
+      "id": "701-3",
+      "name": {
+        "zh-CN": "陈村",
+        "en-US": "Chencun"
+      },
+      "x": 500,
+      "y": 950,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "广肇城际"
+      ]
+    },
+    "701-2": {
+      "id": "701-2",
+      "name": {
+        "zh-CN": "陈村北",
+        "en-US": "Chencunbei"
+      },
+      "x": 550,
+      "y": 900,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "佛山11"
+      ]
+    },
+    "701-1": {
+      "id": "701-1",
+      "name": {
+        "zh-CN": "大洲",
+        "en-US": "Dazhou"
+      },
+      "x": 600,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    },
+    "TNH101": {
+      "id": "TNH101",
+      "name": {
+        "zh-CN": "𧒽岗",
+        "en-US": "Leigang"
+      },
+      "x": 50,
+      "y": 500,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH102": {
+      "id": "TNH102",
+      "name": {
+        "zh-CN": "华翠路",
+        "en-US": "Huacui Lu"
+      },
+      "x": 74,
+      "y": 524,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH103": {
+      "id": "TNH103",
+      "name": {
+        "zh-CN": "夏西",
+        "en-US": "Xiaxi"
+      },
+      "x": 98,
+      "y": 548,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH104": {
+      "id": "TNH104",
+      "name": {
+        "zh-CN": "夏东",
+        "en-US": "Xiadong"
+      },
+      "x": 122,
+      "y": 572,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH105": {
+      "id": "TNH105",
+      "name": {
+        "zh-CN": "康怡公园",
+        "en-US": "Kangyi Park"
+      },
+      "x": 146,
+      "y": 596,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH106": {
+      "id": "TNH106",
+      "name": {
+        "zh-CN": "平西",
+        "en-US": "Pingxi"
+      },
+      "x": 170,
+      "y": 620,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH107": {
+      "id": "TNH107",
+      "name": {
+        "zh-CN": "平南",
+        "en-US": "Pingnan"
+      },
+      "x": 194,
+      "y": 644,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH108": {
+      "id": "TNH108",
+      "name": {
+        "zh-CN": "玉器街",
+        "en-US": "YuqiJie"
+      },
+      "x": 218,
+      "y": 668,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH109": {
+      "id": "TNH109",
+      "name": {
+        "zh-CN": "中区",
+        "en-US": "Zhongqu"
+      },
+      "x": 242,
+      "y": 692,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH110": {
+      "id": "TNH110",
+      "name": {
+        "zh-CN": "三山新城北",
+        "en-US": "SanshanXinchengNorth"
+      },
+      "x": 266,
+      "y": 716,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH111": {
+      "id": "TNH111",
+      "name": {
+        "zh-CN": "文翰湖公园（季华实验室）",
+        "en-US": "Wenhanhu Park (Jihua Laboratory)"
+      },
+      "x": 290,
+      "y": 740,
+      "isTransfer": true,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH112": {
+      "id": "TNH112",
+      "name": {
+        "zh-CN": "三山新城南",
+        "en-US": "SanshanXinchengSouth"
+      },
+      "x": 314,
+      "y": 764,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH113": {
+      "id": "TNH113",
+      "name": {
+        "zh-CN": "林岳北",
+        "en-US": "LinyueBei"
+      },
+      "x": 338,
+      "y": 788,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH114": {
+      "id": "TNH114",
+      "name": {
+        "zh-CN": "林岳西",
+        "en-US": "Linyuexi"
+      },
+      "x": 375,
+      "y": 825,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    },
+    "TNH115": {
+      "id": "TNH115",
+      "name": {
+        "zh-CN": "林岳东",
+        "en-US": "Linyuedong"
+      },
+      "x": 410,
+      "y": 825,
+      "isTransfer": true,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

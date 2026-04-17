@@ -1,0 +1,43 @@
+{
+  "stations": {
+    "s1": {
+      "id": "s1",
+      "name": {
+        "zh-CN": "西塱",
+        "en-US": "Xilang"
+      },
+      "x": 225,
+      "y": 400,
+      "isTransfer": false,
+      "lines": [
+        "l1"
+      ]
+    },
+    "s2": {
+      "id": "s2",
+      "name": {
+        "zh-CN": "坑口",
+        "en-US": "Kengkou"
+      },
+      "x": 250,
+      "y": 350,
+      "isTransfer": false,
+      "lines": [
+        "l1"
+      ]
+    },
+    "s3": {
+      "id": "s3",
+      "name": {
+        "zh-CN": "花地湾",
+        "en-US": "Huadiwan"
+      },
+      "x": 275,
+      "y": 325,
+      "isTransfer": false,
+      "lines": [
+        "l1"
+      ]
+    }
+  }
+}

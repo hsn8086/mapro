@@ -1,0 +1,46 @@
+{
+  "connections": [
+    {
+      "fromStationId": "309",
+      "toStationId": "APM01",
+      "type": "virtual",
+      "walkingTime": 3
+    },
+    {
+      "fromStationId": "317",
+      "toStationId": "APM09",
+      "type": "virtual",
+      "walkingTime": 3
+    },
+    {
+      "fromStationId": "F327",
+      "toStationId": "F330",
+      "type": "bus",
+      "walkingTime": 4
+    },
+    {
+      "fromStationId": "805",
+      "toStationId": "1205",
+      "type": "virtual",
+      "walkingTime": 5
+    },
+    {
+      "fromStationId": "TNH101",
+      "toStationId": "GF13",
+      "type": "virtual",
+      "walkingTime": 2
+    },
+    {
+      "fromStationId": "TNH115",
+      "toStationId": "F226",
+      "type": "virtual",
+      "walkingTime": 2
+    },
+    {
+      "fromStationId": "TNH114",
+      "toStationId": "F225",
+      "type": "physical",
+      "walkingTime": 1
+    }
+  ]
+}
