@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1411": {
+      "id": "1411",
+      "name": {
+        "zh-CN": "夏良",
+        "en-US": "Xialiang"
+      },
+      "x": 850.0,
+      "y": -275.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

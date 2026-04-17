@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "514": {
+      "id": "514",
+      "name": {
+        "zh-CN": "猎德",
+        "en-US": "Liede"
+      },
+      "x": 1025.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

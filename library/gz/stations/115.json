@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "115": {
+      "id": "115",
+      "name": {
+        "zh-CN": "体育中心",
+        "en-US": "Tianhe Sports Center"
+      },
+      "x": 950.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    }
+  }
+}

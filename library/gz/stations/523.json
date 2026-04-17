@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "523": {
+      "id": "523",
+      "name": {
+        "zh-CN": "大沙东",
+        "en-US": "Dashadong"
+      },
+      "x": 1500.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "7"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "stations": {
+    "1205": {
+      "id": "1205",
+      "name": {
+        "zh-CN": "广州白云站",
+        "en-US": "Guangzhou Baiyun Railway Station"
+      },
+      "x": 475.0,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "8",
+        "22",
+        "24",
+        "广清城际"
+      ]
+    }
+  }
+}

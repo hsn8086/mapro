@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH104": {
+      "id": "TNH104",
+      "name": {
+        "zh-CN": "夏东",
+        "en-US": "Xiadong"
+      },
+      "x": 122,
+      "y": 572,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

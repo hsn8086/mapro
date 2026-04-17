@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "418": {
+      "id": "418",
+      "name": {
+        "zh-CN": "大学城南",
+        "en-US": "Higher Education Mega Center South"
+      },
+      "x": 1225.0,
+      "y": 600.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "7",
+        "12"
+      ]
+    }
+  }
+}

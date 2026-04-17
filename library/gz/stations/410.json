@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "410": {
+      "id": "410",
+      "name": {
+        "zh-CN": "黄阁汽车城",
+        "en-US": "Huangge Auto Town"
+      },
+      "x": 1450.0,
+      "y": 825.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

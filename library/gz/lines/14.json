@@ -1,0 +1,234 @@
+{
+  "lines": {
+    "14": {
+      "id": "14",
+      "name": {
+        "zh-CN": "14号线",
+        "en-US": "Line 14"
+      },
+      "color": "#792720",
+      "type": "subway",
+      "stations": [
+        {
+          "id": "216",
+          "num": "1",
+          "status": "planned"
+        },
+        {
+          "id": "1402",
+          "num": "2",
+          "service": "rapid"
+        },
+        {
+          "id": "1403",
+          "num": "3",
+          "service": "rapid"
+        },
+        {
+          "id": "1207",
+          "num": "4",
+          "service": "rapid"
+        },
+        {
+          "id": "1405",
+          "num": "5",
+          "service": "rapid"
+        },
+        {
+          "id": "1406",
+          "num": "6",
+          "service": "rapid"
+        },
+        {
+          "id": "1407",
+          "num": "7",
+          "service": "rapid"
+        },
+        {
+          "id": "1408",
+          "num": "8",
+          "service": "rapid"
+        },
+        {
+          "id": "224",
+          "num": "9",
+          "service": "rapid"
+        },
+        {
+          "id": "1410",
+          "num": "10",
+          "service": "rapid"
+        },
+        {
+          "id": "1411",
+          "num": "11"
+        },
+        {
+          "id": "1412",
+          "num": "12"
+        },
+        {
+          "id": "1413",
+          "num": "13"
+        },
+        {
+          "id": "1414",
+          "num": "14"
+        },
+        {
+          "id": "1415",
+          "num": "15"
+        },
+        {
+          "id": "1416",
+          "num": "16",
+          "service": "rapid"
+        },
+        {
+          "id": "1417",
+          "num": "17"
+        },
+        {
+          "id": "1418",
+          "num": "18"
+        },
+        {
+          "id": "1419",
+          "num": "19"
+        },
+        {
+          "id": "1420",
+          "num": "20",
+          "service": "rapid"
+        },
+        {
+          "id": "1421",
+          "num": "21",
+          "service": "rapid"
+        }
+      ],
+      "segments": [
+        {
+          "from": "216",
+          "to": "1402",
+          "distance": 2.5,
+          "duration": 4
+        },
+        {
+          "from": "1402",
+          "to": "1403",
+          "distance": 1.2,
+          "duration": 2
+        },
+        {
+          "from": "1403",
+          "to": "1207",
+          "distance": 1.8,
+          "duration": 3
+        },
+        {
+          "from": "1207",
+          "to": "1405",
+          "distance": 2.1,
+          "duration": 3
+        },
+        {
+          "from": "1405",
+          "to": "1406",
+          "distance": 1.6,
+          "duration": 2
+        },
+        {
+          "from": "1406",
+          "to": "1407",
+          "distance": 1.4,
+          "duration": 2
+        },
+        {
+          "from": "1407",
+          "to": "1408",
+          "distance": 1.7,
+          "duration": 3
+        },
+        {
+          "from": "1408",
+          "to": "224",
+          "distance": 2.2,
+          "duration": 3
+        },
+        {
+          "from": "224",
+          "to": "1410",
+          "distance": 3.5,
+          "duration": 5
+        },
+        {
+          "from": "1410",
+          "to": "1411",
+          "distance": 2.4,
+          "duration": 3
+        },
+        {
+          "from": "1411",
+          "to": "1412",
+          "distance": 3.8,
+          "duration": 5
+        },
+        {
+          "from": "1412",
+          "to": "1413",
+          "distance": 4.5,
+          "duration": 6
+        },
+        {
+          "from": "1413",
+          "to": "1414",
+          "distance": 3.2,
+          "duration": 4
+        },
+        {
+          "from": "1414",
+          "to": "1415",
+          "distance": 2.8,
+          "duration": 4
+        },
+        {
+          "from": "1415",
+          "to": "1416",
+          "distance": 3.1,
+          "duration": 4
+        },
+        {
+          "from": "1416",
+          "to": "1417",
+          "distance": 4.2,
+          "duration": 5
+        },
+        {
+          "from": "1417",
+          "to": "1418",
+          "distance": 5.1,
+          "duration": 6
+        },
+        {
+          "from": "1418",
+          "to": "1419",
+          "distance": 4.8,
+          "duration": 6
+        },
+        {
+          "from": "1419",
+          "to": "1420",
+          "distance": 3.5,
+          "duration": 4
+        },
+        {
+          "from": "1420",
+          "to": "1421",
+          "distance": 2.9,
+          "duration": 4
+        }
+      ]
+    }
+  }
+}

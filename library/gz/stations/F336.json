@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F336": {
+      "id": "F336",
+      "name": {
+        "zh-CN": "博爱中路",
+        "en-US": "Bo'ai Zhonglu"
+      },
+      "x": -350.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

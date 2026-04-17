@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F316": {
+      "id": "F316",
+      "name": {
+        "zh-CN": "潭洲会展",
+        "en-US": "Tanzhou Convention & Exhibition Center"
+      },
+      "x": 175,
+      "y": 975,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

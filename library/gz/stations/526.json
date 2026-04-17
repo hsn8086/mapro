@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "526": {
+      "id": "526",
+      "name": {
+        "zh-CN": "庙头",
+        "en-US": "Miaotou"
+      },
+      "x": 1625.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

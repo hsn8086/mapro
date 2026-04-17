@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2120": {
+      "id": "2120",
+      "name": {
+        "zh-CN": "钟岗",
+        "en-US": "Zhonggang"
+      },
+      "x": 1850.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

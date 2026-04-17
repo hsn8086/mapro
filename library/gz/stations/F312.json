@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F312": {
+      "id": "F312",
+      "name": {
+        "zh-CN": "广教",
+        "en-US": "Guangjiao"
+      },
+      "x": 350,
+      "y": 1125,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

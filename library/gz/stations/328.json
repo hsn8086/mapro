@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "328": {
+      "id": "328",
+      "name": {
+        "zh-CN": "高增",
+        "en-US": "Gaozeng"
+      },
+      "x": 750.0,
+      "y": -550.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "9"
+      ]
+    }
+  }
+}

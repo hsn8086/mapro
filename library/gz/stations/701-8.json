@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "701-8": {
+      "id": "701-8",
+      "name": {
+        "zh-CN": "美的大道",
+        "en-US": "Meidi Dadao"
+      },
+      "x": 300,
+      "y": 1025,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

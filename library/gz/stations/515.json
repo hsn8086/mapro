@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "515": {
+      "id": "515",
+      "name": {
+        "zh-CN": "潭村",
+        "en-US": "Tancun"
+      },
+      "x": 1075.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

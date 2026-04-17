@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F321": {
+      "id": "F321",
+      "name": {
+        "zh-CN": "亚艺公园",
+        "en-US": "Yayi Park"
+      },
+      "x": 0,
+      "y": 775,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

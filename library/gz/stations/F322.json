@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F322": {
+      "id": "F322",
+      "name": {
+        "zh-CN": "季华六路",
+        "en-US": "Jihua Liulu"
+      },
+      "x": 0,
+      "y": 700,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

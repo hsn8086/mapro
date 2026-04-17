@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM04": {
+      "id": "APM04",
+      "name": {
+        "zh-CN": "花城大道",
+        "en-US": "Huacheng Dadao"
+      },
+      "x": 925.0,
+      "y": 220.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

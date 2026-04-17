@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "508": {
+      "id": "508",
+      "name": {
+        "zh-CN": "淘金",
+        "en-US": "Taojin"
+      },
+      "x": 690.0,
+      "y": 125.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "GF06": {
+      "id": "GF06",
+      "name": {
+        "zh-CN": "季华园",
+        "en-US": "Jihuayuan"
+      },
+      "x": -125.0,
+      "y": 775,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "佛山4"
+      ]
+    }
+  }
+}

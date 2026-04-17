@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "512": {
+      "id": "512",
+      "name": {
+        "zh-CN": "五羊邨",
+        "en-US": "Wuyangcun"
+      },
+      "x": 825.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "10"
+      ]
+    }
+  }
+}

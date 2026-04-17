@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "407": {
+      "id": "407",
+      "name": {
+        "zh-CN": "金洲",
+        "en-US": "Jinzhou"
+      },
+      "x": 1525.0,
+      "y": 900.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

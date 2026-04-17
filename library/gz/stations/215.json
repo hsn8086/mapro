@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "215": {
+      "id": "215",
+      "name": {
+        "zh-CN": "越秀公园",
+        "en-US": "Yuexiu Park"
+      },
+      "x": 575.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "703": {
+      "id": "703",
+      "name": {
+        "zh-CN": "谢村",
+        "en-US": "Xiecun"
+      },
+      "x": 800.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

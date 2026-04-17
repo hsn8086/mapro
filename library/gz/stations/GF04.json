@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF04": {
+      "id": "GF04",
+      "name": {
+        "zh-CN": "澜石",
+        "en-US": "Lanshi"
+      },
+      "x": -100.0,
+      "y": 900,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

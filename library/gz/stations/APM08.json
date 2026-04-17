@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM08": {
+      "id": "APM08",
+      "name": {
+        "zh-CN": "体育中心南",
+        "en-US": "Tianhe Sports Center South"
+      },
+      "x": 925.0,
+      "y": 140.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

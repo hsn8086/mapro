@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "GF13": {
+      "id": "GF13",
+      "name": {
+        "zh-CN": "𧒽岗",
+        "en-US": "Leigang"
+      },
+      "x": 25,
+      "y": 475,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "南海有轨1"
+      ]
+    }
+  }
+}

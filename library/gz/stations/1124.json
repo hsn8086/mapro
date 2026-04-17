@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1124": {
+      "id": "1124",
+      "name": {
+        "zh-CN": "棣园",
+        "en-US": "Diyuan"
+      },
+      "x": 525.0,
+      "y": 475.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

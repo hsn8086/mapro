@@ -1,0 +1,20 @@
+{
+  "stations": {
+    "811": {
+      "id": "811",
+      "name": {
+        "zh-CN": "彩虹桥",
+        "en-US": "Caihongqiao"
+      },
+      "x": 475,
+      "y": 100.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "11",
+        "13",
+        "22"
+      ]
+    }
+  }
+}

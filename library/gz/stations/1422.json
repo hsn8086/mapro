@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1422": {
+      "id": "1422",
+      "name": {
+        "zh-CN": "红卫",
+        "en-US": "Hongwei"
+      },
+      "x": 1150.0,
+      "y": -525.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    }
+  }
+}

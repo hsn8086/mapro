@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1217": {
+      "id": "1217",
+      "name": {
+        "zh-CN": "二沙岛",
+        "en-US": "Ersha Island"
+      },
+      "x": 800.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}

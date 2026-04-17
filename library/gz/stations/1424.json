@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1424": {
+      "id": "1424",
+      "name": {
+        "zh-CN": "枫下",
+        "en-US": "Fengxia"
+      },
+      "x": 1250.0,
+      "y": -525.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    }
+  }
+}

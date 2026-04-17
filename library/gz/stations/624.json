@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "624": {
+      "id": "624",
+      "name": {
+        "zh-CN": "龙洞",
+        "en-US": "Longdong"
+      },
+      "x": 1175.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

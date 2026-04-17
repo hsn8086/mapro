@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1805": {
+      "id": "1805",
+      "name": {
+        "zh-CN": "沙溪",
+        "en-US": "Shaxi"
+      },
+      "x": 1025.0,
+      "y": 600.0,
+      "isTransfer": false,
+      "lines": [
+        "18"
+      ]
+    }
+  }
+}

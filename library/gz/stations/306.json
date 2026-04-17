@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "306": {
+      "id": "306",
+      "name": {
+        "zh-CN": "沥滘",
+        "en-US": "Lijiao"
+      },
+      "x": 900.0,
+      "y": 550.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "GF"
+      ]
+    }
+  }
+}

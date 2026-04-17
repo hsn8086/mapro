@@ -1,0 +1,65 @@
+{
+  "lines": {
+    "18": {
+      "id": "18",
+      "name": {
+        "zh-CN": "18号线",
+        "en-US": "Line 18"
+      },
+      "color": "#364c9c",
+      "type": "subway",
+      "info": {
+        "maxSpeed": 160
+      },
+      "stations": [
+        {
+          "id": "116",
+          "num": "9",
+          "status": "planned"
+        },
+        {
+          "id": "1808",
+          "num": "8",
+          "service": "repid"
+        },
+        {
+          "id": "825",
+          "num": "7",
+          "service": "rapid"
+        },
+        {
+          "id": "1806",
+          "num": "6"
+        },
+        {
+          "id": "1805",
+          "num": "5"
+        },
+        {
+          "id": "706",
+          "num": "4",
+          "service": "rapid"
+        },
+        {
+          "id": "301",
+          "num": "3",
+          "service": "rapid"
+        },
+        {
+          "id": "1802",
+          "num": "2",
+          "service": "rapid"
+        },
+        {
+          "id": "1801",
+          "num": "1",
+          "service": "rapid"
+        }
+      ],
+      "operatingTime": {
+        "start": "",
+        "end": ""
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1417": {
+      "id": "1417",
+      "name": {
+        "zh-CN": "太平",
+        "en-US": "Taiping"
+      },
+      "x": 1137.5,
+      "y": -562.5,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

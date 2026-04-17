@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "901": {
+      "id": "901",
+      "name": {
+        "zh-CN": "飞鹅岭",
+        "en-US": "Fei'eling"
+      },
+      "x": 200.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    }
+  }
+}

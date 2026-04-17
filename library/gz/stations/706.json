@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "706": {
+      "id": "706",
+      "name": {
+        "zh-CN": "南村万博",
+        "en-US": "Nancun Wanbo"
+      },
+      "x": 1025.0,
+      "y": 750.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "18"
+      ]
+    }
+  }
+}

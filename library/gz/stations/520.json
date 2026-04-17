@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "520": {
+      "id": "520",
+      "name": {
+        "zh-CN": "三溪",
+        "en-US": "Sanxi"
+      },
+      "x": 1350.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

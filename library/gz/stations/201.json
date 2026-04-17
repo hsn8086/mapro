@@ -1,0 +1,20 @@
+{
+  "stations": {
+    "201": {
+      "id": "201",
+      "name": {
+        "zh-CN": "广州南站",
+        "en-US": "Guangzhou South Railway Station"
+      },
+      "x": 650.0,
+      "y": 800.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "7",
+        "22",
+        "佛山2"
+      ]
+    }
+  }
+}

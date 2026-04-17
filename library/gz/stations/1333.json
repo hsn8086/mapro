@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1333": {
+      "id": "1333",
+      "name": {
+        "zh-CN": "官湖",
+        "en-US": "Guanhu"
+      },
+      "x": 1950.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

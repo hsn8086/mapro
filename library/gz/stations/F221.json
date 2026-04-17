@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F221": {
+      "id": "F221",
+      "name": {
+        "zh-CN": "登洲",
+        "en-US": "Dengzhou"
+      },
+      "x": 75.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

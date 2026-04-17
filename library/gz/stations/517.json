@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "517": {
+      "id": "517",
+      "name": {
+        "zh-CN": "科韵路",
+        "en-US": "Keyunlu"
+      },
+      "x": 1175.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

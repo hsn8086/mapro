@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1105": {
+      "id": "1105",
+      "name": {
+        "zh-CN": "华景路",
+        "en-US": "Huajing Lu"
+      },
+      "x": 1075.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

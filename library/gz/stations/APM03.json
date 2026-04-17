@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM03": {
+      "id": "APM03",
+      "name": {
+        "zh-CN": "大剧院",
+        "en-US": "Guangzhou Opera House"
+      },
+      "x": 925.0,
+      "y": 240.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

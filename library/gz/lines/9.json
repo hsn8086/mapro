@@ -1,0 +1,121 @@
+{
+  "lines": {
+    "9": {
+      "id": "9",
+      "name": {
+        "zh-CN": "9号线",
+        "en-US": "Line 9"
+      },
+      "color": "#5ec998",
+      "type": "subway",
+      "stations": [
+        {
+          "id": "901",
+          "num": "1"
+        },
+        {
+          "id": "902",
+          "num": "2"
+        },
+        {
+          "id": "903",
+          "num": "3"
+        },
+        {
+          "id": "904",
+          "num": "4"
+        },
+        {
+          "id": "905",
+          "num": "5"
+        },
+        {
+          "id": "906",
+          "num": "6"
+        },
+        {
+          "id": "907",
+          "num": "7"
+        },
+        {
+          "id": "908",
+          "num": "8"
+        },
+        {
+          "id": "909",
+          "num": "9"
+        },
+        {
+          "id": "910",
+          "num": "10"
+        },
+        {
+          "id": "328",
+          "num": "11"
+        }
+      ],
+      "segments": [
+        {
+          "from": "901",
+          "to": "902",
+          "distance": 2.5,
+          "duration": 4
+        },
+        {
+          "from": "902",
+          "to": "903",
+          "distance": 2.2,
+          "duration": 4
+        },
+        {
+          "from": "903",
+          "to": "904",
+          "distance": 1,
+          "duration": 2
+        },
+        {
+          "from": "904",
+          "to": "905",
+          "distance": 1.5,
+          "duration": 3
+        },
+        {
+          "from": "905",
+          "to": "906",
+          "distance": 1.8,
+          "duration": 3
+        },
+        {
+          "from": "906",
+          "to": "907",
+          "distance": 1.4,
+          "duration": 2
+        },
+        {
+          "from": "907",
+          "to": "908",
+          "distance": 1.6,
+          "duration": 3
+        },
+        {
+          "from": "908",
+          "to": "909",
+          "distance": 1.9,
+          "duration": 3
+        },
+        {
+          "from": "909",
+          "to": "910",
+          "distance": 2,
+          "duration": 3
+        },
+        {
+          "from": "910",
+          "to": "328",
+          "distance": 2.1,
+          "duration": 3
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F327": {
+      "id": "F327",
+      "name": {
+        "zh-CN": "中山公园",
+        "en-US": "Zhongshan Park"
+      },
+      "x": -125.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "609": {
+      "id": "609",
+      "name": {
+        "zh-CN": "一德路",
+        "en-US": "Yide Lu"
+      },
+      "x": 525.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

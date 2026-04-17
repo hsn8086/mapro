@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1334": {
+      "id": "1334",
+      "name": {
+        "zh-CN": "新沙",
+        "en-US": "Xinsha"
+      },
+      "x": 2000.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

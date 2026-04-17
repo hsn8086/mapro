@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "423": {
+      "id": "423",
+      "name": {
+        "zh-CN": "车陂",
+        "en-US": "Chebei"
+      },
+      "x": 1225.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "13"
+      ]
+    }
+  }
+}

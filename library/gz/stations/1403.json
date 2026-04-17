@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1403": {
+      "id": "1403",
+      "name": {
+        "zh-CN": "云霄路",
+        "en-US": "Yunxiao Lu"
+      },
+      "x": 550.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

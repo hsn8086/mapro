@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "625": {
+      "id": "625",
+      "name": {
+        "zh-CN": "柯木塱",
+        "en-US": "Kemulang"
+      },
+      "x": 1225.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

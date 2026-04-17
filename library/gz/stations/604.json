@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "604": {
+      "id": "604",
+      "name": {
+        "zh-CN": "河沙",
+        "en-US": "Hesha"
+      },
+      "x": 250,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

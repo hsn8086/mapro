@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F337": {
+      "id": "F337",
+      "name": {
+        "zh-CN": "南海大学城",
+        "en-US": "Nanhai University Town"
+      },
+      "x": -350.0,
+      "y": 225.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

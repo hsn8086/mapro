@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "813": {
+      "id": "813",
+      "name": {
+        "zh-CN": "华林寺",
+        "en-US": "Hualinsi Buddhist Temple"
+      },
+      "x": 475.0,
+      "y": 237.5,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "719": {
+      "id": "719",
+      "name": {
+        "zh-CN": "水西",
+        "en-US": "Shuixi"
+      },
+      "x": 1450.0,
+      "y": -100.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "21"
+      ]
+    }
+  }
+}

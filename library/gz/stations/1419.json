@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1419": {
+      "id": "1419",
+      "name": {
+        "zh-CN": "赤草",
+        "en-US": "Chicao"
+      },
+      "x": 1212.5,
+      "y": -637.5,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F222": {
+      "id": "F222",
+      "name": {
+        "zh-CN": "花卉世界",
+        "en-US": "Huahuishijie"
+      },
+      "x": 150.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

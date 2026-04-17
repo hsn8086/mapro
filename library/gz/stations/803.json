@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "803": {
+      "id": "803",
+      "name": {
+        "zh-CN": "石井",
+        "en-US": "Shijing"
+      },
+      "x": 425.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

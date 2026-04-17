@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1428": {
+      "id": "1428",
+      "name": {
+        "zh-CN": "汤村",
+        "en-US": "Tangcun"
+      },
+      "x": 1475.0,
+      "y": -325.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    }
+  }
+}

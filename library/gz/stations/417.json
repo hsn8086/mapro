@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "417": {
+      "id": "417",
+      "name": {
+        "zh-CN": "新造",
+        "en-US": "Xinzao"
+      },
+      "x": 1275.0,
+      "y": 650.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

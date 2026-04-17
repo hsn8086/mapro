@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "206": {
+      "id": "206",
+      "name": {
+        "zh-CN": "南洲",
+        "en-US": "Nanzhou"
+      },
+      "x": 725.0,
+      "y": 550.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "GF"
+      ]
+    }
+  }
+}

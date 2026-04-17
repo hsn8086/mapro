@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "611": {
+      "id": "611",
+      "name": {
+        "zh-CN": "北京路",
+        "en-US": "Beijing Lu"
+      },
+      "x": 625.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

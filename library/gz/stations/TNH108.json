@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH108": {
+      "id": "TNH108",
+      "name": {
+        "zh-CN": "玉器街",
+        "en-US": "YuqiJie"
+      },
+      "x": 218,
+      "y": 668,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

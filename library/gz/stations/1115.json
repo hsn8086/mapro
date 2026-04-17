@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1115": {
+      "id": "1115",
+      "name": {
+        "zh-CN": "流花",
+        "en-US": "Liuhua"
+      },
+      "x": 525,
+      "y": 100,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

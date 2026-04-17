@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1327": {
+      "id": "1327",
+      "name": {
+        "zh-CN": "南海神庙",
+        "en-US": "Nanhai God Temple"
+      },
+      "x": 1600.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

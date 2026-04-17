@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "416": {
+      "id": "416",
+      "name": {
+        "zh-CN": "官桥",
+        "en-US": "Guanqiao"
+      },
+      "x": 1300.0,
+      "y": 675.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

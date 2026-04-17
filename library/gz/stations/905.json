@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "905": {
+      "id": "905",
+      "name": {
+        "zh-CN": "花果山公园",
+        "en-US": "Huaguoshan Park"
+      },
+      "x": 450.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    }
+  }
+}

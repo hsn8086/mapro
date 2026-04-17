@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1119": {
+      "id": "1119",
+      "name": {
+        "zh-CN": "石围塘",
+        "en-US": "Shiweitang"
+      },
+      "x": 300,
+      "y": 250.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

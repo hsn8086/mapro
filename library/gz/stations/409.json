@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "409": {
+      "id": "409",
+      "name": {
+        "zh-CN": "黄阁",
+        "en-US": "Huangge"
+      },
+      "x": 1475.0,
+      "y": 850.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F310": {
+      "id": "F310",
+      "name": {
+        "zh-CN": "荔村",
+        "en-US": "Licun"
+      },
+      "x": 400,
+      "y": 1175,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

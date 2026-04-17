@@ -1,0 +1,21 @@
+{
+  "stations": {
+    "216": {
+      "id": "216",
+      "name": {
+        "zh-CN": "广州火车站",
+        "en-US": "Guangzhou Railway Station"
+      },
+      "x": 575.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "5",
+        "11",
+        "14",
+        "22"
+      ]
+    }
+  }
+}

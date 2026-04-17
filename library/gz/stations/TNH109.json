@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH109": {
+      "id": "TNH109",
+      "name": {
+        "zh-CN": "中区",
+        "en-US": "Zhongqu"
+      },
+      "x": 242,
+      "y": 692,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

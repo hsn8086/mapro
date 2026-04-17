@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "329": {
+      "id": "329",
+      "name": {
+        "zh-CN": "机场南",
+        "en-US": "Airport South"
+      },
+      "x": 750.0,
+      "y": -650.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "22"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F323": {
+      "id": "F323",
+      "name": {
+        "zh-CN": "镇安",
+        "en-US": "Zhen'an"
+      },
+      "x": 0,
+      "y": 625,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "809": {
+      "id": "809",
+      "name": {
+        "zh-CN": "鹅掌坦",
+        "en-US": "Ezhangtan"
+      },
+      "x": 425.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

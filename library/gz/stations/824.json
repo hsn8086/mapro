@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "824": {
+      "id": "824",
+      "name": {
+        "zh-CN": "赤岗",
+        "en-US": "Chigang"
+      },
+      "x": 975.0,
+      "y": 375.0,
+      "isTransfer": true,
+      "lines": [
+        "8",
+        "12"
+      ]
+    }
+  }
+}

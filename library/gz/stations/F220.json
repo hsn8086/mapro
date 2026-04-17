@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "F220": {
+      "id": "F220",
+      "name": {
+        "zh-CN": "湾华",
+        "en-US": "Wanhua"
+      },
+      "x": 0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山3"
+      ]
+    }
+  }
+}

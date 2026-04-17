@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "211": {
+      "id": "211",
+      "name": {
+        "zh-CN": "市二宫",
+        "en-US": "The 2nd Workers' Cultural Palace"
+      },
+      "x": 575.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

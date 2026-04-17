@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1111": {
+      "id": "1111",
+      "name": {
+        "zh-CN": "大金钟路",
+        "en-US": "Dajinzhong Lu"
+      },
+      "x": 750.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

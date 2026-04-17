@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2112": {
+      "id": "2112",
+      "name": {
+        "zh-CN": "金坑",
+        "en-US": "Jinkeng"
+      },
+      "x": 1450.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

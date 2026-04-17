@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1405": {
+      "id": "1405",
+      "name": {
+        "zh-CN": "马务",
+        "en-US": "Mawu"
+      },
+      "x": 600.0,
+      "y": -150.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "420": {
+      "id": "420",
+      "name": {
+        "zh-CN": "官洲",
+        "en-US": "Guanzhou"
+      },
+      "x": 1225.0,
+      "y": 450.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "12"
+      ]
+    }
+  }
+}

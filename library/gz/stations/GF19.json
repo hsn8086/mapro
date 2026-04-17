@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF19": {
+      "id": "GF19",
+      "name": {
+        "zh-CN": "鹤洞",
+        "en-US": "Hedong"
+      },
+      "x": 325.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

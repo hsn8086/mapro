@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "623": {
+      "id": "623",
+      "name": {
+        "zh-CN": "植物园",
+        "en-US": "Botanical Garden"
+      },
+      "x": 1125.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

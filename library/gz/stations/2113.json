@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2113": {
+      "id": "2113",
+      "name": {
+        "zh-CN": "镇龙西",
+        "en-US": "Zhenlongxi"
+      },
+      "x": 1500.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

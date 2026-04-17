@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "627": {
+      "id": "627",
+      "name": {
+        "zh-CN": "黄陂",
+        "en-US": "Huangbei"
+      },
+      "x": 1300.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

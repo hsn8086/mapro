@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF07": {
+      "id": "GF07",
+      "name": {
+        "zh-CN": "同济路",
+        "en-US": "Tongji Lu"
+      },
+      "x": -125.0,
+      "y": 700,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "628": {
+      "id": "628",
+      "name": {
+        "zh-CN": "金峰",
+        "en-US": "Jinfeng"
+      },
+      "x": 1350.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

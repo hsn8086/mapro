@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "712": {
+      "id": "712",
+      "name": {
+        "zh-CN": "洪圣沙",
+        "en-US": "Hongshengsha"
+      },
+      "x": 1500.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F219": {
+      "id": "F219",
+      "name": {
+        "zh-CN": "石梁",
+        "en-US": "Shiliang"
+      },
+      "x": -62.5,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

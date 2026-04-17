@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "223": {
+      "id": "223",
+      "name": {
+        "zh-CN": "黄边",
+        "en-US": "Huangbian"
+      },
+      "x": 725.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

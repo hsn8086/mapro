@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "310": {
+      "id": "310",
+      "name": {
+        "zh-CN": "珠江新城",
+        "en-US": "Zhujiang New Town"
+      },
+      "x": 900.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "5"
+      ]
+    }
+  }
+}

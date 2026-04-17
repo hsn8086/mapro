@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "907": {
+      "id": "907",
+      "name": {
+        "zh-CN": "马鞍山公园",
+        "en-US": "Ma'anshan Park"
+      },
+      "x": 550.0,
+      "y": -600.0,
+      "isTransfer": true,
+      "lines": [
+        "9",
+        "18"
+      ]
+    }
+  }
+}

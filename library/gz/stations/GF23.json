@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF23": {
+      "id": "GF23",
+      "name": {
+        "zh-CN": "石溪",
+        "en-US": "Shixi"
+      },
+      "x": 700.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

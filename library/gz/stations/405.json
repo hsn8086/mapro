@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "405": {
+      "id": "405",
+      "name": {
+        "zh-CN": "广隆",
+        "en-US": "Guanglong"
+      },
+      "x": 1575.0,
+      "y": 950.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

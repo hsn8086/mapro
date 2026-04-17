@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "313": {
+      "id": "313",
+      "name": {
+        "zh-CN": "岗顶",
+        "en-US": "Gangding"
+      },
+      "x": 1025.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

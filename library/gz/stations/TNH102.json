@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH102": {
+      "id": "TNH102",
+      "name": {
+        "zh-CN": "华翠路",
+        "en-US": "Huacui Lu"
+      },
+      "x": 74,
+      "y": 524,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

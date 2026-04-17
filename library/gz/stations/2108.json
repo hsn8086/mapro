@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2108": {
+      "id": "2108",
+      "name": {
+        "zh-CN": "科学城",
+        "en-US": "Science City"
+      },
+      "x": 1425.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

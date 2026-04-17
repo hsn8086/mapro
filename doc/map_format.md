@@ -162,12 +162,13 @@
 example_map/
   map.json
   stations/
-    core.json
-    branch_a.json
+    101.json
+    102.json
   lines/
-    metro.json
+    1.json
+    2.json
   connections/
-    transfers.json
+    core.json
 ```
 
 ### 6.1 `map.json`
@@ -177,8 +178,8 @@ example_map/
 
 ### 6.2 子模块目录
 
-- `stations/*.json`: 每个文件都可以包含一个 `stations` 对象
-- `lines/*.json`: 每个文件都可以包含一个 `lines` 对象
+- `stations/*.json`: 每个文件都可以包含一个 `stations` 对象，推荐每站一个文件
+- `lines/*.json`: 每个文件都可以包含一个 `lines` 对象，推荐每线一个文件
 - `connections/*.json`: 每个文件都可以包含一个 `connections` 数组
 
 ### 6.3 合并规则

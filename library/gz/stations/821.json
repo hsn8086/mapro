@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "821": {
+      "id": "821",
+      "name": {
+        "zh-CN": "中大",
+        "en-US": "Sun Yat-sen University"
+      },
+      "x": 725.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

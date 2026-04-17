@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "404": {
+      "id": "404",
+      "name": {
+        "zh-CN": "大涌",
+        "en-US": "Dachong"
+      },
+      "x": 1600.0,
+      "y": 975.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

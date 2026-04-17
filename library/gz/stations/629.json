@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "629": {
+      "id": "629",
+      "name": {
+        "zh-CN": "暹岗",
+        "en-US": "Xiangang"
+      },
+      "x": 1400.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "108": {
+      "id": "108",
+      "name": {
+        "zh-CN": "西门口",
+        "en-US": "Ximenkou"
+      },
+      "x": 525.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    }
+  }
+}

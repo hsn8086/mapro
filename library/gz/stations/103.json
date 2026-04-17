@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "103": {
+      "id": "103",
+      "name": {
+        "zh-CN": "花地湾",
+        "en-US": "Huadiwan"
+      },
+      "x": 275.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    }
+  }
+}

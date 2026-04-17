@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F338": {
+      "id": "F338",
+      "name": {
+        "zh-CN": "佛山大学",
+        "en-US": "Foshan University"
+      },
+      "x": -350.0,
+      "y": 175.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

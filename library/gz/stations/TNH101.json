@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH101": {
+      "id": "TNH101",
+      "name": {
+        "zh-CN": "𧒽岗",
+        "en-US": "Leigang"
+      },
+      "x": 50,
+      "y": 500,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

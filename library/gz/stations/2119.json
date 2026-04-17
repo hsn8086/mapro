@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2119": {
+      "id": "2119",
+      "name": {
+        "zh-CN": "山田",
+        "en-US": "Shantian"
+      },
+      "x": 1800.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

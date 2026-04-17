@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1009": {
+      "id": "1009",
+      "name": {
+        "zh-CN": "滨江东路",
+        "en-US": "Binjiang Dong Lu"
+      },
+      "x": 750.0,
+      "y": 350.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    }
+  }
+}

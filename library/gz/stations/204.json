@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "204": {
+      "id": "204",
+      "name": {
+        "zh-CN": "南浦",
+        "en-US": "Nanpu"
+      },
+      "x": 750.0,
+      "y": 650.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F307": {
+      "id": "F307",
+      "name": {
+        "zh-CN": "大良钟楼",
+        "en-US": "Daliang Zhonglou"
+      },
+      "x": 475,
+      "y": 1250,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

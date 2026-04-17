@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "301-1": {
+      "id": "301-1",
+      "name": {
+        "zh-CN": "傍江",
+        "en-US": "Bangjiang"
+      },
+      "x": 1175.0,
+      "y": 850.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

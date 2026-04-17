@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF03": {
+      "id": "GF03",
+      "name": {
+        "zh-CN": "世纪莲",
+        "en-US": "Shijilian"
+      },
+      "x": -50.0,
+      "y": 900,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

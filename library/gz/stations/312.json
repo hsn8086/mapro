@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "312": {
+      "id": "312",
+      "name": {
+        "zh-CN": "石牌桥",
+        "en-US": "Shipaiqiao"
+      },
+      "x": 1000.0,
+      "y": 150.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

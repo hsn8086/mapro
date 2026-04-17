@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "301-3": {
+      "id": "301-3",
+      "name": {
+        "zh-CN": "海涌路",
+        "en-US": "Haichonglu"
+      },
+      "x": 1300.0,
+      "y": 800.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

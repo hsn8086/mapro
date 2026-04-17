@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "529": {
+      "id": "529",
+      "name": {
+        "zh-CN": "夏港",
+        "en-US": "Xiagang"
+      },
+      "x": 1750.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

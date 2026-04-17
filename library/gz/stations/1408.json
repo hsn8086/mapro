@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1408": {
+      "id": "1408",
+      "name": {
+        "zh-CN": "彭边",
+        "en-US": "Pengbian"
+      },
+      "x": 700.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2205": {
+      "id": "2205",
+      "name": {
+        "zh-CN": "南浦西",
+        "en-US": "Nanpuxi"
+      },
+      "x": 300.0,
+      "y": 600.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    }
+  }
+}

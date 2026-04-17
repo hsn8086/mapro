@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "527": {
+      "id": "527",
+      "name": {
+        "zh-CN": "夏园",
+        "en-US": "Xiayuan"
+      },
+      "x": 1662.5,
+      "y": 237.5,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "13"
+      ]
+    }
+  }
+}

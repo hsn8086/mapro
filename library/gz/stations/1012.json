@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1012": {
+      "id": "1012",
+      "name": {
+        "zh-CN": "杨箕东",
+        "en-US": "Yangji East"
+      },
+      "x": 850.0,
+      "y": 225.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    }
+  }
+}

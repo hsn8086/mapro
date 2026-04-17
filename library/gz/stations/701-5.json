@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "701-5": {
+      "id": "701-5",
+      "name": {
+        "zh-CN": "南涌",
+        "en-US": "Nanchong"
+      },
+      "x": 400,
+      "y": 1050,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

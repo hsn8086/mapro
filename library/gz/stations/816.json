@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "816": {
+      "id": "816",
+      "name": {
+        "zh-CN": "凤凰新村",
+        "en-US": "Fenghuang Xincun"
+      },
+      "x": 475.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

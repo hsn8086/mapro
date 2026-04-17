@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "217": {
+      "id": "217",
+      "name": {
+        "zh-CN": "三元里",
+        "en-US": "Sanyuanli"
+      },
+      "x": 575.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

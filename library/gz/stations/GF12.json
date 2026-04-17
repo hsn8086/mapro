@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF12": {
+      "id": "GF12",
+      "name": {
+        "zh-CN": "南桂路",
+        "en-US": "Nangui Lu"
+      },
+      "x": 25.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

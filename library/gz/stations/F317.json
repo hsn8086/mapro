@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F317": {
+      "id": "F317",
+      "name": {
+        "zh-CN": "岳步",
+        "en-US": "Yuebu"
+      },
+      "x": 100,
+      "y": 975,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

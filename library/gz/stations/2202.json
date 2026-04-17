@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2202": {
+      "id": "2202",
+      "name": {
+        "zh-CN": "市广路",
+        "en-US": "Shiguanglu"
+      },
+      "x": 900.0,
+      "y": 800.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    }
+  }
+}

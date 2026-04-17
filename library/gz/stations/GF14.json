@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF14": {
+      "id": "GF14",
+      "name": {
+        "zh-CN": "千灯湖",
+        "en-US": "Qiandenghu Lake"
+      },
+      "x": 25.0,
+      "y": 425,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

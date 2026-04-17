@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F212": {
+      "id": "F212",
+      "name": {
+        "zh-CN": "湖涌",
+        "en-US": "Huyong"
+      },
+      "x": -425.0,
+      "y": 875,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

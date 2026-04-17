@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2105": {
+      "id": "2105",
+      "name": {
+        "zh-CN": "大观南路",
+        "en-US": "Daguannanlu"
+      },
+      "x": 1250.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

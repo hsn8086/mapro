@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "632": {
+      "id": "632",
+      "name": {
+        "zh-CN": "香雪",
+        "en-US": "Xiangxue"
+      },
+      "x": 1550.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

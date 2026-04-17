@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1222": {
+      "id": "1222",
+      "name": {
+        "zh-CN": "北山",
+        "en-US": "Beishan"
+      },
+      "x": 1150.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}

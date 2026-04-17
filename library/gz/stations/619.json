@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "619": {
+      "id": "619",
+      "name": {
+        "zh-CN": "天平架",
+        "en-US": "Tianpingjia"
+      },
+      "x": 875.0,
+      "y": 25.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

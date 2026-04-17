@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH106": {
+      "id": "TNH106",
+      "name": {
+        "zh-CN": "平西",
+        "en-US": "Pingxi"
+      },
+      "x": 170,
+      "y": 620,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

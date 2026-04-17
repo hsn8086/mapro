@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "711": {
+      "id": "711",
+      "name": {
+        "zh-CN": "长洲",
+        "en-US": "Changzhou"
+      },
+      "x": 1450.0,
+      "y": 375.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "8"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F217": {
+      "id": "F217",
+      "name": {
+        "zh-CN": "沙岗",
+        "en-US": "Shagang"
+      },
+      "x": -175.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

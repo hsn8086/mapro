@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F325": {
+      "id": "F325",
+      "name": {
+        "zh-CN": "西约",
+        "en-US": "Xiyue"
+      },
+      "x": -25.0,
+      "y": 525.0,
+      "isTransfer": true,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

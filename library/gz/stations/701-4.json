@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "701-4": {
+      "id": "701-4",
+      "name": {
+        "zh-CN": "锦龙",
+        "en-US": "Jinlong"
+      },
+      "x": 450,
+      "y": 1000,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

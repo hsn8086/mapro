@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH107": {
+      "id": "TNH107",
+      "name": {
+        "zh-CN": "平南",
+        "en-US": "Pingnan"
+      },
+      "x": 194,
+      "y": 644,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

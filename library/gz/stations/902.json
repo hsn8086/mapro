@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "902": {
+      "id": "902",
+      "name": {
+        "zh-CN": "花都汽车城",
+        "en-US": "Huadu Auto City"
+      },
+      "x": 250.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    }
+  }
+}

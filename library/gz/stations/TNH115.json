@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH115": {
+      "id": "TNH115",
+      "name": {
+        "zh-CN": "林岳东",
+        "en-US": "Linyuedong"
+      },
+      "x": 410,
+      "y": 825,
+      "isTransfer": true,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

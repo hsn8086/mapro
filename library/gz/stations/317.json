@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "317": {
+      "id": "317",
+      "name": {
+        "zh-CN": "林和西",
+        "en-US": "Linhexi"
+      },
+      "x": 900.0,
+      "y": 100.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "APM"
+      ]
+    }
+  }
+}

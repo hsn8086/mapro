@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "716": {
+      "id": "716",
+      "name": {
+        "zh-CN": "加庄",
+        "en-US": "Jiazhuang"
+      },
+      "x": 1500.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

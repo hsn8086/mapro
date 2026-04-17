@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "630": {
+      "id": "630",
+      "name": {
+        "zh-CN": "苏元",
+        "en-US": "Suyuan"
+      },
+      "x": 1450.0,
+      "y": -50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "21"
+      ]
+    }
+  }
+}

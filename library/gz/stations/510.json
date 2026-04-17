@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "510": {
+      "id": "510",
+      "name": {
+        "zh-CN": "动物园",
+        "en-US": "Zoo"
+      },
+      "x": 800.0,
+      "y": 125.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2206": {
+      "id": "2206",
+      "name": {
+        "zh-CN": "南漖",
+        "en-US": "Nanjiao"
+      },
+      "x": 225.0,
+      "y": 500.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    }
+  }
+}

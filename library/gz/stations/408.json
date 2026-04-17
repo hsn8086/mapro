@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "408": {
+      "id": "408",
+      "name": {
+        "zh-CN": "蕉门",
+        "en-US": "Jiaomen"
+      },
+      "x": 1500.0,
+      "y": 875.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

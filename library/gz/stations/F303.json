@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F303": {
+      "id": "F303",
+      "name": {
+        "zh-CN": "顺德欢乐海岸",
+        "en-US": "Shunde OCT Harbour Plus"
+      },
+      "x": 675,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

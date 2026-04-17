@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "323": {
+      "id": "323",
+      "name": {
+        "zh-CN": "永泰",
+        "en-US": "Yongtai"
+      },
+      "x": 800.0,
+      "y": -175.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F308": {
+      "id": "F308",
+      "name": {
+        "zh-CN": "环市北",
+        "en-US": "Huanshi Bei"
+      },
+      "x": 450,
+      "y": 1225,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

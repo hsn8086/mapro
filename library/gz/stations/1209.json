@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1209": {
+      "id": "1209",
+      "name": {
+        "zh-CN": "广州体育馆",
+        "en-US": "Guangzhou Gymnasium"
+      },
+      "x": 700.0,
+      "y": -50.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}

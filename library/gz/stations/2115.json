@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2115": {
+      "id": "2115",
+      "name": {
+        "zh-CN": "中新",
+        "en-US": "Zhongxin"
+      },
+      "x": 1600.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

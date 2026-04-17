@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "316": {
+      "id": "316",
+      "name": {
+        "zh-CN": "天河客运站",
+        "en-US": "Tianhe Coach Terminal"
+      },
+      "x": 1025.0,
+      "y": 0.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "6"
+      ]
+    }
+  }
+}

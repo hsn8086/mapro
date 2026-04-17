@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F335": {
+      "id": "F335",
+      "name": {
+        "zh-CN": "科盛路",
+        "en-US": "Kesheng Lu"
+      },
+      "x": -350.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

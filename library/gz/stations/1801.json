@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1801": {
+      "id": "1801",
+      "name": {
+        "zh-CN": "万顷沙",
+        "en-US": "Wanqingsha"
+      },
+      "x": 1760.0,
+      "y": 1075.0,
+      "isTransfer": true,
+      "lines": [
+        "18",
+        "南珠中城际"
+      ]
+    }
+  }
+}

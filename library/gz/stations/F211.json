@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F211": {
+      "id": "F211",
+      "name": {
+        "zh-CN": "南庄",
+        "en-US": "Nanzhuang"
+      },
+      "x": -425.0,
+      "y": 925,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "701-7": {
+      "id": "701-7",
+      "name": {
+        "zh-CN": "北滘公园",
+        "en-US": "Beijiao Park"
+      },
+      "x": 300,
+      "y": 1075,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "佛山3"
+      ]
+    }
+  }
+}

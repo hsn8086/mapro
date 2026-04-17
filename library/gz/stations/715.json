@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "715": {
+      "id": "715",
+      "name": {
+        "zh-CN": "姬堂",
+        "en-US": "Jitang"
+      },
+      "x": 1500.0,
+      "y": 100.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

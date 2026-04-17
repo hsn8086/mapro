@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "708": {
+      "id": "708",
+      "name": {
+        "zh-CN": "板桥",
+        "en-US": "Banqiao"
+      },
+      "x": 1175.0,
+      "y": 650.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

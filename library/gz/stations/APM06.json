@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM06": {
+      "id": "APM06",
+      "name": {
+        "zh-CN": "黄埔大道",
+        "en-US": "Huangpu Dadao"
+      },
+      "x": 925.0,
+      "y": 180.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F315": {
+      "id": "F315",
+      "name": {
+        "zh-CN": "北滘西站",
+        "en-US": "Beijiao West Railway Station"
+      },
+      "x": 225.0,
+      "y": 1000.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

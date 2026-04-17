@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F213": {
+      "id": "F213",
+      "name": {
+        "zh-CN": "绿岛湖",
+        "en-US": "Lidaohu"
+      },
+      "x": -375.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

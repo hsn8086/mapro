@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2118": {
+      "id": "2118",
+      "name": {
+        "zh-CN": "朱村",
+        "en-US": "Zhucun"
+      },
+      "x": 1750.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

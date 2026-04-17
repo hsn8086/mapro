@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "F226": {
+      "id": "F226",
+      "name": {
+        "zh-CN": "林岳东",
+        "en-US": "Linyuedong"
+      },
+      "x": 450.0,
+      "y": 825,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山11",
+        "南海有轨1"
+      ]
+    }
+  }
+}

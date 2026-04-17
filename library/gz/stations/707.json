@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "707": {
+      "id": "707",
+      "name": {
+        "zh-CN": "员岗",
+        "en-US": "Yuangang"
+      },
+      "x": 1100.0,
+      "y": 725.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

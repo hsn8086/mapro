@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F304": {
+      "id": "F304",
+      "name": {
+        "zh-CN": "顺德一中",
+        "en-US": "Shunde No.1 High School"
+      },
+      "x": 625,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

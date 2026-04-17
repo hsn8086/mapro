@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "214": {
+      "id": "214",
+      "name": {
+        "zh-CN": "纪念堂",
+        "en-US": "Sun Yat-sen Memorial Hall"
+      },
+      "x": 575.0,
+      "y": 150.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "13",
+        "24"
+      ]
+    }
+  }
+}

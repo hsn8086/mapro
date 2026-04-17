@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "424": {
+      "id": "424",
+      "name": {
+        "zh-CN": "黄村",
+        "en-US": "Huangcun"
+      },
+      "x": 1200.0,
+      "y": 125.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "21"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "104": {
+      "id": "104",
+      "name": {
+        "zh-CN": "芳村",
+        "en-US": "Fangcun"
+      },
+      "x": 300,
+      "y": 300,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "11",
+        "22"
+      ]
+    }
+  }
+}

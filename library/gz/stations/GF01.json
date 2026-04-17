@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF01": {
+      "id": "GF01",
+      "name": {
+        "zh-CN": "新城东",
+        "en-US": "Xincheng Dong"
+      },
+      "x": 50,
+      "y": 900,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

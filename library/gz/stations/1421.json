@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1421": {
+      "id": "1421",
+      "name": {
+        "zh-CN": "东风",
+        "en-US": "Dongfeng"
+      },
+      "x": 1287.5,
+      "y": -712.5,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

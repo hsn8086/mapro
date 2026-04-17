@@ -87,16 +87,18 @@ uv run mapro --help
 gz_map/
   map.json
   stations/
-    core.json
+    101.json
+    102.json
   lines/
-    metro.json
+    1.json
+    2.json
   connections/
-    transfers.json
+    core.json
 ```
 
 - `map.json` 用于存放 `id`、`meta`、`pricing` 等全局信息
-- `stations/*.json` 中放 `stations`
-- `lines/*.json` 中放 `lines`
+- `stations/*.json` 中放 `stations`，推荐每站一个文件
+- `lines/*.json` 中放 `lines`，推荐每线一个文件
 - `connections/*.json` 中放 `connections`
 - CLI 会在加载时自动合并这些模块
 - 仓库内也提供了从 `gz.json` 拆出的完整目录包：`library/gz/`

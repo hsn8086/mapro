@@ -1,0 +1,27 @@
+{
+  "stations": {
+    "109": {
+      "id": "109",
+      "name": {
+        "zh-CN": "公园前",
+        "en-US": "Gongyuanqian"
+      },
+      "x": 575.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom"
+          }
+        }
+      ],
+      "lines": [
+        "1",
+        "2"
+      ]
+    }
+  }
+}

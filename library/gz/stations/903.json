@@ -1,0 +1,20 @@
+{
+  "stations": {
+    "903": {
+      "id": "903",
+      "name": {
+        "zh-CN": "广州北站",
+        "en-US": "Guangzhou North Railway Station"
+      },
+      "x": 300.0,
+      "y": -600.0,
+      "isTransfer": true,
+      "lines": [
+        "9",
+        "24",
+        "广清城际",
+        "广州东环城际"
+      ]
+    }
+  }
+}

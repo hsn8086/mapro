@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "525": {
+      "id": "525",
+      "name": {
+        "zh-CN": "双沙",
+        "en-US": "Shuangsha"
+      },
+      "x": 1600.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

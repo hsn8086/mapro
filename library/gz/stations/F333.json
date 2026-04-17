@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F333": {
+      "id": "F333",
+      "name": {
+        "zh-CN": "佛山西站",
+        "en-US": "Foshan West Railway Station"
+      },
+      "x": -350.0,
+      "y": 425.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

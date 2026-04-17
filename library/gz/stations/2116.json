@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2116": {
+      "id": "2116",
+      "name": {
+        "zh-CN": "坑贝",
+        "en-US": "Kengbei"
+      },
+      "x": 1650.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

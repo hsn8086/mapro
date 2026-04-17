@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1112": {
+      "id": "1112",
+      "name": {
+        "zh-CN": "中医药大学",
+        "en-US": "Univ. of Chinese Medicine"
+      },
+      "x": 700.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "12"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1418": {
+      "id": "1418",
+      "name": {
+        "zh-CN": "神岗",
+        "en-US": "Shengang"
+      },
+      "x": 1175.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

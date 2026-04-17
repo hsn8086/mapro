@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "315": {
+      "id": "315",
+      "name": {
+        "zh-CN": "五山",
+        "en-US": "Wushan"
+      },
+      "x": 1025.0,
+      "y": 25.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

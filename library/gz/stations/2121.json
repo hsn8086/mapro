@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2121": {
+      "id": "2121",
+      "name": {
+        "zh-CN": "增城广场",
+        "en-US": "Zengcheng Square"
+      },
+      "x": 1900.0,
+      "y": -225.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

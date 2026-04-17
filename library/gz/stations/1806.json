@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1806": {
+      "id": "1806",
+      "name": {
+        "zh-CN": "龙潭",
+        "en-US": "Longtan"
+      },
+      "x": 1025.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "18",
+        "11"
+      ]
+    }
+  }
+}

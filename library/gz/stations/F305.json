@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F305": {
+      "id": "F305",
+      "name": {
+        "zh-CN": "驹荣北路",
+        "en-US": "Jurong Beilu"
+      },
+      "x": 575,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

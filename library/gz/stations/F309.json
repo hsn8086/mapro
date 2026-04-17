@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F309": {
+      "id": "F309",
+      "name": {
+        "zh-CN": "顺德人民医院",
+        "en-US": "The First People's Hospital of Shunde"
+      },
+      "x": 425,
+      "y": 1200,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

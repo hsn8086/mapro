@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "524": {
+      "id": "524",
+      "name": {
+        "zh-CN": "文冲",
+        "en-US": "Wenchong"
+      },
+      "x": 1550.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

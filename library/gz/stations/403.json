@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "403": {
+      "id": "403",
+      "name": {
+        "zh-CN": "塘坑",
+        "en-US": "Tangkeng"
+      },
+      "x": 1650.0,
+      "y": 1000.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

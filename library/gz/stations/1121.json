@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1121": {
+      "id": "1121",
+      "name": {
+        "zh-CN": "大冲口",
+        "en-US": "Dachongkou"
+      },
+      "x": 350,
+      "y": 350,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

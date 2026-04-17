@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "110": {
+      "id": "110",
+      "name": {
+        "zh-CN": "农讲所",
+        "en-US": "Peasant Movement Institute"
+      },
+      "x": 625.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "1"
+      ]
+    }
+  }
+}

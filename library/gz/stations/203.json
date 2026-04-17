@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "203": {
+      "id": "203",
+      "name": {
+        "zh-CN": "会江",
+        "en-US": "Huijiang"
+      },
+      "x": 750.0,
+      "y": 700.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

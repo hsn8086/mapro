@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "222": {
+      "id": "222",
+      "name": {
+        "zh-CN": "江夏",
+        "en-US": "Jiangxia"
+      },
+      "x": 700.0,
+      "y": -175.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

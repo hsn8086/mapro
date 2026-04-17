@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "413": {
+      "id": "413",
+      "name": {
+        "zh-CN": "低涌",
+        "en-US": "Dichong"
+      },
+      "x": 1375.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

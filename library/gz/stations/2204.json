@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2204": {
+      "id": "2204",
+      "name": {
+        "zh-CN": "陈头岗",
+        "en-US": "Chentougang"
+      },
+      "x": 450.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "22"
+      ]
+    }
+  }
+}

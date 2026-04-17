@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "415": {
+      "id": "415",
+      "name": {
+        "zh-CN": "石碁",
+        "en-US": "Shiqi"
+      },
+      "x": 1325.0,
+      "y": 700.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

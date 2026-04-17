@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "221": {
+      "id": "221",
+      "name": {
+        "zh-CN": "萧岗",
+        "en-US": "Xiao-gang"
+      },
+      "x": 675.0,
+      "y": -150.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

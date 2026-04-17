@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "406": {
+      "id": "406",
+      "name": {
+        "zh-CN": "飞沙角",
+        "en-US": "Feishajiao"
+      },
+      "x": 1550.0,
+      "y": 925.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

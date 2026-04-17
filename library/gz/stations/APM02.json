@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM02": {
+      "id": "APM02",
+      "name": {
+        "zh-CN": "海心沙",
+        "en-US": "Haixinsha"
+      },
+      "x": 925.0,
+      "y": 260.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

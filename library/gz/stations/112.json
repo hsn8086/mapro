@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "112": {
+      "id": "112",
+      "name": {
+        "zh-CN": "东山口",
+        "en-US": "Dongshankou"
+      },
+      "x": 750.0,
+      "y": 200.0,
+      "isTransfer": true,
+      "lines": [
+        "1",
+        "6"
+      ]
+    }
+  }
+}

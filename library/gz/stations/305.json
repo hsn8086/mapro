@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "305": {
+      "id": "305",
+      "name": {
+        "zh-CN": "厦滘",
+        "en-US": "Xiajiao"
+      },
+      "x": 900.0,
+      "y": 625.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "602": {
+      "id": "602",
+      "name": {
+        "zh-CN": "横沙",
+        "en-US": "Hengsha"
+      },
+      "x": 250,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

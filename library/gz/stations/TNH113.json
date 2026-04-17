@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH113": {
+      "id": "TNH113",
+      "name": {
+        "zh-CN": "林岳北",
+        "en-US": "LinyueBei"
+      },
+      "x": 338,
+      "y": 788,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "617": {
+      "id": "617",
+      "name": {
+        "zh-CN": "沙河顶",
+        "en-US": "Shaheding"
+      },
+      "x": 800.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

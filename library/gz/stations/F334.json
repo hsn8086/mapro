@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F334": {
+      "id": "F334",
+      "name": {
+        "zh-CN": "兴业东路",
+        "en-US": "Xingye Donglu"
+      },
+      "x": -350.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1206": {
+      "id": "1206",
+      "name": {
+        "zh-CN": "棠涌",
+        "en-US": "Tangyong"
+      },
+      "x": 525.0,
+      "y": -125.0,
+      "isTransfer": false,
+      "lines": [
+        "12"
+      ]
+    }
+  }
+}

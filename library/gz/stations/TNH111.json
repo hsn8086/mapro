@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH111": {
+      "id": "TNH111",
+      "name": {
+        "zh-CN": "文翰湖公园（季华实验室）",
+        "en-US": "Wenhanhu Park (Jihua Laboratory)"
+      },
+      "x": 290,
+      "y": 740,
+      "isTransfer": true,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

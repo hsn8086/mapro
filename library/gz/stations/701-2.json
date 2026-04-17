@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "701-2": {
+      "id": "701-2",
+      "name": {
+        "zh-CN": "陈村北",
+        "en-US": "Chencunbei"
+      },
+      "x": 550,
+      "y": 900,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "佛山11"
+      ]
+    }
+  }
+}

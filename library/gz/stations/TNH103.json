@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH103": {
+      "id": "TNH103",
+      "name": {
+        "zh-CN": "夏西",
+        "en-US": "Xiaxi"
+      },
+      "x": 98,
+      "y": 548,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

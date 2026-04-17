@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1003": {
+      "id": "1003",
+      "name": {
+        "zh-CN": "东沙",
+        "en-US": "Dongsha"
+      },
+      "x": 450.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1407": {
+      "id": "1407",
+      "name": {
+        "zh-CN": "鹤龙",
+        "en-US": "Helong"
+      },
+      "x": 650.0,
+      "y": -200.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

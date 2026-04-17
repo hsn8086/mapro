@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "802": {
+      "id": "802",
+      "name": {
+        "zh-CN": "亭岗",
+        "en-US": "Tinggang"
+      },
+      "x": 425.0,
+      "y": -275.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

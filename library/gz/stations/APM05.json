@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM05": {
+      "id": "APM05",
+      "name": {
+        "zh-CN": "妇儿中心",
+        "en-US": "Guangzhou Women & Children's Medical Center"
+      },
+      "x": 925.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

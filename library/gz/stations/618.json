@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "618": {
+      "id": "618",
+      "name": {
+        "zh-CN": "沙河",
+        "en-US": "Shahe"
+      },
+      "x": 850.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "11"
+      ]
+    }
+  }
+}

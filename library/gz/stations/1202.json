@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1202": {
+      "id": "1202",
+      "name": {
+        "zh-CN": "浔峰岗北",
+        "en-US": "Xunfenggang North"
+      },
+      "x": 300,
+      "y": -100,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "南海有轨里水段"
+      ]
+    }
+  }
+}

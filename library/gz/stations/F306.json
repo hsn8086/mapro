@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F306": {
+      "id": "F306",
+      "name": {
+        "zh-CN": "东乐路",
+        "en-US": "Dongle Lu"
+      },
+      "x": 525,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

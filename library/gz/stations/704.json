@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "704": {
+      "id": "704",
+      "name": {
+        "zh-CN": "钟村",
+        "en-US": "Zhongcun"
+      },
+      "x": 850.0,
+      "y": 750.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

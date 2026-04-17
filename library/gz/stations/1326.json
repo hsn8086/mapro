@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1326": {
+      "id": "1326",
+      "name": {
+        "zh-CN": "双岗",
+        "en-US": "Shuanggang"
+      },
+      "x": 1550.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

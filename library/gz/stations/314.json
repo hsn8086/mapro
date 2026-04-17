@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "314": {
+      "id": "314",
+      "name": {
+        "zh-CN": "华师",
+        "en-US": "South China Normal University"
+      },
+      "x": 1025.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "11"
+      ]
+    }
+  }
+}

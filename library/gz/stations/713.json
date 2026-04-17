@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "713": {
+      "id": "713",
+      "name": {
+        "zh-CN": "裕丰围",
+        "en-US": "Yufengwei"
+      },
+      "x": 1500.0,
+      "y": 275.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "13"
+      ]
+    }
+  }
+}

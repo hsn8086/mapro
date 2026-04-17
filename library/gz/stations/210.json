@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "210": {
+      "id": "210",
+      "name": {
+        "zh-CN": "江南西",
+        "en-US": "Jiangnanxi"
+      },
+      "x": 575.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

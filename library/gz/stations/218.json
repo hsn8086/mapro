@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "218": {
+      "id": "218",
+      "name": {
+        "zh-CN": "飞翔公园",
+        "en-US": "Feixiang Park"
+      },
+      "x": 575.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

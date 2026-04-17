@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "322": {
+      "id": "322",
+      "name": {
+        "zh-CN": "同和",
+        "en-US": "Tonghe"
+      },
+      "x": 850.0,
+      "y": -125.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

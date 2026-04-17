@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1414": {
+      "id": "1414",
+      "name": {
+        "zh-CN": "钟落潭",
+        "en-US": "Zhongluotan"
+      },
+      "x": 1000.0,
+      "y": -425.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

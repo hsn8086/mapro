@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "308": {
+      "id": "308",
+      "name": {
+        "zh-CN": "客村",
+        "en-US": "Kecun"
+      },
+      "x": 900.0,
+      "y": 400.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "8"
+      ]
+    }
+  }
+}

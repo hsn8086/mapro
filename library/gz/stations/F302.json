@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F302": {
+      "id": "F302",
+      "name": {
+        "zh-CN": "顺德学院站",
+        "en-US": "Shunde College Railway Station"
+      },
+      "x": 725,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

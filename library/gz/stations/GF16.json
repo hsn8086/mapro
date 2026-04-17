@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF16": {
+      "id": "GF16",
+      "name": {
+        "zh-CN": "龙溪",
+        "en-US": "Longxi"
+      },
+      "x": 125.0,
+      "y": 400.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

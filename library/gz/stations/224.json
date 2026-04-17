@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "224": {
+      "id": "224",
+      "name": {
+        "zh-CN": "嘉禾望岗",
+        "en-US": "Jiahewanggang"
+      },
+      "x": 750.0,
+      "y": -225.0,
+      "isTransfer": true,
+      "lines": [
+        "2",
+        "3",
+        "14"
+      ]
+    }
+  }
+}

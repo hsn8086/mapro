@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1113": {
+      "id": "1113",
+      "name": {
+        "zh-CN": "梓元岗",
+        "en-US": "Ziyuangang"
+      },
+      "x": 625.0,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "24"
+      ]
+    }
+  }
+}

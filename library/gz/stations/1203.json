@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1203": {
+      "id": "1203",
+      "name": {
+        "zh-CN": "西洲",
+        "en-US": "Xizhou"
+      },
+      "x": 375,
+      "y": -125.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "13"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "GF05": {
+      "id": "GF05",
+      "name": {
+        "zh-CN": "魁奇路",
+        "en-US": "Kuiqi Lu"
+      },
+      "x": -125.0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "GF",
+        "佛山2"
+      ]
+    }
+  }
+}

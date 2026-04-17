@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1410": {
+      "id": "1410",
+      "name": {
+        "zh-CN": "白云东平",
+        "en-US": "Baiyun Dongping"
+      },
+      "x": 800.0,
+      "y": -225.0,
+      "isTransfer": true,
+      "lines": [
+        "14",
+        "18"
+      ]
+    }
+  }
+}

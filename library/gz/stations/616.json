@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "616": {
+      "id": "616",
+      "name": {
+        "zh-CN": "黄花岗",
+        "en-US": "Huanghuagang"
+      },
+      "x": 775.0,
+      "y": 75.0,
+      "isTransfer": false,
+      "lines": [
+        "6"
+      ]
+    }
+  }
+}

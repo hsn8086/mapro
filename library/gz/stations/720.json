@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "720": {
+      "id": "720",
+      "name": {
+        "zh-CN": "燕山",
+        "en-US": "Yanshan"
+      },
+      "x": 1400.0,
+      "y": -100.0,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

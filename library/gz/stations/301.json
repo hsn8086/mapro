@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "301": {
+      "id": "301",
+      "name": {
+        "zh-CN": "番禺广场",
+        "en-US": "Panyu Square"
+      },
+      "x": 1100.0,
+      "y": 850.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "18",
+        "22"
+      ]
+    }
+  }
+}

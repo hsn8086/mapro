@@ -1,0 +1,74 @@
+{
+  "lines": {
+    "APM": {
+      "id": "APM",
+      "name": {
+        "zh-CN": "APM线",
+        "en-US": "APM Line"
+      },
+      "color": "#00bde2",
+      "type": "tram",
+      "stations": [
+        "APM01",
+        "APM02",
+        "APM03",
+        "APM04",
+        "APM05",
+        "APM06",
+        "APM07",
+        "APM08",
+        "APM09"
+      ],
+      "segments": [
+        {
+          "from": "APM01",
+          "to": "APM02",
+          "distance": 0.5,
+          "duration": 1
+        },
+        {
+          "from": "APM02",
+          "to": "APM03",
+          "distance": 0.4,
+          "duration": 1
+        },
+        {
+          "from": "APM03",
+          "to": "APM04",
+          "distance": 0.4,
+          "duration": 1
+        },
+        {
+          "from": "APM04",
+          "to": "APM05",
+          "distance": 0.5,
+          "duration": 1
+        },
+        {
+          "from": "APM05",
+          "to": "APM06",
+          "distance": 0.4,
+          "duration": 1
+        },
+        {
+          "from": "APM06",
+          "to": "APM07",
+          "distance": 0.6,
+          "duration": 1
+        },
+        {
+          "from": "APM07",
+          "to": "APM08",
+          "distance": 0.5,
+          "duration": 1
+        },
+        {
+          "from": "APM08",
+          "to": "APM09",
+          "distance": 0.6,
+          "duration": 1
+        }
+      ]
+    }
+  }
+}

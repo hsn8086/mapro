@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "319": {
+      "id": "319",
+      "name": {
+        "zh-CN": "燕塘",
+        "en-US": "Yantang"
+      },
+      "x": 900.0,
+      "y": 0.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "6"
+      ]
+    }
+  }
+}

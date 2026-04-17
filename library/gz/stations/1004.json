@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1004": {
+      "id": "1004",
+      "name": {
+        "zh-CN": "大干围",
+        "en-US": "Daganwei"
+      },
+      "x": 525.0,
+      "y": 550.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    }
+  }
+}

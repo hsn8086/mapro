@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2103": {
+      "id": "2103",
+      "name": {
+        "zh-CN": "棠东",
+        "en-US": "Tangdong"
+      },
+      "x": 1175.0,
+      "y": 150.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "lines": {
+    "14B": {
+      "id": "14B",
+      "name": {
+        "zh-CN": "14号线支线",
+        "en-US": "Line 14 Branch"
+      },
+      "color": "#792720",
+      "type": "subway",
+      "stations": [
+        {
+          "id": "1416"
+        },
+        {
+          "id": "1422",
+          "num": "22"
+        },
+        {
+          "id": "1423",
+          "num": "23"
+        },
+        {
+          "id": "1424",
+          "num": "24"
+        },
+        {
+          "id": "1425",
+          "num": "25"
+        },
+        {
+          "id": "1426",
+          "num": "26"
+        },
+        {
+          "id": "1427",
+          "num": "27"
+        },
+        {
+          "id": "1428",
+          "num": "28"
+        },
+        {
+          "id": "1429",
+          "num": "29"
+        },
+        {
+          "id": "1430",
+          "num": "30"
+        }
+      ],
+      "segments": [
+        {
+          "from": "1416",
+          "to": "1422",
+          "distance": 3,
+          "duration": 4
+        },
+        {
+          "from": "1422",
+          "to": "1423",
+          "distance": 2.5,
+          "duration": 3
+        },
+        {
+          "from": "1423",
+          "to": "1424",
+          "distance": 2.8,
+          "duration": 4
+        },
+        {
+          "from": "1424",
+          "to": "1425",
+          "distance": 3.2,
+          "duration": 4
+        },
+        {
+          "from": "1425",
+          "to": "1426",
+          "distance": 2.1,
+          "duration": 3
+        },
+        {
+          "from": "1426",
+          "to": "1427",
+          "distance": 1.9,
+          "duration": 2
+        },
+        {
+          "from": "1427",
+          "to": "1428",
+          "distance": 3.5,
+          "duration": 4
+        },
+        {
+          "from": "1428",
+          "to": "1429",
+          "distance": 2.4,
+          "duration": 3
+        },
+        {
+          "from": "1429",
+          "to": "1430",
+          "distance": 1.8,
+          "duration": 2
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F311": {
+      "id": "F311",
+      "name": {
+        "zh-CN": "伦教",
+        "en-US": "Lunjiao"
+      },
+      "x": 375,
+      "y": 1150,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

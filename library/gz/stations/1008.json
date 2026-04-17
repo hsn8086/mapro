@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1008": {
+      "id": "1008",
+      "name": {
+        "zh-CN": "中大南门",
+        "en-US": "SYU South Gate"
+      },
+      "x": 750.0,
+      "y": 425.0,
+      "isTransfer": false,
+      "lines": [
+        "10"
+      ]
+    }
+  }
+}

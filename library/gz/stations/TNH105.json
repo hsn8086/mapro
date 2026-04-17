@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH105": {
+      "id": "TNH105",
+      "name": {
+        "zh-CN": "康怡公园",
+        "en-US": "Kangyi Park"
+      },
+      "x": 146,
+      "y": 596,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

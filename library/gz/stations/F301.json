@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "F301": {
+      "id": "F301",
+      "name": {
+        "zh-CN": "顺德港",
+        "en-US": "Shunde Port"
+      },
+      "status": "under_construction",
+      "x": 775,
+      "y": 1275,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

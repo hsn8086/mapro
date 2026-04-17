@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "304": {
+      "id": "304",
+      "name": {
+        "zh-CN": "大石",
+        "en-US": "Dashi"
+      },
+      "x": 900.0,
+      "y": 700.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

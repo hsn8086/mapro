@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF10": {
+      "id": "GF10",
+      "name": {
+        "zh-CN": "朝安",
+        "en-US": "Chao'an"
+      },
+      "x": -50,
+      "y": 575.0,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

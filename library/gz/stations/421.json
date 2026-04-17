@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "421": {
+      "id": "421",
+      "name": {
+        "zh-CN": "万胜围",
+        "en-US": "Wanshengwei"
+      },
+      "x": 1225.0,
+      "y": 350.0,
+      "isTransfer": true,
+      "lines": [
+        "4",
+        "8"
+      ]
+    }
+  }
+}

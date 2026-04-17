@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH110": {
+      "id": "TNH110",
+      "name": {
+        "zh-CN": "三山新城北",
+        "en-US": "SanshanXinchengNorth"
+      },
+      "x": 266,
+      "y": 716,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "701-1": {
+      "id": "701-1",
+      "name": {
+        "zh-CN": "大洲",
+        "en-US": "Dazhou"
+      },
+      "x": 600,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

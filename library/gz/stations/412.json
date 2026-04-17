@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "412": {
+      "id": "412",
+      "name": {
+        "zh-CN": "东涌",
+        "en-US": "Dongyong"
+      },
+      "x": 1400.0,
+      "y": 775.0,
+      "isTransfer": false,
+      "lines": [
+        "4"
+      ]
+    }
+  }
+}

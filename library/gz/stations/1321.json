@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1321": {
+      "id": "1321",
+      "name": {
+        "zh-CN": "棠下",
+        "en-US": "Tangxia"
+      },
+      "x": 1175.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

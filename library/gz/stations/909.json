@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "909": {
+      "id": "909",
+      "name": {
+        "zh-CN": "清㘵",
+        "en-US": "Qingbu"
+      },
+      "x": 650.0,
+      "y": -575.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    }
+  }
+}

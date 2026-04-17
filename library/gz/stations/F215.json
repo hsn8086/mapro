@@ -1,0 +1,19 @@
+{
+  "stations": {
+    "F215": {
+      "id": "F215",
+      "name": {
+        "zh-CN": "张槎",
+        "en-US": "Zhangcha"
+      },
+      "x": -275.0,
+      "y": 850,
+      "isTransfer": true,
+      "lines": [
+        "佛山2",
+        "佛山4",
+        "广肇城际"
+      ]
+    }
+  }
+}

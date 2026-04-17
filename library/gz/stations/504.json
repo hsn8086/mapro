@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "504": {
+      "id": "504",
+      "name": {
+        "zh-CN": "西场",
+        "en-US": "Xichang"
+      },
+      "x": 425,
+      "y": 50.0,
+      "isTransfer": true,
+      "lines": [
+        "5",
+        "13"
+      ]
+    }
+  }
+}

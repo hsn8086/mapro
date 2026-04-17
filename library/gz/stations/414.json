@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "414": {
+      "id": "414",
+      "name": {
+        "zh-CN": "海傍",
+        "en-US": "Haibang"
+      },
+      "x": 1350.0,
+      "y": 725.0,
+      "isTransfer": true,
+      "lines": [
+        "3",
+        "4"
+      ]
+    }
+  }
+}

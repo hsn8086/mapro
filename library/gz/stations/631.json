@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "631": {
+      "id": "631",
+      "name": {
+        "zh-CN": "萝岗",
+        "en-US": "Luogang"
+      },
+      "x": 1500.0,
+      "y": -50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "7"
+      ]
+    }
+  }
+}

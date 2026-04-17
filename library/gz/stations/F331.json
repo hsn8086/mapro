@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F331": {
+      "id": "F331",
+      "name": {
+        "zh-CN": "孝德东",
+        "en-US": "Xiaode Dong"
+      },
+      "x": -325.0,
+      "y": 525.0,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

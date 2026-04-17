@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "808": {
+      "id": "808",
+      "name": {
+        "zh-CN": "上步",
+        "en-US": "Shangbu"
+      },
+      "x": 425.0,
+      "y": -25.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

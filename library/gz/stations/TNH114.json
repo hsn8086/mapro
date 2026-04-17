@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "TNH114": {
+      "id": "TNH114",
+      "name": {
+        "zh-CN": "林岳西",
+        "en-US": "Linyuexi"
+      },
+      "x": 375,
+      "y": 825,
+      "isTransfer": false,
+      "lines": [
+        "TNH1"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1123": {
+      "id": "1123",
+      "name": {
+        "zh-CN": "鹤洞东",
+        "en-US": "Hedong East"
+      },
+      "x": 475.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "11",
+        "佛山11"
+      ]
+    }
+  }
+}

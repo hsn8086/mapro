@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1330": {
+      "id": "1330",
+      "name": {
+        "zh-CN": "沙村",
+        "en-US": "Shacun"
+      },
+      "x": 1775.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

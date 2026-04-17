@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM09": {
+      "id": "APM09",
+      "name": {
+        "zh-CN": "体育西路",
+        "en-US": "Tiyu Xilu"
+      },
+      "x": 925.0,
+      "y": 120.0,
+      "isTransfer": true,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

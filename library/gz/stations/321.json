@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "321": {
+      "id": "321",
+      "name": {
+        "zh-CN": "京溪南方医院",
+        "en-US": "Jingxi Nanfang Hospital"
+      },
+      "x": 875.0,
+      "y": -100.0,
+      "isTransfer": false,
+      "lines": [
+        "3"
+      ]
+    }
+  }
+}

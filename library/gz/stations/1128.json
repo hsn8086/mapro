@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1128": {
+      "id": "1128",
+      "name": {
+        "zh-CN": "逸景路",
+        "en-US": "Yijing Lu"
+      },
+      "x": 800.0,
+      "y": 475.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

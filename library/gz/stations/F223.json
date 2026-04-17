@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F223": {
+      "id": "F223",
+      "name": {
+        "zh-CN": "仙涌",
+        "en-US": "Xianyong"
+      },
+      "x": 225.0,
+      "y": 850,
+      "isTransfer": false,
+      "lines": [
+        "佛山2"
+      ]
+    }
+  }
+}

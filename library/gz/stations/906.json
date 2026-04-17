@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "906": {
+      "id": "906",
+      "name": {
+        "zh-CN": "花都广场",
+        "en-US": "Huadu Square"
+      },
+      "x": 500.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    }
+  }
+}

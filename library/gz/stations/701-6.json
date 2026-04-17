@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "701-6": {
+      "id": "701-6",
+      "name": {
+        "zh-CN": "美的",
+        "en-US": "Midea"
+      },
+      "x": 350,
+      "y": 1100,
+      "isTransfer": false,
+      "lines": [
+        "7"
+      ]
+    }
+  }
+}

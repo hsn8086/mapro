@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "219": {
+      "id": "219",
+      "name": {
+        "zh-CN": "白云公园",
+        "en-US": "Baiyun Park"
+      },
+      "x": 600.0,
+      "y": -75.0,
+      "isTransfer": false,
+      "lines": [
+        "2"
+      ]
+    }
+  }
+}

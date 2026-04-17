@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "908": {
+      "id": "908",
+      "name": {
+        "zh-CN": "莲塘",
+        "en-US": "Liantang"
+      },
+      "x": 600.0,
+      "y": -600.0,
+      "isTransfer": false,
+      "lines": [
+        "9"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "528": {
+      "id": "528",
+      "name": {
+        "zh-CN": "保盈大道",
+        "en-US": "Baoying Dadao"
+      },
+      "x": 1700.0,
+      "y": 275.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

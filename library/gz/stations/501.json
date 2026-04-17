@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "501": {
+      "id": "501",
+      "name": {
+        "zh-CN": "滘口",
+        "en-US": "Jiaokou"
+      },
+      "x": 200,
+      "y": 200,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

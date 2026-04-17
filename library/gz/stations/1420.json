@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1420": {
+      "id": "1420",
+      "name": {
+        "zh-CN": "从化客运站",
+        "en-US": "Conghua Coach Terminal"
+      },
+      "x": 1250.0,
+      "y": -675.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}

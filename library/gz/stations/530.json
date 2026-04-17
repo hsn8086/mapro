@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "530": {
+      "id": "530",
+      "name": {
+        "zh-CN": "黄埔新港",
+        "en-US": "Huangpu New Port"
+      },
+      "x": 1800.0,
+      "y": 375.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

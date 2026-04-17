@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "522": {
+      "id": "522",
+      "name": {
+        "zh-CN": "大沙地",
+        "en-US": "Dashadi"
+      },
+      "x": 1450.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "5"
+      ]
+    }
+  }
+}

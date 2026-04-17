@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F314": {
+      "id": "F314",
+      "name": {
+        "zh-CN": "高村",
+        "en-US": "Gaocun"
+      },
+      "x": 262.5,
+      "y": 1037.5,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

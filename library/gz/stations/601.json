@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "601": {
+      "id": "601",
+      "name": {
+        "zh-CN": "浔峰岗",
+        "en-US": "Xunfenggang"
+      },
+      "x": 250,
+      "y": -50.0,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "12"
+      ]
+    }
+  }
+}

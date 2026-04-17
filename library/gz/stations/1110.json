@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1110": {
+      "id": "1110",
+      "name": {
+        "zh-CN": "云台花园",
+        "en-US": "Yuntai Garden"
+      },
+      "x": 800.0,
+      "y": 50.0,
+      "isTransfer": false,
+      "lines": [
+        "11"
+      ]
+    }
+  }
+}

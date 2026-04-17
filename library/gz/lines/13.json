@@ -1,0 +1,186 @@
+{
+  "lines": {
+    "13": {
+      "id": "13",
+      "name": {
+        "zh-CN": "13号线",
+        "en-US": "Line 13"
+      },
+      "color": "#888600",
+      "type": "subway",
+      "stations": [
+        {
+          "id": "1203",
+          "num": "4",
+          "status": "planned"
+        },
+        {
+          "id": "504",
+          "num": "8",
+          "status": "planned"
+        },
+        {
+          "id": "811",
+          "num": "9",
+          "status": "planned"
+        },
+        {
+          "id": "214",
+          "num": "10",
+          "status": "planned"
+        },
+        {
+          "id": "1808",
+          "num": "16",
+          "status": "planned"
+        },
+        {
+          "id": "1104",
+          "num": "20"
+        },
+        {
+          "id": "1321",
+          "num": "21"
+        },
+        {
+          "id": "423",
+          "num": "22"
+        },
+        {
+          "id": "1323",
+          "num": "23"
+        },
+        {
+          "id": "521",
+          "num": "24"
+        },
+        {
+          "id": "713",
+          "num": "25"
+        },
+        {
+          "id": "1326",
+          "num": "26"
+        },
+        {
+          "id": "1327",
+          "num": "27"
+        },
+        {
+          "id": "527",
+          "num": "28"
+        },
+        {
+          "id": "1329",
+          "num": "29"
+        },
+        {
+          "id": "1330",
+          "num": "30"
+        },
+        {
+          "id": "1331",
+          "num": "31"
+        },
+        {
+          "id": "1332",
+          "num": "32"
+        },
+        {
+          "id": "1333",
+          "num": "33"
+        },
+        {
+          "id": "1334",
+          "num": "34"
+        }
+      ],
+      "segments": [
+        {
+          "from": "1104",
+          "to": "1321",
+          "distance": 1.5,
+          "duration": 2
+        },
+        {
+          "from": "1321",
+          "to": "423",
+          "distance": 1.8,
+          "duration": 3
+        },
+        {
+          "from": "423",
+          "to": "1323",
+          "distance": 2.1,
+          "duration": 3
+        },
+        {
+          "from": "1323",
+          "to": "521",
+          "distance": 2.4,
+          "duration": 3
+        },
+        {
+          "from": "521",
+          "to": "713",
+          "distance": 1.2,
+          "duration": 2
+        },
+        {
+          "from": "713",
+          "to": "1326",
+          "distance": 2.2,
+          "duration": 3
+        },
+        {
+          "from": "1326",
+          "to": "1327",
+          "distance": 1.6,
+          "duration": 2
+        },
+        {
+          "from": "1327",
+          "to": "527",
+          "distance": 2,
+          "duration": 3
+        },
+        {
+          "from": "527",
+          "to": "1329",
+          "distance": 2.5,
+          "duration": 4
+        },
+        {
+          "from": "1329",
+          "to": "1330",
+          "distance": 2.8,
+          "duration": 4
+        },
+        {
+          "from": "1330",
+          "to": "1331",
+          "distance": 1.9,
+          "duration": 3
+        },
+        {
+          "from": "1331",
+          "to": "1332",
+          "distance": 2.1,
+          "duration": 3
+        },
+        {
+          "from": "1332",
+          "to": "1333",
+          "distance": 1.5,
+          "duration": 2
+        },
+        {
+          "from": "1333",
+          "to": "1334",
+          "distance": 1.4,
+          "duration": 2
+        }
+      ]
+    }
+  }
+}

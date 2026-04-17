@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "APM07": {
+      "id": "APM07",
+      "name": {
+        "zh-CN": "天河南",
+        "en-US": "Tianhenan"
+      },
+      "x": 925.0,
+      "y": 160.0,
+      "isTransfer": false,
+      "lines": [
+        "APM"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "815": {
+      "id": "815",
+      "name": {
+        "zh-CN": "同福西",
+        "en-US": "Tongfuxi"
+      },
+      "x": 475.0,
+      "y": 325.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

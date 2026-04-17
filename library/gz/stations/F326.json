@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F326": {
+      "id": "F326",
+      "name": {
+        "zh-CN": "叠滘",
+        "en-US": "Diejiao"
+      },
+      "x": -75.0,
+      "y": 525,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

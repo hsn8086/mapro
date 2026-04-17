@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1323": {
+      "id": "1323",
+      "name": {
+        "zh-CN": "天河珠村",
+        "en-US": "Tianhe Zhucun"
+      },
+      "x": 1300.0,
+      "y": 200.0,
+      "isTransfer": false,
+      "lines": [
+        "13"
+      ]
+    }
+  }
+}

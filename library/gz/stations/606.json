@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "606": {
+      "id": "606",
+      "name": {
+        "zh-CN": "如意坊",
+        "en-US": "Ruyifang"
+      },
+      "x": 300.0,
+      "y": 200,
+      "isTransfer": true,
+      "lines": [
+        "6",
+        "11"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "2107": {
+      "id": "2107",
+      "name": {
+        "zh-CN": "神舟路",
+        "en-US": "Shenzhou Lu"
+      },
+      "x": 1375.0,
+      "y": 25.0,
+      "isTransfer": false,
+      "lines": [
+        "21"
+      ]
+    }
+  }
+}

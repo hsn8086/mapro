@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "1218": {
+      "id": "1218",
+      "name": {
+        "zh-CN": "赤岗塔",
+        "en-US": "Chigang Pagoda"
+      },
+      "x": 850.0,
+      "y": 350.0,
+      "isTransfer": true,
+      "lines": [
+        "12",
+        "28"
+      ]
+    }
+  }
+}

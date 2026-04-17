@@ -1,0 +1,18 @@
+{
+  "stations": {
+    "710": {
+      "id": "710",
+      "name": {
+        "zh-CN": "深井",
+        "en-US": "Shenjing"
+      },
+      "x": 1350.0,
+      "y": 475.0,
+      "isTransfer": true,
+      "lines": [
+        "7",
+        "琶莲城际"
+      ]
+    }
+  }
+}

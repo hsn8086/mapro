@@ -1,0 +1,110 @@
+{
+  "lines": {
+    "22": {
+      "id": "22",
+      "name": {
+        "zh-CN": "22号线",
+        "en-US": "Line 22"
+      },
+      "color": "#d14d23",
+      "type": "subway",
+      "info": {
+        "maxSpeed": 160
+      },
+      "stations": [
+        {
+          "id": "104",
+          "num": "8"
+        },
+        {
+          "id": "101",
+          "num": "7"
+        },
+        {
+          "id": "2206",
+          "num": "6"
+        },
+        {
+          "id": "2205",
+          "num": "5"
+        },
+        {
+          "id": "2204",
+          "num": "4"
+        },
+        {
+          "id": "201",
+          "num": "3"
+        },
+        {
+          "id": "2202",
+          "num": "2"
+        },
+        {
+          "id": "301",
+          "num": "1"
+        }
+      ],
+      "segments": [
+        {
+          "from": "330",
+          "to": "329",
+          "distance": 1,
+          "duration": 1
+        },
+        {
+          "from": "329",
+          "to": "327",
+          "distance": 2.1,
+          "duration": 2
+        },
+        {
+          "from": "327",
+          "to": "1205",
+          "distance": 15.2,
+          "duration": 10
+        },
+        {
+          "from": "1205",
+          "to": "811",
+          "distance": 3.4,
+          "duration": 3
+        },
+        {
+          "from": "811",
+          "to": "216",
+          "distance": 2.1,
+          "duration": 2
+        },
+        {
+          "from": "216",
+          "to": "201",
+          "distance": 18.5,
+          "duration": 12
+        },
+        {
+          "from": "201",
+          "to": "2203",
+          "distance": 2.3,
+          "duration": 2
+        },
+        {
+          "from": "2203",
+          "to": "2205",
+          "distance": 4.1,
+          "duration": 3
+        },
+        {
+          "from": "2205",
+          "to": "301",
+          "distance": 3.2,
+          "duration": 2
+        }
+      ],
+      "operatingTime": {
+        "start": "",
+        "end": ""
+      }
+    }
+  }
+}

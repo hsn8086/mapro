@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "826": {
+      "id": "826",
+      "name": {
+        "zh-CN": "新港东",
+        "en-US": "Xingangdong"
+      },
+      "x": 1075.0,
+      "y": 350.0,
+      "isTransfer": false,
+      "lines": [
+        "8"
+      ]
+    }
+  }
+}

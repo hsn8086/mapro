@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "F318": {
+      "id": "F318",
+      "name": {
+        "zh-CN": "大墩",
+        "en-US": "Dadun"
+      },
+      "x": 25,
+      "y": 975,
+      "isTransfer": false,
+      "lines": [
+        "佛山3"
+      ]
+    }
+  }
+}

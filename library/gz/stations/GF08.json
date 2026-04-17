@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "GF08": {
+      "id": "GF08",
+      "name": {
+        "zh-CN": "祖庙",
+        "en-US": "Zumiao"
+      },
+      "x": -125,
+      "y": 625,
+      "isTransfer": false,
+      "lines": [
+        "GF"
+      ]
+    }
+  }
+}

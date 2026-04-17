@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1429": {
+      "id": "1429",
+      "name": {
+        "zh-CN": "镇龙北",
+        "en-US": "Zhenlongbei"
+      },
+      "x": 1525.0,
+      "y": -275.0,
+      "isTransfer": false,
+      "lines": [
+        "14-支"
+      ]
+    }
+  }
+}

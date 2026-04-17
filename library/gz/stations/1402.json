@@ -1,0 +1,17 @@
+{
+  "stations": {
+    "1402": {
+      "id": "1402",
+      "name": {
+        "zh-CN": "乐嘉路",
+        "en-US": "Lejia Lu"
+      },
+      "x": 550.0,
+      "y": 0.0,
+      "isTransfer": false,
+      "lines": [
+        "14"
+      ]
+    }
+  }
+}
