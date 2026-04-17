@@ -99,7 +99,6 @@ gz_map/
 - `lines/*.json` 中放 `lines`
 - `connections/*.json` 中放 `connections`
 - CLI 会在加载时自动合并这些模块
-- 仓库内提供了一个最小示例：`examples/gz_minimal/`
 - 仓库内也提供了从 `gz.json` 拆出的完整目录包：`library/gz/`
 
 ## 开发
