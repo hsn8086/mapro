@@ -8,10 +8,9 @@
       },
       "x": 850.0,
       "y": 350.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "12",
-        "28"
+        "12"
       ]
     }
   }

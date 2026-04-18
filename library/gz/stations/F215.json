@@ -8,11 +8,9 @@
       },
       "x": -275.0,
       "y": 850,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "佛山2",
-        "佛山4",
-        "广肇城际"
+        "F2"
       ]
     }
   }

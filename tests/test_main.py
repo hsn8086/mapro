@@ -4,6 +4,7 @@ import io
 import json
 import tempfile
 import unittest
+from collections import defaultdict
 from collections.abc import Sequence
 from contextlib import redirect_stdout
 from pathlib import Path
@@ -638,6 +639,36 @@ class MapPackageTests(unittest.TestCase):
         tnh1_train = data["trains"]["tnh1-tram-3"]
         self.assertEqual(tnh1_train["model"], "三模块有轨电车")
         self.assertIn("暂用描述性车型名", tnh1_train["notes"]["zh-CN"])
+
+    def test_repository_gz_station_lines_and_transfer_flags_match_drawn_lines(
+        self,
+    ) -> None:
+        data = main.load_map_data(Path("library/gz"))
+
+        station_to_lines: dict[str, list[str]] = defaultdict(list)
+        for line_id, line in data["lines"].items():
+            for item in line.get("stations", []):
+                status = "active"
+                if isinstance(item, str):
+                    station_id = item
+                else:
+                    station_id = item["id"]
+                    status = item.get("status", "active")
+
+                if status in {"pass", "deferred"}:
+                    continue
+
+                station_to_lines[station_id].append(line_id)
+
+        for station_id, station in data["stations"].items():
+            with self.subTest(station_id=station_id):
+                expected_lines = list(
+                    dict.fromkeys(station_to_lines.get(station_id, []))
+                )
+                self.assertEqual(station.get("lines", []), expected_lines)
+                self.assertEqual(
+                    station.get("isTransfer", False), len(expected_lines) >= 2
+                )
 
 
 if __name__ == "__main__":

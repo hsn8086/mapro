@@ -8,10 +8,9 @@
       },
       "x": 1760.0,
       "y": 1075.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "18",
-        "南珠中城际"
+        "18"
       ],
       "facilities": [
         {

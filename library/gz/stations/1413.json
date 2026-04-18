@@ -8,10 +8,9 @@
       },
       "x": 950.0,
       "y": -375.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "14",
-        "广州东环城际"
+        "14"
       ],
       "facilities": [
         {

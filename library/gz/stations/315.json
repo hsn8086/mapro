@@ -8,9 +8,10 @@
       },
       "x": 1025.0,
       "y": -25.0,
-      "isTransfer": false,
+      "isTransfer": true,
       "lines": [
-        "3"
+        "10",
+        "3B"
       ],
       "facilities": [
         {

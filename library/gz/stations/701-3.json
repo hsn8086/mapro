@@ -8,10 +8,9 @@
       },
       "x": 500,
       "y": 950,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "7",
-        "广肇城际"
+        "7"
       ],
       "facilities": [
         {

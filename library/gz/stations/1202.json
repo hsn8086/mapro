@@ -8,10 +8,9 @@
       },
       "x": 300,
       "y": -100,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "12",
-        "南海有轨里水段"
+        "12"
       ],
       "facilities": [
         {

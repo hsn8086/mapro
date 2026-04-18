@@ -8,10 +8,9 @@
       },
       "x": 550.0,
       "y": -600.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "9",
-        "18"
+        "9"
       ],
       "facilities": [
         {

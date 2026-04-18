@@ -8,10 +8,9 @@
       },
       "x": 1350.0,
       "y": 475.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "7",
-        "琶莲城际"
+        "7"
       ],
       "facilities": [
         {

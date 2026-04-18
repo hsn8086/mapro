@@ -8,10 +8,9 @@
       },
       "x": 1200.0,
       "y": -525.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "14-支",
-        "穗深城际"
+        "14B"
       ],
       "facilities": [
         {

@@ -10,9 +10,9 @@
       "y": 275.0,
       "isTransfer": true,
       "lines": [
-        "6",
         "10",
-        "12"
+        "12",
+        "6"
       ],
       "facilities": [
         {

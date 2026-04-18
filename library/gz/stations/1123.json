@@ -8,10 +8,9 @@
       },
       "x": 475.0,
       "y": 475.0,
-      "isTransfer": true,
+      "isTransfer": false,
       "lines": [
-        "11",
-        "佛山11"
+        "11"
       ],
       "facilities": [
         {
