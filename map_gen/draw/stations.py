@@ -5,6 +5,7 @@ from PIL import Image
 
 from ..fonts import get_font
 from ..label_layout import place_label_block
+from ..station_badges import collect_facility_tags, draw_badges, measure_badges
 
 _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 _TOILET_INSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_inside.png")
@@ -90,18 +91,7 @@ def draw_stations(
             width=int(float(stroke)),
         )
 
-        facility_tags: list[str] = []
-        for facility in s.get("facilities", []):
-            if isinstance(facility, dict) and facility.get("type") == "toilet":
-                desc = facility.get("description", {})
-                location = None
-                if isinstance(desc, dict):
-                    location = desc.get("location")
-                if location == "outside":
-                    facility_tags.append("toilet_outside")
-                else:
-                    facility_tags.append("toilet_inside")
-                break
+        facility_tags = collect_facility_tags(s)
 
         name_cn = s.get("name", {}).get("zh-CN", s_id)
         name_en = s.get("name", {}).get("en-US", "").upper()
@@ -142,44 +132,16 @@ def draw_stations(
         w_cn = float(bbox_cn[2] - bbox_cn[0])
         h_cn = float(bbox_cn[3] - bbox_cn[1])
 
-        w_markers = 0.0
-        h_markers = 0.0
         line_markers = station_markers.get(s_id, [])
-        if line_markers or facility_tags:
-            font_marker_dummy = get_font(
-                font_paths, int(6 * scale_factor), weight="Bold"
-            )
-            box_h_dummy = 9 * scale_factor
-            h_markers = float(box_h_dummy)
-            w_m_total = float(4 * scale_factor)
-
-            for m_item in line_markers:
-                lid_text = str(m_item["line_id"])
-                bbox_l = draw.textbbox((0, 0), lid_text, font=font_marker_dummy)
-                w_l = float(bbox_l[2] - bbox_l[0])
-                w_box = float(max(w_l + 3 * scale_factor, 10 * scale_factor))
-                w_m_total += w_box
-
-                for txt in m_item["texts"]:
-                    bbox_t = draw.textbbox((0, 0), txt, font=font_marker_dummy)
-                    w_t = float(bbox_t[2] - bbox_t[0])
-                    w_m_total += float(2 * scale_factor) + w_t + float(3 * scale_factor)
-
-                w_m_total += float(2 * scale_factor)
-
-            if line_markers and facility_tags:
-                w_m_total += float(2 * scale_factor)
-
-            facility_font = get_font(font_paths, int(6 * scale_factor), weight="Bold")
-            facility_label = "WC"
-            facility_bbox = draw.textbbox((0, 0), facility_label, font=facility_font)
-            facility_label_w = float(facility_bbox[2] - facility_bbox[0])
-
-            for _tag in facility_tags:
-                box_w_tag = float(facility_label_w + 2 * scale_factor)
-                w_m_total += box_w_tag + float(2 * scale_factor)
-
-            w_markers = float(w_m_total)
+        badge_metrics = measure_badges(
+            draw,
+            line_markers,
+            facility_tags,
+            font_paths,
+            scale_factor,
+        )
+        w_markers = badge_metrics.width
+        h_markers = badge_metrics.height
 
         if name_en:
             bbox_en = draw.textbbox((0, 0), name_en, font=current_font_en)
@@ -220,101 +182,19 @@ def draw_stations(
             )
 
         if line_markers or facility_tags:
-            markers_list = line_markers
             marker_start_x = bx + w_cn + float(4 * scale_factor)
             box_h = float(9 * scale_factor)
-            font_marker_id = get_font(font_paths, int(6 * scale_factor), weight="Bold")
-            font_marker_num = get_font(font_paths, int(6 * scale_factor), weight="Bold")
             inactive_color = str(styles["COLOR_INACTIVE"])
 
             cn_visual_center_y = by + float(bbox_cn[1] + bbox_cn[3]) / 2
             marker_y = cn_visual_center_y - box_h / 2
-
-            current_marker_x = marker_start_x
-
-            for m_item in markers_list:
-                marker_is_active = bool(m_item.get("active", True))
-                m_color = m_item["color"] if marker_is_active else inactive_color
-                m_texts = m_item["texts"]
-
-                lid_text = str(m_item["line_id"])
-                bbox_lid = draw.textbbox((0, 0), lid_text, font=font_marker_id)
-                w_lid = float(bbox_lid[2] - bbox_lid[0])
-                box_w_lid = float(max(w_lid + 3 * scale_factor, 10 * scale_factor))
-
-                draw.rectangle(
-                    [
-                        current_marker_x,
-                        marker_y,
-                        current_marker_x + box_w_lid,
-                        marker_y + box_h,
-                    ],
-                    fill=m_color,
-                )
-
-                box_center_y = marker_y + box_h / 2
-                lid_ty = box_center_y - float(bbox_lid[1] + bbox_lid[3]) / 2
-                lid_tx_visual = (
-                    current_marker_x
-                    + box_w_lid / 2
-                    - float(bbox_lid[0] + bbox_lid[2]) / 2
-                )
-
-                draw.text(
-                    (lid_tx_visual, lid_ty),
-                    lid_text,
-                    fill="white",
-                    font=font_marker_id,
-                )
-
-                current_marker_x += box_w_lid
-
-                for txt in m_texts:
-                    bbox_txt = draw.textbbox((0, 0), txt, font=font_marker_num)
-                    w_txt = float(bbox_txt[2] - bbox_txt[0])
-
-                    current_marker_x += float(2 * scale_factor)
-                    txt_ty = box_center_y - float(bbox_txt[1] + bbox_txt[3]) / 2
-
-                    draw.text(
-                        (current_marker_x, txt_ty),
-                        txt,
-                        fill=m_color,
-                        font=font_marker_num,
-                    )
-
-                    current_marker_x += w_txt + float(3 * scale_factor)
-
-                current_marker_x += float(2 * scale_factor)
-
-            if facility_tags:
-                if markers_list:
-                    current_marker_x += float(2 * scale_factor)
-
-                facility_font = get_font(
-                    font_paths, int(6 * scale_factor), weight="Bold"
-                )
-                facility_label = "WC"
-                facility_bbox = draw.textbbox(
-                    (0, 0), facility_label, font=facility_font
-                )
-                facility_label_w = float(facility_bbox[2] - facility_bbox[0])
-                facility_box_w = float(facility_label_w + 2 * scale_factor)
-                for tag in facility_tags:
-                    is_outside = tag == "toilet_outside"
-                    facility_color = "#2563eb" if is_outside else "#f59e0b"
-
-                    facility_text_y = (
-                        marker_y
-                        + box_h / 2
-                        - float(facility_bbox[1] + facility_bbox[3]) / 2
-                    )
-                    facility_text_x = current_marker_x + float(scale_factor)
-                    draw.text(
-                        (facility_text_x, facility_text_y),
-                        facility_label,
-                        fill=facility_color,
-                        font=facility_font,
-                    )
-
-                    current_marker_x += facility_box_w + float(2 * scale_factor)
+            draw_badges(
+                draw,
+                marker_start_x,
+                marker_y,
+                line_markers,
+                facility_tags,
+                font_paths,
+                scale_factor,
+                inactive_color,
+            )
