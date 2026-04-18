@@ -4,107 +4,13 @@ import os
 from PIL import Image
 
 from ..fonts import get_font
+from ..label_layout import place_label_block
 
 _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 _TOILET_INSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_inside.png")
 _TOILET_OUTSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_outside.png")
 TOILET_ICON_INSIDE: Image.Image | None = None
 TOILET_ICON_OUTSIDE: Image.Image | None = None
-
-
-def is_line_intersecting_rect(
-    p1: tuple[int, int],
-    p2: tuple[int, int],
-    rect: tuple[float, float, float, float],
-    padding: float = 0,
-) -> bool:
-    x1, y1 = p1
-    x2, y2 = p2
-    min_x, min_y, max_x, max_y = rect
-
-    min_x -= padding
-    min_y -= padding
-    max_x += padding
-    max_y += padding
-
-    inside = 0
-    left = 1
-    right = 2
-    bottom = 4
-    top = 8
-
-    def compute_out_code(x: float, y: float) -> int:
-        code = inside
-        if x < min_x:
-            code |= left
-        elif x > max_x:
-            code |= right
-        if y < min_y:
-            code |= top
-        elif y > max_y:
-            code |= bottom
-        return code
-
-    code1 = compute_out_code(x1, y1)
-    code2 = compute_out_code(x2, y2)
-
-    while True:
-        if not (code1 | code2):
-            return True
-        if code1 & code2:
-            return False
-
-        code_out = code1 if code1 else code2
-        x = 0.0
-        y = 0.0
-
-        if code_out & top:
-            x = x1 + (x2 - x1) * (min_y - y1) / (y2 - y1) if (y2 != y1) else x1
-            y = min_y
-        elif code_out & bottom:
-            x = x1 + (x2 - x1) * (max_y - y1) / (y2 - y1) if (y2 != y1) else x1
-            y = max_y
-        elif code_out & right:
-            y = y1 + (y2 - y1) * (max_x - x1) / (x2 - x1) if (x2 != x1) else y1
-            x = max_x
-        elif code_out & left:
-            y = y1 + (y2 - y1) * (min_x - x1) / (x2 - x1) if (x2 != x1) else y1
-            x = min_x
-
-        if code_out == code1:
-            x1, y1 = x, y
-            code1 = compute_out_code(x1, y1)
-        else:
-            x2, y2 = x, y
-            code2 = compute_out_code(x2, y2)
-
-
-def is_box_colliding_with_lines(
-    text_box: tuple[float, float, float, float],
-    segments: list[tuple[tuple[int, int], tuple[int, int]]],
-    threshold: float = 5,
-) -> bool:
-    for s1, s2 in segments:
-        if is_line_intersecting_rect(s1, s2, text_box, padding=threshold):
-            return True
-    return False
-
-
-def is_box_overlapping_other_labels(
-    text_box: tuple[float, float, float, float],
-    existing_boxes: list[tuple[float, float, float, float]],
-    padding: float = 2,
-) -> bool:
-    t0x, t0y, t1x, t1y = text_box
-    t0x -= padding
-    t0y -= padding
-    t1x += padding
-    t1y += padding
-
-    for e0x, e0y, e1x, e1y in existing_boxes:
-        if not (t1x < e0x or t0x > e1x or t1y < e0y or t0y > e1y):
-            return True
-    return False
 
 
 def draw_stations(
@@ -289,69 +195,19 @@ def draw_stations(
         block_w = float(max(row1_w, w_en))
         block_h = float(max(h_cn, h_markers) + gap + h_en)
 
-        best_pos = None
-        search_layers = [1.0, 1.3, 1.6]
-        base_directions = [
-            (1, 0),
-            (1, 1),
-            (1, -1),
-            (0, -1),
-            (0, 1),
-            (-1, -1),
-            (-1, 0),
-            (-1, 1),
-        ]
-
-        found_safe_spot = False
         label_offset_base = float(styles["LABEL_OFFSET_BASE"])
-
-        for layer_scale in search_layers:
-            current_base = label_offset_base * layer_scale
-
-            for dx, dy in base_directions:
-                if dx != 0 and dy != 0:
-                    ox = dx * current_base * 0.707 + (dx * block_w / 2 if dx < 0 else 0)
-                    oy = dy * current_base * 0.707
-                else:
-                    ox = dx * current_base
-                    oy = dy * current_base
-
-                target_cx = pos[0] + dx * (current_base + block_w / 2)
-                target_cy = pos[1] + dy * (current_base + block_h / 2)
-
-                tx = target_cx - block_w / 2
-                ty = target_cy - block_h / 2
-
-                t_box = (tx, ty, tx + block_w, ty + block_h)
-
-                if is_box_colliding_with_lines(
-                    t_box,
-                    line_segments_for_collision,
-                    threshold=float(5 * scale_factor),
-                ):
-                    continue
-
-                if is_box_overlapping_other_labels(
-                    t_box, label_boxes, padding=float(1 * scale_factor)
-                ):
-                    continue
-
-                best_pos = (tx, ty)
-                label_boxes.append(t_box)
-                found_safe_spot = True
-                break
-
-            if found_safe_spot:
-                break
-
-        if best_pos is None:
-            fallback_dist = label_offset_base * 1.5
-            tx = pos[0] + fallback_dist
-            ty = pos[1] - fallback_dist
-            best_pos = (tx, ty)
-            label_boxes.append((tx, ty, tx + block_w, ty + block_h))
-
-        bx, by = best_pos
+        placement = place_label_block(
+            pos,
+            block_w,
+            block_h,
+            line_segments_for_collision,
+            label_boxes,
+            label_offset_base,
+            scale_factor,
+        )
+        label_boxes.append(placement.box)
+        bx = placement.x
+        by = placement.y
 
         draw.text((bx, by), name_cn, fill=text_color_main, font=current_font_cn)
 
