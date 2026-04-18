@@ -38,23 +38,15 @@
         "latestExtensionDate": "2024-08-23",
         "notes": {
           "zh-CN": "当前为南北两段分离运营；维基百科另有完整规划口径，但此处采用现运营口径。"
+        },
+        "operationFeatures": {
+          "ato": true
         }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B",
-            "trainType": "Type B",
-            "carCount": 6,
-            "maxServiceSpeedKmh": 100
-          }
-        ],
-        "formation": {
-          "cars": 6
-        },
-        "serviceFeatures": {
-          "ato": true
-        }
+        "rollingStockRefs": [
+          "fs-sfm105"
+        ]
       },
       "stations": [
         {

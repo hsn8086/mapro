@@ -1,0 +1,10 @@
+{
+  "trains": {
+    "gz-b2": {
+      "model": "B2",
+      "trainType": "Type B",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 120
+    }
+  }
+}

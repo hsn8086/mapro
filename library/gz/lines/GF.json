@@ -38,35 +38,17 @@
         "signalling": "Siemens Trainguard MT",
         "maxOperatingSpeedKmh": 80,
         "openingDate": "2010-11-03",
-        "latestExtensionDate": "2018-12-28"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "DKZ29",
-            "manufacturer": {
-              "zh-CN": "北车长客"
-            },
-            "trainType": "Type B",
-            "carCount": 4,
-            "maxServiceSpeedKmh": 80
-          },
-          {
-            "model": "SFM27 / SFM77",
-            "manufacturer": {
-              "zh-CN": "中车四方"
-            },
-            "trainType": "Type B",
-            "carCount": 4,
-            "maxServiceSpeedKmh": 80
-          }
-        ],
-        "formation": {
-          "cars": 4
-        },
-        "serviceFeatures": {
+        "latestExtensionDate": "2018-12-28",
+        "operationFeatures": {
           "ato": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gf-b3",
+          "gf-b3i",
+          "gf-sfm77"
+        ]
       },
       "stations": [
         {

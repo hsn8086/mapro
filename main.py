@@ -181,6 +181,12 @@ def merge_map_fragment(
             raise ValueError("lines must be a JSON object")
         merge_mapping_section(merged["lines"], lines, "line")
 
+    trains = fragment.get("trains")
+    if trains is not None:
+        if not isinstance(trains, dict):
+            raise ValueError("trains must be a JSON object")
+        merge_mapping_section(merged["trains"], trains, "train")
+
     connections = fragment.get("connections")
     if connections is not None:
         if not isinstance(connections, list):
@@ -192,11 +198,48 @@ def build_merged_map(fragments: list[tuple[dict[str, Any], bool]]) -> dict[str, 
     merged: dict[str, Any] = {
         "stations": {},
         "lines": {},
+        "trains": {},
         "connections": [],
     }
     for fragment, is_root in fragments:
         merge_map_fragment(merged, fragment, is_root=is_root)
+    validate_train_references(merged)
     return merged
+
+
+def validate_train_references(merged: dict[str, Any]) -> None:
+    trains = merged.get("trains")
+    lines = merged.get("lines")
+    if not isinstance(trains, dict) or not isinstance(lines, dict):
+        return
+
+    for line in lines.values():
+        if not isinstance(line, dict):
+            continue
+
+        train_info = line.get("trainInfo")
+        if not isinstance(train_info, dict):
+            continue
+
+        invalid_keys = set(train_info) - {"rollingStockRefs"}
+        if invalid_keys:
+            invalid_list = ", ".join(sorted(invalid_keys))
+            raise ValueError(
+                f"trainInfo only supports rollingStockRefs; found: {invalid_list}"
+            )
+
+        rolling_stock_refs = train_info.get("rollingStockRefs")
+        if rolling_stock_refs is None:
+            continue
+        if not isinstance(rolling_stock_refs, list):
+            raise ValueError("trainInfo.rollingStockRefs must be a JSON array")
+
+        for train_id in rolling_stock_refs:
+            if not isinstance(train_id, str):
+                raise ValueError("trainInfo.rollingStockRefs entries must be strings")
+            train = trains.get(train_id)
+            if not isinstance(train, dict):
+                raise ValueError(f"Unknown train id: {train_id}")
 
 
 def load_map_package_dir(package_dir: Path) -> dict[str, Any]:
@@ -208,7 +251,7 @@ def load_map_package_dir(package_dir: Path) -> dict[str, Any]:
     if root_file.exists():
         fragments.append((load_json_object(root_file), True))
 
-    for section in ("stations", "lines", "connections"):
+    for section in ("stations", "lines", "trains", "connections"):
         section_dir = package_dir / section
         if not section_dir.exists():
             continue
@@ -237,6 +280,7 @@ def load_map_package_zip(archive_path: Path) -> dict[str, Any]:
                 name == "map.json"
                 or name.startswith("stations/")
                 or name.startswith("lines/")
+                or name.startswith("trains/")
                 or name.startswith("connections/")
             )
             and name.endswith(".json")
@@ -260,7 +304,7 @@ def load_map_data(data_path: Path) -> dict[str, Any]:
         return load_map_package_dir(data_path)
     if data_path.suffix.lower() == ".zip":
         return load_map_package_zip(data_path)
-    return load_json_object(data_path)
+    return build_merged_map([(load_json_object(data_path), True)])
 
 
 def get_data_source_mtime(data_path: Path) -> float:

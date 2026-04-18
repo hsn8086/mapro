@@ -29,19 +29,20 @@
         "serviceType": "local",
         "lineLengthKm": 20.1,
         "stationCount": 11,
-        "openingDate": "2017-12-28"
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "Shanghai Electric Thales SelTrac CBTC",
+        "maxOperatingSpeedKmh": 120,
+        "openingDate": "2017-12-28",
+        "operationFeatures": {
+          "ato": true
+        }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B2",
-            "trainType": "Type B",
-            "carCount": 6
-          }
-        ],
-        "formation": {
-          "cars": 6
-        }
+        "rollingStockRefs": [
+          "gz-b6"
+        ]
       },
       "stations": [
         {

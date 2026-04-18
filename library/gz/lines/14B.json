@@ -34,23 +34,15 @@
         "powerCollection": "third rail",
         "signalling": "SelTrac CBTC",
         "maxOperatingSpeedKmh": 115,
-        "openingDate": "2017-12-28"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B1",
-            "trainType": "Type B",
-            "carCount": 6,
-            "maxServiceSpeedKmh": 115
-          }
-        ],
-        "formation": {
-          "cars": 6
-        },
-        "serviceFeatures": {
+        "openingDate": "2017-12-28",
+        "operationFeatures": {
           "ato": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-b14"
+        ]
       },
       "stations": [
         {

@@ -33,20 +33,21 @@
         "lineLengthKm": 42,
         "stationCount": 32,
         "trackGaugeMm": 1435,
+        "electrification": "1500V DC third rail",
+        "powerCollection": "third rail",
+        "signalling": "CASCO Urbalis 888",
+        "maxOperatingSpeedKmh": 90,
         "openingDate": "2013-12-28",
-        "latestExtensionDate": "2016-12-28"
+        "latestExtensionDate": "2016-12-28",
+        "operationFeatures": {
+          "ato": true
+        }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "4LB",
-            "trainType": "Linear motor",
-            "carCount": 4
-          }
-        ],
-        "formation": {
-          "cars": 4
-        }
+        "rollingStockRefs": [
+          "gz-l3",
+          "gz-l6"
+        ]
       },
       "stations": [
         {

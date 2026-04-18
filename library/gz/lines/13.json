@@ -32,23 +32,22 @@
         "serviceType": "express",
         "lineLengthKm": 36.9,
         "stationCount": 15,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "CASCO Urbalis 888",
+        "maxOperatingSpeedKmh": 100,
         "openingDate": "2017-12-28",
-        "latestExtensionDate": "2025-09-29"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "8A",
-            "trainType": "Type A",
-            "carCount": 8
-          }
-        ],
-        "formation": {
-          "cars": 8
-        },
-        "serviceFeatures": {
+        "latestExtensionDate": "2025-09-29",
+        "operationFeatures": {
           "expressService": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-a7",
+          "gz-a11"
+        ]
       },
       "stations": [
         {

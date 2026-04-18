@@ -47,26 +47,17 @@
             "en-US": "Yellow"
           },
           "logoText": "1"
+        },
+        "operationFeatures": {
+          "ato": true
         }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6A",
-            "trainType": "Type A",
-            "carCount": 6,
-            "maxServiceSpeedKmh": 80
-          }
-        ],
-        "formation": {
-          "cars": 6
-        },
-        "serviceFeatures": {
-          "ato": true
-        },
-        "trainNotes": {
-          "zh-CN": "维基百科线路总表记载本线采用 6A 编组列车。"
-        }
+        "rollingStockRefs": [
+          "gz-a1",
+          "gz-a2",
+          "gz-a3"
+        ]
       },
       "stations": [
         {

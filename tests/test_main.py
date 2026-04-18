@@ -165,6 +165,81 @@ class BoundsCommandTests(unittest.TestCase):
 
 
 class MapPackageTests(unittest.TestCase):
+    def test_load_map_data_supports_single_json_with_train_references(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            data_path = Path(temp_dir) / "map.json"
+            data_path.write_text(
+                json.dumps(
+                    {
+                        "id": "demo",
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "trainInfo": {"rollingStockRefs": ["t-a"]},
+                            }
+                        },
+                        "trains": {"t-a": {"model": "Type A Demo"}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            data = main.load_map_data(data_path)
+
+        self.assertEqual(data["id"], "demo")
+        self.assertIn("t-a", data["trains"])
+        self.assertEqual(
+            data["lines"]["l1"]["trainInfo"], {"rollingStockRefs": ["t-a"]}
+        )
+
+    def test_load_map_data_rejects_unknown_train_reference_in_single_json(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            data_path = Path(temp_dir) / "map.json"
+            data_path.write_text(
+                json.dumps(
+                    {
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "trainInfo": {"rollingStockRefs": ["missing-train"]},
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "Unknown train id"):
+                main.load_map_data(data_path)
+
+    def test_load_map_data_rejects_non_reference_train_fields_in_single_json(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            data_path = Path(temp_dir) / "map.json"
+            data_path.write_text(
+                json.dumps(
+                    {
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "trainInfo": {
+                                    "rollingStockRefs": ["t-a"],
+                                    "formation": {"cars": 6},
+                                },
+                            }
+                        },
+                        "trains": {"t-a": {"model": "Type A Demo"}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(
+                ValueError, "trainInfo only supports rollingStockRefs"
+            ):
+                main.load_map_data(data_path)
+
     def test_load_map_data_supports_directory_package(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             package_dir = Path(temp_dir) / "sample_map"
@@ -222,15 +297,18 @@ class MapPackageTests(unittest.TestCase):
                                 "lineInfo": {
                                     "operator": {"zh-CN": "示例公司"},
                                     "maxOperatingSpeedKmh": 80,
+                                    "operationFeatures": {"ato": True},
                                 },
-                                "trainInfo": {
-                                    "formation": {"cars": 6},
-                                    "serviceFeatures": {"ato": True},
-                                },
+                                "trainInfo": {"rollingStockRefs": ["t-a"]},
                             }
                         }
                     }
                 ),
+                encoding="utf-8",
+            )
+            (package_dir / "trains").mkdir(parents=True)
+            (package_dir / "trains" / "t-a.json").write_text(
+                json.dumps({"trains": {"t-a": {"model": "Type A Demo"}}}),
                 encoding="utf-8",
             )
 
@@ -240,8 +318,105 @@ class MapPackageTests(unittest.TestCase):
             data["lines"]["l1"]["lineInfo"]["operator"]["zh-CN"], "示例公司"
         )
         self.assertEqual(data["lines"]["l1"]["lineInfo"]["maxOperatingSpeedKmh"], 80)
-        self.assertEqual(data["lines"]["l1"]["trainInfo"]["formation"]["cars"], 6)
-        self.assertTrue(data["lines"]["l1"]["trainInfo"]["serviceFeatures"]["ato"])
+        self.assertEqual(data["lines"]["l1"]["trainInfo"]["rollingStockRefs"], ["t-a"])
+        self.assertTrue(data["lines"]["l1"]["lineInfo"]["operationFeatures"]["ato"])
+
+    def test_load_map_data_preserves_train_references(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            package_dir = Path(temp_dir) / "sample_map"
+            (package_dir / "lines").mkdir(parents=True)
+            (package_dir / "trains").mkdir(parents=True)
+            (package_dir / "lines" / "metro.json").write_text(
+                json.dumps(
+                    {
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "stations": ["s1", "s2"],
+                                "trainInfo": {"rollingStockRefs": ["t-a"]},
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (package_dir / "trains" / "t-a.json").write_text(
+                json.dumps(
+                    {
+                        "trains": {
+                            "t-a": {
+                                "model": "Type A Demo",
+                                "carCount": 6,
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            data = main.load_map_data(package_dir)
+
+        self.assertIn("trains", data)
+        self.assertIn("t-a", data["trains"])
+        self.assertEqual(
+            data["lines"]["l1"]["trainInfo"]["rollingStockRefs"],
+            ["t-a"],
+        )
+        self.assertEqual(
+            data["lines"]["l1"]["trainInfo"], {"rollingStockRefs": ["t-a"]}
+        )
+
+    def test_load_map_data_rejects_unknown_train_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            package_dir = Path(temp_dir) / "sample_map"
+            (package_dir / "lines").mkdir(parents=True)
+            (package_dir / "lines" / "metro.json").write_text(
+                json.dumps(
+                    {
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "trainInfo": {"rollingStockRefs": ["missing-train"]},
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "Unknown train id"):
+                main.load_map_data(package_dir)
+
+    def test_load_map_data_rejects_non_reference_train_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            package_dir = Path(temp_dir) / "sample_map"
+            (package_dir / "lines").mkdir(parents=True)
+            (package_dir / "lines" / "metro.json").write_text(
+                json.dumps(
+                    {
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "trainInfo": {
+                                    "rollingStockRefs": ["t-a"],
+                                    "formation": {"cars": 6},
+                                },
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (package_dir / "trains").mkdir(parents=True)
+            (package_dir / "trains" / "t-a.json").write_text(
+                json.dumps({"trains": {"t-a": {"model": "Type A Demo"}}}),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(
+                ValueError, "trainInfo only supports rollingStockRefs"
+            ):
+                main.load_map_data(package_dir)
 
     def test_load_map_data_rejects_duplicate_station_ids(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -295,7 +470,20 @@ class MapPackageTests(unittest.TestCase):
         self.assertEqual(data["id"], "gzm")
         self.assertIn("101", data["stations"])
         self.assertIn("1", data["lines"])
+        self.assertIn("gz-b7", data["trains"])
         self.assertGreater(len(data["connections"]), 0)
+
+    def test_repository_gz_trains_do_not_use_shared_file(self) -> None:
+        self.assertFalse(Path("library/gz/trains/shared.json").exists())
+
+    def test_repository_gz_train_files_define_single_train(self) -> None:
+        trains_dir = Path("library/gz/trains")
+
+        for train_file in trains_dir.glob("*.json"):
+            with self.subTest(train_file=train_file.name):
+                payload = json.loads(train_file.read_text(encoding="utf-8"))
+                self.assertIn("trains", payload)
+                self.assertEqual(len(payload["trains"]), 1)
 
     def test_repository_gz_lines_include_line_and_train_metadata(self) -> None:
         data = main.load_map_data(Path("library/gz"))
@@ -334,6 +522,122 @@ class MapPackageTests(unittest.TestCase):
                 line = data["lines"][line_id]
                 self.assertIn("lineInfo", line)
                 self.assertIn("trainInfo", line)
+                self.assertEqual(set(line["trainInfo"].keys()), {"rollingStockRefs"})
+
+    def test_repository_gz_researched_line_and_train_metadata(self) -> None:
+        data = main.load_map_data(Path("library/gz"))
+
+        self.assertEqual(data["lines"]["2"]["lineInfo"]["maxOperatingSpeedKmh"], 80)
+        self.assertEqual(
+            data["lines"]["2"]["trainInfo"]["rollingStockRefs"],
+            ["gz-a4", "gz-a5"],
+        )
+
+        self.assertEqual(data["lines"]["4"]["lineInfo"]["maxOperatingSpeedKmh"], 90)
+        self.assertEqual(
+            data["lines"]["4"]["trainInfo"]["rollingStockRefs"],
+            ["gz-l1", "gz-l5"],
+        )
+
+        self.assertEqual(
+            data["lines"]["10"]["lineInfo"]["signalling"], "TieKe Zhikong MTC-I"
+        )
+        self.assertEqual(
+            data["lines"]["10"]["trainInfo"]["rollingStockRefs"],
+            ["gz-b13"],
+        )
+        self.assertEqual(
+            data["lines"]["10"]["lineInfo"]["operationFeatures"]["driverlessGrade"],
+            "GoA4",
+        )
+
+        self.assertEqual(data["lines"]["11"]["lineInfo"]["maxOperatingSpeedKmh"], 80)
+        self.assertEqual(
+            data["lines"]["11"]["trainInfo"]["rollingStockRefs"],
+            ["gz-a9"],
+        )
+
+        self.assertEqual(
+            data["lines"]["1"]["trainInfo"]["rollingStockRefs"],
+            ["gz-a1", "gz-a2", "gz-a3"],
+        )
+
+        self.assertEqual(data["lines"]["7"]["lineInfo"]["maxOperatingSpeedKmh"], 80)
+        self.assertEqual(
+            data["lines"]["7"]["trainInfo"]["rollingStockRefs"],
+            ["gz-b5", "gz-b9", "gz-b12"],
+        )
+        self.assertEqual(
+            data["lines"]["7"]["lineInfo"]["operationFeatures"]["driverlessGrade"],
+            "GoA3",
+        )
+
+        self.assertEqual(
+            data["lines"]["8"]["lineInfo"]["signalling"],
+            "Siemens Trainguard LZB 700 M / FTGS",
+        )
+        self.assertEqual(
+            data["lines"]["8"]["trainInfo"]["rollingStockRefs"],
+            ["gz-a2", "gz-a5", "gz-a6", "gz-a8"],
+        )
+
+        self.assertEqual(data["lines"]["9"]["lineInfo"]["maxOperatingSpeedKmh"], 120)
+        self.assertEqual(
+            data["lines"]["9"]["trainInfo"]["rollingStockRefs"],
+            ["gz-b6"],
+        )
+
+        self.assertEqual(data["lines"]["12"]["lineInfo"]["maxOperatingSpeedKmh"], 80)
+        self.assertEqual(
+            data["lines"]["12"]["trainInfo"]["rollingStockRefs"],
+            ["gz-a10"],
+        )
+        self.assertEqual(
+            data["lines"]["12"]["lineInfo"]["operationFeatures"]["driverlessGrade"],
+            "GoA4",
+        )
+
+        self.assertEqual(data["lines"]["13"]["lineInfo"]["maxOperatingSpeedKmh"], 100)
+        self.assertEqual(
+            data["lines"]["13"]["trainInfo"]["rollingStockRefs"],
+            ["gz-a7", "gz-a11"],
+        )
+
+        self.assertEqual(
+            data["lines"]["14"]["trainInfo"]["rollingStockRefs"],
+            ["gz-b7", "gz-b8", "gz-b14"],
+        )
+        self.assertEqual(
+            data["lines"]["14B"]["trainInfo"]["rollingStockRefs"],
+            ["gz-b14"],
+        )
+        self.assertEqual(
+            data["lines"]["18"]["trainInfo"]["rollingStockRefs"],
+            ["gz-d1", "gz-d2"],
+        )
+        self.assertEqual(
+            data["lines"]["GF"]["trainInfo"]["rollingStockRefs"],
+            ["gf-b3", "gf-b3i", "gf-sfm77"],
+        )
+        self.assertEqual(
+            data["lines"]["F2"]["trainInfo"]["rollingStockRefs"],
+            ["fs-sfm53"],
+        )
+        self.assertEqual(
+            data["lines"]["F3"]["trainInfo"]["rollingStockRefs"],
+            ["fs-sfm105"],
+        )
+
+    def test_repository_gz_descriptive_train_names_are_documented(self) -> None:
+        data = main.load_map_data(Path("library/gz"))
+
+        f3_train = data["trains"]["fs-sfm105"]
+        self.assertEqual(f3_train["model"], "SFM105")
+        self.assertIn("暂未取得足够稳定的一手官方编号来源", f3_train["notes"]["zh-CN"])
+
+        tnh1_train = data["trains"]["tnh1-tram-3"]
+        self.assertEqual(tnh1_train["model"], "三模块有轨电车")
+        self.assertIn("暂用描述性车型名", tnh1_train["notes"]["zh-CN"])
 
 
 if __name__ == "__main__":

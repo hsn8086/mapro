@@ -35,20 +35,24 @@
         "serviceType": "local",
         "lineLengthKm": 54.24,
         "stationCount": 27,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "TieKe Zhikong MTC-I",
+        "maxOperatingSpeedKmh": 80,
         "openingDate": "2016-12-28",
-        "latestExtensionDate": "2023-12-28"
+        "latestExtensionDate": "2023-12-28",
+        "operationFeatures": {
+          "ato": true,
+          "driverlessGrade": "GoA3"
+        }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B2",
-            "trainType": "Type B",
-            "carCount": 6
-          }
-        ],
-        "formation": {
-          "cars": 6
-        }
+        "rollingStockRefs": [
+          "gz-b5",
+          "gz-b9",
+          "gz-b12"
+        ]
       },
       "stations": [
         {

@@ -32,16 +32,22 @@
         "serviceType": "local",
         "lineLengthKm": 31.8,
         "stationCount": 24,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "Siemens Trainguard LZB 700 M / FTGS",
+        "maxOperatingSpeedKmh": 80,
         "openingDate": "2002-12-29",
-        "latestExtensionDate": "2010-09-25"
+        "latestExtensionDate": "2010-09-25",
+        "operationFeatures": {
+          "ato": true
+        }
       },
       "trainInfo": {
-        "formation": {
-          "cars": 6
-        },
-        "trainNotes": {
-          "zh-CN": "维基百科线路总表可确认本线使用 6 节编组列车，但本次未进一步细分车型。"
-        }
+        "rollingStockRefs": [
+          "gz-a4",
+          "gz-a5"
+        ]
       },
       "stations": [
         {

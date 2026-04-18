@@ -1,0 +1,16 @@
+{
+  "trains": {
+    "fs-sfm105": {
+      "model": "SFM105",
+      "manufacturer": {
+        "zh-CN": "中车青岛四方机车车辆"
+      },
+      "trainType": "Type B",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 100,
+      "notes": {
+        "zh-CN": "公开资料可稳定确认其为佛山地铁3号线专用的6节B型列车。当前型号采用轨道影像社区与民间资料广泛使用的 SFM105 口径，但暂未取得足够稳定的一手官方编号来源。"
+      }
+    }
+  }
+}

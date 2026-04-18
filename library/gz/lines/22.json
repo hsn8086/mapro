@@ -38,25 +38,18 @@
         "signalling": "MTC-I CBTC",
         "maxOperatingSpeedKmh": 160,
         "openingDate": "2022-03-31",
-        "latestExtensionDate": "2025-12-29"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "市域8D",
-            "trainType": "市域D",
-            "carCount": 8,
-            "maxServiceSpeedKmh": 160
-          }
-        ],
-        "formation": {
-          "cars": 8
-        },
-        "serviceFeatures": {
+        "latestExtensionDate": "2025-12-29",
+        "operationFeatures": {
           "ato": true,
           "driverlessGrade": "GoA3",
           "expressService": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-d1",
+          "gz-d2"
+        ]
       },
       "info": {
         "maxSpeed": 160

@@ -145,20 +145,17 @@
 | `latestExtensionDate` | `string` | (可选) 最近一次延伸开通日期，建议 ISO 8601 日期字符串 |
 | `dailyStartTime` | `string` | (可选) 首班车时间，建议 `HH:MM` |
 | `dailyEndTime` | `string` | (可选) 末班车时间，建议 `HH:MM` |
+| `operationFeatures` | `LineOperationFeatures` | (可选) 线路运营特性，如 ATO、自动化等级、快车服务 |
 | `branding` | `LineBranding` | (可选) 线路品牌或识别信息 |
 | `notes` | `LocalizedString` | (可选) 备注 |
 
 ### 3.4 列车扩展信息 (TrainInfo)
 
-这一组字段适合记录列车型号、编组、车门、空调和无障碍等列车信息。
+这一组字段只用于记录线路与车型资源之间的引用关系。
 
 | 字段名 | 类型 | 描述 |
 | :--- | :--- | :--- |
-| `rollingStock` | `TrainRollingStock[]` | (可选) 本线使用的列车型号列表 |
-| `formation` | `TrainFormation` | (可选) 常见编组信息 |
-| `serviceFeatures` | `TrainServiceFeatures` | (可选) 列车服务配置 |
-| `manufacturer` | `LocalizedString[]` | (可选) 制造商列表 |
-| `trainNotes` | `LocalizedString` | (可选) 列车补充说明 |
+| `rollingStockRefs` | `string[]` | (可选) 本线使用的车型 ID 列表，引用顶层 `trains` 资源 |
 
 ### 3.5 线路品牌信息 (LineBranding)
 
@@ -168,33 +165,7 @@
 | `themeColorName` | `LocalizedString` | (可选) 线路色名称 |
 | `logoText` | `string` | (可选) 对外展示简称 |
 
-### 3.6 列车型号信息 (TrainRollingStock)
-
-| 字段名 | 类型 | 描述 |
-| :--- | :--- | :--- |
-| `model` | `string` | 列车型号，如 `A2`、`L1-01` |
-| `manufacturer` | `LocalizedString` | (可选) 制造商 |
-| `trainType` | `string` | (可选) 车型类别，如 `Type A`、`Type B`、`Low-floor tram` |
-| `carCount` | `number` | (可选) 编组辆数 |
-| `designSpeedKmh` | `number` | (可选) 设计速度 |
-| `maxServiceSpeedKmh` | `number` | (可选) 最高运营速度 |
-| `inServiceSince` | `string` | (可选) 投入服务日期，建议 ISO 8601 日期字符串 |
-| `retired` | `boolean` | (可选) 是否已退出本线常规运营 |
-| `notes` | `LocalizedString` | (可选) 备注 |
-
-### 3.7 编组信息 (TrainFormation)
-
-| 字段名 | 类型 | 描述 |
-| :--- | :--- | :--- |
-| `cars` | `number` | (可选) 总车厢数 |
-| `layout` | `string` | (可选) 编组描述，如 `Tc-Mp-M-Mp-Tc-Tc-Mp-M-Mp-Tc` |
-| `seating` | `string` | (可选) 座位布局，如 `longitudinal`、`mixed` |
-| `doorPairsPerSidePerCar` | `number` | (可选) 每节车每侧车门对数 |
-| `hasWheelchairSpace` | `boolean` | (可选) 是否设有轮椅位 |
-| `hasWomenOnlyCar` | `boolean` | (可选) 是否存在女性车厢安排 |
-| `hasMildAirConditionedCar` | `boolean` | (可选) 是否有弱冷车厢 |
-
-### 3.8 服务配置 (TrainServiceFeatures)
+### 3.5A 线路运营特性 (LineOperationFeatures)
 
 | 字段名 | 类型 | 描述 |
 | :--- | :--- | :--- |
@@ -203,6 +174,39 @@
 | `crossLineService` | `boolean` | (可选) 是否存在跨线直通运营 |
 | `expressService` | `boolean` | (可选) 是否存在快车/大站快车 |
 | `oneManOperation` | `boolean` | (可选) 是否为单司机值守 |
+
+### 3.6 车型资源信息 (TrainResource)
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `model` | `string` | 列车型号。优先使用可稳定核实的官方型号，如 `A2`、`B7`；若暂无稳定官方编号，可暂用描述性名称，并在 `notes` 中说明原因 |
+| `manufacturer` | `LocalizedString` | (可选) 制造商 |
+| `trainType` | `string` | (可选) 车型类别，如 `Type A`、`Type B`、`Tram`、`APM` |
+| `carCount` | `number` | (可选) 编组辆数 |
+| `doorPairsPerSidePerCar` | `number` | (可选) 每节车每侧车门对数 |
+| `designSpeedKmh` | `number` | (可选) 设计速度 |
+| `maxServiceSpeedKmh` | `number` | (可选) 最高运营速度 |
+| `inServiceSince` | `string` | (可选) 投入服务日期，建议 ISO 8601 日期字符串 |
+| `retired` | `boolean` | (可选) 是否已退出本线常规运营 |
+| `notes` | `LocalizedString` | (可选) 备注；当使用描述性名称代替官方型号时，应在此说明依据与限制 |
+
+### 3.7 顶层车型资源 (Trains)
+
+地图包可在顶层或 `trains/` 目录下定义共享车型资源，供线路通过 `rollingStockRefs` 引用。
+若某车型暂未找到可稳定采用的官方内部型号，可先使用描述性资源 ID 与 `model`，并在 `notes` 中注明这是保守占位，待后续资料补齐后再统一更名。
+
+```json
+{
+  "trains": {
+    "gz-a5": {
+      "model": "A5",
+      "trainType": "Type A",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 80
+    }
+  }
+}
+```
 
 ---
 
@@ -247,6 +251,9 @@ example_map/
   lines/
     1.json
     2.json
+  trains/
+    gz-a5.json
+    gz-b7.json
   connections/
     core.json
 ```
@@ -254,12 +261,13 @@ example_map/
 ### 6.1 `map.json`
 
 - 用于存放全局字段，如 `id`、`meta`、`pricing`
-- 也可以包含 `stations`、`lines`、`connections`，但更推荐拆到对应子目录
+- 也可以包含 `stations`、`lines`、`trains`、`connections`，但更推荐拆到对应子目录
 
 ### 6.2 子模块目录
 
 - `stations/*.json`: 每个文件都可以包含一个 `stations` 对象，推荐每站一个文件
 - `lines/*.json`: 每个文件都可以包含一个 `lines` 对象，推荐每线一个文件
+- `trains/*.json`: 每个文件都可以包含一个 `trains` 对象；推荐每文件仅定义一个车型资源
 - `connections/*.json`: 每个文件都可以包含一个 `connections` 数组
 
 ### 6.3 合并规则

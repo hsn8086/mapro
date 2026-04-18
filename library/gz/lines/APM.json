@@ -34,32 +34,17 @@
         "powerCollection": "third rail",
         "signalling": "Bombardier CITYFLO 650",
         "maxOperatingSpeedKmh": 55,
-        "openingDate": "2010-11-08"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "Innovia APM 100",
-            "manufacturer": {
-              "zh-CN": "庞巴迪运输"
-            },
-            "trainType": "APM",
-            "carCount": 2,
-            "maxServiceSpeedKmh": 55
-          }
-        ],
-        "formation": {
-          "cars": 2,
-          "doorPairsPerSidePerCar": 2
-        },
-        "serviceFeatures": {
+        "openingDate": "2010-11-08",
+        "operationFeatures": {
           "ato": true,
           "driverlessGrade": "GoA4",
           "oneManOperation": true
-        },
-        "trainNotes": {
-          "zh-CN": "维基百科记载本线当前采用胶轮 2 节编组，预留扩编至 3 节。"
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-apm-innovia-100"
+        ]
       },
       "stations": [
         "APM01",

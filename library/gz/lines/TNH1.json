@@ -37,29 +37,14 @@
         "powerCollection": "overhead catenary",
         "signalling": "FZL300 point ATC",
         "openingDate": "2021-08-18",
-        "latestExtensionDate": "2022-11-29"
+        "latestExtensionDate": "2022-11-29",
+        "operationFeatures": {
+          "ato": true
+        }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "三模块有轨电车",
-            "manufacturer": {
-              "zh-CN": "中车四方"
-            },
-            "trainType": "tram",
-            "carCount": 3
-          }
-        ],
-        "formation": {
-          "cars": 3
-        },
-        "serviceFeatures": {
-          "ato": true
-        },
-        "manufacturer": [
-          {
-            "zh-CN": "中车青岛四方机车车辆"
-          }
+        "rollingStockRefs": [
+          "tnh1-tram-3"
         ]
       },
       "stations": [

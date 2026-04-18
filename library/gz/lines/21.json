@@ -41,24 +41,17 @@
         "signalling": "SelTrac CBTC",
         "maxOperatingSpeedKmh": 115,
         "openingDate": "2018-12-28",
-        "latestExtensionDate": "2019-12-20"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B1",
-            "trainType": "Type B",
-            "carCount": 6,
-            "maxServiceSpeedKmh": 115
-          }
-        ],
-        "formation": {
-          "cars": 6
-        },
-        "serviceFeatures": {
+        "latestExtensionDate": "2019-12-20",
+        "operationFeatures": {
           "ato": true,
           "expressService": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-b7",
+          "gz-b8"
+        ]
       },
       "stations": [
         {

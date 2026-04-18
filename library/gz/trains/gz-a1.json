@@ -1,0 +1,13 @@
+{
+  "trains": {
+    "gz-a1": {
+      "model": "A1",
+      "manufacturer": {
+        "zh-CN": "ADtranz / Siemens Transportation Systems"
+      },
+      "trainType": "Type A",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 80
+    }
+  }
+}

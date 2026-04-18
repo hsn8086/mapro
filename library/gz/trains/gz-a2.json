@@ -1,0 +1,10 @@
+{
+  "trains": {
+    "gz-a2": {
+      "model": "A2",
+      "trainType": "Type A",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 80
+    }
+  }
+}

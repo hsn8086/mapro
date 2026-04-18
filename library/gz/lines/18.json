@@ -37,25 +37,18 @@
         "powerCollection": "overhead catenary",
         "signalling": "MTC-I CBTC",
         "maxOperatingSpeedKmh": 160,
-        "openingDate": "2021-09-28"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "市域8D",
-            "trainType": "市域D",
-            "carCount": 8,
-            "maxServiceSpeedKmh": 160
-          }
-        ],
-        "formation": {
-          "cars": 8
-        },
-        "serviceFeatures": {
+        "openingDate": "2021-09-28",
+        "operationFeatures": {
           "ato": true,
           "driverlessGrade": "GoA3",
           "expressService": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-d1",
+          "gz-d2"
+        ]
       },
       "info": {
         "maxSpeed": 160

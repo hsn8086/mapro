@@ -41,24 +41,20 @@
         "signalling": "SelTrac IS (S40) / CBTC",
         "maxOperatingSpeedKmh": 115,
         "openingDate": "2005-12-26",
-        "latestExtensionDate": "2024-11-01"
-      },
-      "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B2",
-            "trainType": "Type B",
-            "carCount": 6,
-            "maxServiceSpeedKmh": 115
-          }
-        ],
-        "formation": {
-          "cars": 6
-        },
-        "serviceFeatures": {
+        "latestExtensionDate": "2024-11-01",
+        "operationFeatures": {
           "ato": true,
           "expressService": true
         }
+      },
+      "trainInfo": {
+        "rollingStockRefs": [
+          "gz-b1",
+          "gz-b2",
+          "gz-b4",
+          "gz-b10",
+          "gz-b11"
+        ]
       },
       "stations": [
         {

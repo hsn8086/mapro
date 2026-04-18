@@ -24,19 +24,21 @@
         "serviceType": "loop",
         "lineLengthKm": 44.2,
         "stationCount": 30,
-        "openingDate": "2024-12-28"
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "TieKe Zhikong MTC-I",
+        "maxOperatingSpeedKmh": 80,
+        "openingDate": "2024-12-28",
+        "operationFeatures": {
+          "ato": true,
+          "driverlessGrade": "GoA4"
+        }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "8A",
-            "trainType": "Type A",
-            "carCount": 8
-          }
-        ],
-        "formation": {
-          "cars": 8
-        }
+        "rollingStockRefs": [
+          "gz-a9"
+        ]
       },
       "stations": [
         {

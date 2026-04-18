@@ -30,23 +30,19 @@
         "maxOperatingSpeedKmh": 110,
         "notes": {
           "zh-CN": "本次根据维基百科 3 号线条目补入支线起讫与技术制式，独立长度与日期在当前抓取资料中未稳定确认。"
+        },
+        "operationFeatures": {
+          "ato": true
         }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6B2",
-            "trainType": "Type B",
-            "carCount": 6,
-            "maxServiceSpeedKmh": 110
-          }
-        ],
-        "formation": {
-          "cars": 6
-        },
-        "serviceFeatures": {
-          "ato": true
-        }
+        "rollingStockRefs": [
+          "gz-b1",
+          "gz-b2",
+          "gz-b4",
+          "gz-b10",
+          "gz-b11"
+        ]
       },
       "stations": [
         {

@@ -33,20 +33,22 @@
         "lineLengthKm": 41.66,
         "stationCount": 30,
         "trackGaugeMm": 1435,
+        "electrification": "1500V DC third rail",
+        "powerCollection": "third rail",
+        "signalling": "Siemens Trainguard MT",
+        "maxOperatingSpeedKmh": 90,
         "openingDate": "2009-12-28",
-        "latestExtensionDate": "2023-12-28"
+        "latestExtensionDate": "2023-12-28",
+        "operationFeatures": {
+          "ato": true
+        }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6LB",
-            "trainType": "Linear motor",
-            "carCount": 6
-          }
-        ],
-        "formation": {
-          "cars": 6
-        }
+        "rollingStockRefs": [
+          "gz-l2",
+          "gz-l4",
+          "gz-l7"
+        ]
       },
       "stations": [
         {

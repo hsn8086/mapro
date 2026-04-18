@@ -1,0 +1,10 @@
+{
+  "trains": {
+    "gz-d2": {
+      "model": "D2",
+      "trainType": "市域D",
+      "carCount": 8,
+      "maxServiceSpeedKmh": 160
+    }
+  }
+}

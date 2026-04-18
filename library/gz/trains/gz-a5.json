@@ -1,0 +1,13 @@
+{
+  "trains": {
+    "gz-a5": {
+      "model": "A5",
+      "manufacturer": {
+        "zh-CN": "南车株洲电力机车"
+      },
+      "trainType": "Type A",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 80
+    }
+  }
+}

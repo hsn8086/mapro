@@ -1,0 +1,13 @@
+{
+  "trains": {
+    "gf-b3": {
+      "model": "B3",
+      "manufacturer": {
+        "zh-CN": "北车长春轨道客车"
+      },
+      "trainType": "Type B",
+      "carCount": 4,
+      "maxServiceSpeedKmh": 80
+    }
+  }
+}

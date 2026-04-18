@@ -24,21 +24,23 @@
           }
         ],
         "serviceType": "local",
-        "notes": {
-          "zh-CN": "维基百科总表在当前抓取片段中对本线信息换行较多，已先补入较稳定确认的车辆基地与服务类型。"
+        "lineLengthKm": 27.9,
+        "stationCount": 18,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "TieKe Zhikong MTC-I",
+        "maxOperatingSpeedKmh": 80,
+        "openingDate": "2025-06-29",
+        "operationFeatures": {
+          "ato": true,
+          "driverlessGrade": "GoA4"
         }
       },
       "trainInfo": {
-        "rollingStock": [
-          {
-            "model": "6A",
-            "trainType": "Type A",
-            "carCount": 6
-          }
-        ],
-        "formation": {
-          "cars": 6
-        }
+        "rollingStockRefs": [
+          "gz-a10"
+        ]
       },
       "stations": [
         {

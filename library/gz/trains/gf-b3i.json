@@ -1,0 +1,13 @@
+{
+  "trains": {
+    "gf-b3i": {
+      "model": "B3-I",
+      "manufacturer": {
+        "zh-CN": "中车青岛四方机车车辆"
+      },
+      "trainType": "Type B",
+      "carCount": 4,
+      "maxServiceSpeedKmh": 80
+    }
+  }
+}

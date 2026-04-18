@@ -1,0 +1,10 @@
+{
+  "trains": {
+    "gz-l2": {
+      "model": "L2",
+      "trainType": "Linear motor",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 85
+    }
+  }
+}

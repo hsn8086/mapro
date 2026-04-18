@@ -1,0 +1,13 @@
+{
+  "trains": {
+    "fs-sfm53": {
+      "model": "SFM53",
+      "manufacturer": {
+        "zh-CN": "佛山中车四方轨道车辆"
+      },
+      "trainType": "Type B",
+      "carCount": 6,
+      "maxServiceSpeedKmh": 100
+    }
+  }
+}

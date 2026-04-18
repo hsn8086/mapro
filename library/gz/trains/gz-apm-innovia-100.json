@@ -1,0 +1,17 @@
+{
+  "trains": {
+    "gz-apm-innovia-100": {
+      "model": "Innovia APM 100",
+      "manufacturer": {
+        "zh-CN": "庞巴迪运输"
+      },
+      "trainType": "APM",
+      "carCount": 2,
+      "maxServiceSpeedKmh": 55,
+      "notes": {
+        "zh-CN": "公开资料记载该车型当前以2节编组投入本线运营，并预留扩编至3节的条件。"
+      },
+      "doorPairsPerSidePerCar": 2
+    }
+  }
+}
