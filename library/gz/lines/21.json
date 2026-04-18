@@ -8,6 +8,58 @@
       },
       "color": "#230b55",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "镇龙车辆段"
+          },
+          {
+            "zh-CN": "水西停车场"
+          },
+          {
+            "zh-CN": "象岭停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "天河公园"
+        },
+        "endStation": {
+          "zh-CN": "增城广场"
+        },
+        "serviceType": "express",
+        "lineLengthKm": 60.5,
+        "stationCount": 20,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC third rail",
+        "powerCollection": "third rail",
+        "signalling": "SelTrac CBTC",
+        "maxOperatingSpeedKmh": 115,
+        "openingDate": "2018-12-28",
+        "latestExtensionDate": "2019-12-20"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B1",
+            "trainType": "Type B",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 115
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "ato": true,
+          "expressService": true
+        }
+      },
       "stations": [
         {
           "id": "1104",

@@ -8,6 +8,46 @@
       },
       "color": "#6e0346",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "浔峰岗停车场"
+          },
+          {
+            "zh-CN": "萝岗车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "浔峰岗"
+        },
+        "endStation": {
+          "zh-CN": "香雪"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 42,
+        "stationCount": 32,
+        "trackGaugeMm": 1435,
+        "openingDate": "2013-12-28",
+        "latestExtensionDate": "2016-12-28"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "4LB",
+            "trainType": "Linear motor",
+            "carCount": 4
+          }
+        ],
+        "formation": {
+          "cars": 4
+        }
+      },
       "stations": [
         {
           "id": "601",

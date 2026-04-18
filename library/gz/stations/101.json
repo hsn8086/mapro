@@ -9,6 +9,16 @@
       "x": 225.0,
       "y": 400.0,
       "isTransfer": true,
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
+      ],
       "lines": [
         "1",
         "GF",

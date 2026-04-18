@@ -8,6 +8,59 @@
       },
       "color": "#00bde2",
       "type": "tram",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁运营集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "赤岗塔停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "广州塔"
+        },
+        "endStation": {
+          "zh-CN": "林和西"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 3.94,
+        "stationCount": 9,
+        "trackGaugeMm": 2642,
+        "electrification": "600V 3AC 50Hz third rail",
+        "powerCollection": "third rail",
+        "signalling": "Bombardier CITYFLO 650",
+        "maxOperatingSpeedKmh": 55,
+        "openingDate": "2010-11-08"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "Innovia APM 100",
+            "manufacturer": {
+              "zh-CN": "庞巴迪运输"
+            },
+            "trainType": "APM",
+            "carCount": 2,
+            "maxServiceSpeedKmh": 55
+          }
+        ],
+        "formation": {
+          "cars": 2,
+          "doorPairsPerSidePerCar": 2
+        },
+        "serviceFeatures": {
+          "ato": true,
+          "driverlessGrade": "GoA4",
+          "oneManOperation": true
+        },
+        "trainNotes": {
+          "zh-CN": "维基百科记载本线当前采用胶轮 2 节编组，预留扩编至 3 节。"
+        }
+      },
       "stations": [
         "APM01",
         "APM02",

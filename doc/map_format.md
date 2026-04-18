@@ -96,6 +96,8 @@
 | `status` | `'active' \| 'under_construction' \| 'planned'` | (可选) 线路状态：`active`(默认)运营中, `under_construction`建设中, `planned`规划中 |
 | `stations` | `(string \| LineStation)[]` | 有序的站点列表。可以是简单的站点 ID 字符串，也可以是包含状态的对象。 |
 | `segments` | `StationEdge[]` | (可选) 相邻站点间的距离/时间数据 |
+| `lineInfo` | `LineInfo` | (可选) 线路层面的系统、运营与识别信息，仅作数据存储，当前版本不参与渲染 |
+| `trainInfo` | `TrainInfo` | (可选) 列车、编组、制式与服务配置，仅作数据存储，当前版本不参与渲染 |
 
 ### 3.1 线路站点对象 (LineStation)
 
@@ -117,12 +119,90 @@
 *   `distance`: 距离 (公里)
 *   `duration`: 行驶时间 (分钟)
 
-### 3.2 车辆信息 (LineInfo)
+### 3.3 线路扩展信息 (LineInfo)
 
-*   `manufacturer`: 制造商
-*   `maxSpeed`: 最高时速 (km/h)
-*   `techType`: 技术类型 (如 "Third Rail")
-*   `carriages`: 车厢配置列表 (`LineCarriageInfo`)，包含是否弱冷、女性专用、轮椅位等信息。
+这一组字段适合记录类似维基百科线路信息框中的“线路信息”和“运营信息”。
+这些字段不会影响当前渲染，但会随地图包一起保存、加载、打包和解包。
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `system` | `LocalizedString` | (可选) 所属系统，如“广州地铁” |
+| `operator` | `LocalizedString` | (可选) 运营方 |
+| `owner` | `LocalizedString` | (可选) 业主或资产归属方 |
+| `depot` | `LocalizedString[]` | (可选) 车辆段/停车场列表 |
+| `startStation` | `LocalizedString` | (可选) 起点站名称 |
+| `endStation` | `LocalizedString` | (可选) 终点站名称 |
+| `via` | `LocalizedString[]` | (可选) 线路途经的重要区域/区段 |
+| `serviceType` | `string` | (可选) 服务类型，如 `local`、`express`、`loop`、`branch` |
+| `lineLengthKm` | `number` | (可选) 线路营业长度，单位公里 |
+| `stationCount` | `number` | (可选) 车站数量 |
+| `trackGaugeMm` | `number` | (可选) 轨距，单位毫米 |
+| `electrification` | `string` | (可选) 供电制式，如 `1500V DC overhead catenary` |
+| `powerCollection` | `string` | (可选) 受流方式，如 `overhead catenary`、`third rail` |
+| `signalling` | `string` | (可选) 信号系统，如 `CBTC` |
+| `maxOperatingSpeedKmh` | `number` | (可选) 设计或最高运营速度，单位 km/h |
+| `openingDate` | `string` | (可选) 首段开通日期，建议 ISO 8601 日期字符串 |
+| `latestExtensionDate` | `string` | (可选) 最近一次延伸开通日期，建议 ISO 8601 日期字符串 |
+| `dailyStartTime` | `string` | (可选) 首班车时间，建议 `HH:MM` |
+| `dailyEndTime` | `string` | (可选) 末班车时间，建议 `HH:MM` |
+| `branding` | `LineBranding` | (可选) 线路品牌或识别信息 |
+| `notes` | `LocalizedString` | (可选) 备注 |
+
+### 3.4 列车扩展信息 (TrainInfo)
+
+这一组字段适合记录列车型号、编组、车门、空调和无障碍等列车信息。
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `rollingStock` | `TrainRollingStock[]` | (可选) 本线使用的列车型号列表 |
+| `formation` | `TrainFormation` | (可选) 常见编组信息 |
+| `serviceFeatures` | `TrainServiceFeatures` | (可选) 列车服务配置 |
+| `manufacturer` | `LocalizedString[]` | (可选) 制造商列表 |
+| `trainNotes` | `LocalizedString` | (可选) 列车补充说明 |
+
+### 3.5 线路品牌信息 (LineBranding)
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `code` | `string` | (可选) 内部或公开线路代码 |
+| `themeColorName` | `LocalizedString` | (可选) 线路色名称 |
+| `logoText` | `string` | (可选) 对外展示简称 |
+
+### 3.6 列车型号信息 (TrainRollingStock)
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `model` | `string` | 列车型号，如 `A2`、`L1-01` |
+| `manufacturer` | `LocalizedString` | (可选) 制造商 |
+| `trainType` | `string` | (可选) 车型类别，如 `Type A`、`Type B`、`Low-floor tram` |
+| `carCount` | `number` | (可选) 编组辆数 |
+| `designSpeedKmh` | `number` | (可选) 设计速度 |
+| `maxServiceSpeedKmh` | `number` | (可选) 最高运营速度 |
+| `inServiceSince` | `string` | (可选) 投入服务日期，建议 ISO 8601 日期字符串 |
+| `retired` | `boolean` | (可选) 是否已退出本线常规运营 |
+| `notes` | `LocalizedString` | (可选) 备注 |
+
+### 3.7 编组信息 (TrainFormation)
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `cars` | `number` | (可选) 总车厢数 |
+| `layout` | `string` | (可选) 编组描述，如 `Tc-Mp-M-Mp-Tc-Tc-Mp-M-Mp-Tc` |
+| `seating` | `string` | (可选) 座位布局，如 `longitudinal`、`mixed` |
+| `doorPairsPerSidePerCar` | `number` | (可选) 每节车每侧车门对数 |
+| `hasWheelchairSpace` | `boolean` | (可选) 是否设有轮椅位 |
+| `hasWomenOnlyCar` | `boolean` | (可选) 是否存在女性车厢安排 |
+| `hasMildAirConditionedCar` | `boolean` | (可选) 是否有弱冷车厢 |
+
+### 3.8 服务配置 (TrainServiceFeatures)
+
+| 字段名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `ato` | `boolean` | (可选) 是否采用自动驾驶/ATO |
+| `driverlessGrade` | `string` | (可选) 自动化等级，如 `GoA2`、`GoA4` |
+| `crossLineService` | `boolean` | (可选) 是否存在跨线直通运营 |
+| `expressService` | `boolean` | (可选) 是否存在快车/大站快车 |
+| `oneManOperation` | `boolean` | (可选) 是否为单司机值守 |
 
 ---
 
@@ -187,3 +267,4 @@ example_map/
 - 所有模块在加载时合并为一份完整的 `MapData`
 - `stations` 和 `lines` 的键必须全局唯一，重复会报错
 - `connections` 会按数组顺序追加
+- 未被当前渲染器使用的扩展字段会原样保留，便于存储线路资料与列车资料

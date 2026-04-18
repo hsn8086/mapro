@@ -11,6 +11,16 @@
       "isTransfer": true,
       "lines": [
         "APM"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站外卫生间",
+            "en-US": "Restroom outside station",
+            "location": "outside"
+          }
+        }
       ]
     }
   }

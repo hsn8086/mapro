@@ -8,6 +8,54 @@
       },
       "color": "#004db3",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "佛山地铁"
+        },
+        "operator": {
+          "zh-CN": "佛山市地铁运营有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "狮山车辆段"
+          },
+          {
+            "zh-CN": "北滘停车场"
+          },
+          {
+            "zh-CN": "逢沙停车场"
+          }
+        ],
+        "serviceType": "local",
+        "lineLengthKm": 62.1,
+        "stationCount": 35,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "Siemens Trainguard MT",
+        "maxOperatingSpeedKmh": 100,
+        "openingDate": "2022-12-28",
+        "latestExtensionDate": "2024-08-23",
+        "notes": {
+          "zh-CN": "当前为南北两段分离运营；维基百科另有完整规划口径，但此处采用现运营口径。"
+        }
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B",
+            "trainType": "Type B",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 100
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "ato": true
+        }
+      },
       "stations": [
         {
           "id": "F301",

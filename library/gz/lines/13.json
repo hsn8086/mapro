@@ -8,6 +8,48 @@
       },
       "color": "#888600",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "官湖车辆段"
+          },
+          {
+            "zh-CN": "鱼珠停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "天河公园"
+        },
+        "endStation": {
+          "zh-CN": "新沙"
+        },
+        "serviceType": "express",
+        "lineLengthKm": 36.9,
+        "stationCount": 15,
+        "openingDate": "2017-12-28",
+        "latestExtensionDate": "2025-09-29"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "8A",
+            "trainType": "Type A",
+            "carCount": 8
+          }
+        ],
+        "formation": {
+          "cars": 8
+        },
+        "serviceFeatures": {
+          "expressService": true
+        }
+      },
       "stations": [
         {
           "id": "1203",

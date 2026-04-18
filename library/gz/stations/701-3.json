@@ -12,6 +12,16 @@
       "lines": [
         "7",
         "广肇城际"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

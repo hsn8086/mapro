@@ -208,6 +208,41 @@ class MapPackageTests(unittest.TestCase):
         self.assertEqual(list(data["lines"].keys()), ["l1"])
         self.assertEqual(len(data["connections"]), 1)
 
+    def test_load_map_data_preserves_line_metadata_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            package_dir = Path(temp_dir) / "sample_map"
+            (package_dir / "lines").mkdir(parents=True)
+            (package_dir / "lines" / "metro.json").write_text(
+                json.dumps(
+                    {
+                        "lines": {
+                            "l1": {
+                                "id": "l1",
+                                "stations": ["s1", "s2"],
+                                "lineInfo": {
+                                    "operator": {"zh-CN": "示例公司"},
+                                    "maxOperatingSpeedKmh": 80,
+                                },
+                                "trainInfo": {
+                                    "formation": {"cars": 6},
+                                    "serviceFeatures": {"ato": True},
+                                },
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            data = main.load_map_data(package_dir)
+
+        self.assertEqual(
+            data["lines"]["l1"]["lineInfo"]["operator"]["zh-CN"], "示例公司"
+        )
+        self.assertEqual(data["lines"]["l1"]["lineInfo"]["maxOperatingSpeedKmh"], 80)
+        self.assertEqual(data["lines"]["l1"]["trainInfo"]["formation"]["cars"], 6)
+        self.assertTrue(data["lines"]["l1"]["trainInfo"]["serviceFeatures"]["ato"])
+
     def test_load_map_data_rejects_duplicate_station_ids(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             package_dir = Path(temp_dir) / "sample_map"
@@ -261,6 +296,44 @@ class MapPackageTests(unittest.TestCase):
         self.assertIn("101", data["stations"])
         self.assertIn("1", data["lines"])
         self.assertGreater(len(data["connections"]), 0)
+
+    def test_repository_gz_lines_include_line_and_train_metadata(self) -> None:
+        data = main.load_map_data(Path("library/gz"))
+
+        expected_lines = {
+            "1",
+            "2",
+            "3",
+            "3B",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "14B",
+            "18",
+            "21",
+            "22",
+            "APM",
+            "GF",
+            "F2",
+            "F3",
+            "TNH1",
+        }
+
+        self.assertTrue(expected_lines.issubset(data["lines"].keys()))
+
+        for line_id in expected_lines:
+            with self.subTest(line_id=line_id):
+                line = data["lines"][line_id]
+                self.assertIn("lineInfo", line)
+                self.assertIn("trainInfo", line)
 
 
 if __name__ == "__main__":

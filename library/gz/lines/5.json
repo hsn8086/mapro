@@ -8,6 +8,46 @@
       },
       "color": "#c70541",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "鱼珠车辆段"
+          },
+          {
+            "zh-CN": "双岗停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "滘口"
+        },
+        "endStation": {
+          "zh-CN": "黄埔新港"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 41.66,
+        "stationCount": 30,
+        "trackGaugeMm": 1435,
+        "openingDate": "2009-12-28",
+        "latestExtensionDate": "2023-12-28"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6LB",
+            "trainType": "Linear motor",
+            "carCount": 6
+          }
+        ],
+        "formation": {
+          "cars": 6
+        }
+      },
       "stations": [
         {
           "id": "501",

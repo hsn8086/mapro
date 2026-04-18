@@ -7,10 +7,20 @@
         "en-US": "Wushan"
       },
       "x": 1025.0,
-      "y": 25.0,
+      "y": -25.0,
       "isTransfer": false,
       "lines": [
         "3"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站外卫生间",
+            "en-US": "Restroom outside station",
+            "location": "outside"
+          }
+        }
       ]
     }
   }

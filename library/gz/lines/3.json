@@ -8,6 +8,58 @@
       },
       "color": "#e89e47",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "厦滘车辆段"
+          },
+          {
+            "zh-CN": "嘉禾车辆段"
+          },
+          {
+            "zh-CN": "广州新城停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "海傍"
+        },
+        "endStation": {
+          "zh-CN": "机场北"
+        },
+        "serviceType": "express",
+        "lineLengthKm": 74.89,
+        "stationCount": 34,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "SelTrac IS (S40) / CBTC",
+        "maxOperatingSpeedKmh": 115,
+        "openingDate": "2005-12-26",
+        "latestExtensionDate": "2024-11-01"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B2",
+            "trainType": "Type B",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 115
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "ato": true,
+          "expressService": true
+        }
+      },
       "stations": [
         {
           "id": "330",

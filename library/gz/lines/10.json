@@ -8,6 +8,34 @@
       },
       "color": "#6e90b6",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "广钢新城车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "西塱"
+        },
+        "endStation": {
+          "zh-CN": "杨箕东"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 17.2,
+        "stationCount": 12,
+        "openingDate": "2025-06-29"
+      },
+      "trainInfo": {
+        "trainNotes": {
+          "zh-CN": "维基百科线路总表已明确本线起讫、长度、车站数与车辆段，但当前抓取资料不足以稳定补全车型。"
+        }
+      },
       "stations": [
         {
           "id": "101",

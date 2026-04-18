@@ -7,10 +7,20 @@
         "en-US": "Dajinzhong Lu"
       },
       "x": 750.0,
-      "y": 50.0,
+      "y": 0.0,
       "isTransfer": false,
       "lines": [
         "11"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

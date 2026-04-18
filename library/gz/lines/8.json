@@ -8,6 +8,42 @@
       },
       "color": "#00858a",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "白云湖车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "滘心"
+        },
+        "endStation": {
+          "zh-CN": "万胜围"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 33.9,
+        "stationCount": 28,
+        "openingDate": "2010-09-25",
+        "latestExtensionDate": "2020-11-26"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6A",
+            "trainType": "Type A",
+            "carCount": 6
+          }
+        ],
+        "formation": {
+          "cars": 6
+        }
+      },
       "stations": [
         {
           "id": "801",

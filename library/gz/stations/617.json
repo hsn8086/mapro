@@ -7,10 +7,20 @@
         "en-US": "Shaheding"
       },
       "x": 800.0,
-      "y": 75.0,
+      "y": 50.0,
       "isTransfer": false,
       "lines": [
         "6"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

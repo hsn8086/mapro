@@ -12,6 +12,16 @@
       "lines": [
         "GF",
         "佛山4"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站外卫生间",
+            "en-US": "Restroom outside station",
+            "location": "outside"
+          }
+        }
       ]
     }
   }

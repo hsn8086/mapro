@@ -8,6 +8,41 @@
       },
       "color": "#00679e",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "嘉禾车辆段"
+          },
+          {
+            "zh-CN": "大洲停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "广州南站"
+        },
+        "endStation": {
+          "zh-CN": "嘉禾望岗"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 31.8,
+        "stationCount": 24,
+        "openingDate": "2002-12-29",
+        "latestExtensionDate": "2010-09-25"
+      },
+      "trainInfo": {
+        "formation": {
+          "cars": 6
+        },
+        "trainNotes": {
+          "zh-CN": "维基百科线路总表可确认本线使用 6 节编组列车，但本次未进一步细分车型。"
+        }
+      },
       "stations": [
         {
           "id": "201",

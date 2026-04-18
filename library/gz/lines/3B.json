@@ -8,6 +8,46 @@
       },
       "color": "#e89e47",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "startStation": {
+          "zh-CN": "体育西路"
+        },
+        "endStation": {
+          "zh-CN": "天河客运站"
+        },
+        "serviceType": "branch",
+        "stationCount": 6,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "SelTrac IS (S40) / CBTC",
+        "maxOperatingSpeedKmh": 110,
+        "notes": {
+          "zh-CN": "本次根据维基百科 3 号线条目补入支线起讫与技术制式，独立长度与日期在当前抓取资料中未稳定确认。"
+        }
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B2",
+            "trainType": "Type B",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 110
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "ato": true
+        }
+      },
       "stations": [
         {
           "id": "114",

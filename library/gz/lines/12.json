@@ -8,6 +8,38 @@
       },
       "color": "#69ab5c",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "槎头车辆段"
+          },
+          {
+            "zh-CN": "大学城南停车场"
+          }
+        ],
+        "serviceType": "local",
+        "notes": {
+          "zh-CN": "维基百科总表在当前抓取片段中对本线信息换行较多，已先补入较稳定确认的车辆基地与服务类型。"
+        }
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6A",
+            "trainType": "Type A",
+            "carCount": 6
+          }
+        ],
+        "formation": {
+          "cars": 6
+        }
+      },
       "stations": [
         {
           "id": "601",

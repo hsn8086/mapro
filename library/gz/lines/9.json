@@ -8,6 +8,41 @@
       },
       "color": "#5ec998",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "岐山车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "飞鹅岭"
+        },
+        "endStation": {
+          "zh-CN": "高增"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 20.1,
+        "stationCount": 11,
+        "openingDate": "2017-12-28"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B2",
+            "trainType": "Type B",
+            "carCount": 6
+          }
+        ],
+        "formation": {
+          "cars": 6
+        }
+      },
       "stations": [
         {
           "id": "901",

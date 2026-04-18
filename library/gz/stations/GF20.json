@@ -12,6 +12,16 @@
       "lines": [
         "11",
         "GF"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

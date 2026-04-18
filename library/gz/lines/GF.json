@@ -8,6 +8,66 @@
       },
       "color": "#bbd80a",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁 / 佛山地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁运营集团有限公司"
+        },
+        "owner": {
+          "zh-CN": "广东广佛轨道交通有限公司 / 佛山市轨道交通发展有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "夏南车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "新城东"
+        },
+        "endStation": {
+          "zh-CN": "沥滘"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 39.6,
+        "stationCount": 25,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "Siemens Trainguard MT",
+        "maxOperatingSpeedKmh": 80,
+        "openingDate": "2010-11-03",
+        "latestExtensionDate": "2018-12-28"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "DKZ29",
+            "manufacturer": {
+              "zh-CN": "北车长客"
+            },
+            "trainType": "Type B",
+            "carCount": 4,
+            "maxServiceSpeedKmh": 80
+          },
+          {
+            "model": "SFM27 / SFM77",
+            "manufacturer": {
+              "zh-CN": "中车四方"
+            },
+            "trainType": "Type B",
+            "carCount": 4,
+            "maxServiceSpeedKmh": 80
+          }
+        ],
+        "formation": {
+          "cars": 4
+        },
+        "serviceFeatures": {
+          "ato": true
+        }
+      },
       "stations": [
         {
           "id": "GF01",

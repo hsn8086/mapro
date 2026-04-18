@@ -13,6 +13,16 @@
         "3",
         "18",
         "22"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

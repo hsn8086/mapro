@@ -3,6 +3,17 @@ from __future__ import annotations
 from collections import defaultdict
 
 
+def _resolve_station_status(station_item: dict | str) -> str:
+    if not isinstance(station_item, dict):
+        return "active"
+
+    status = station_item.get("status")
+    if not status:
+        return "active"
+
+    return str(status)
+
+
 def build_station_markers(lines: dict) -> dict[str, list[dict]]:
     station_markers: dict[str, list[dict]] = defaultdict(list)
     for line_id, line in lines.items():
@@ -31,7 +42,12 @@ def build_station_markers(lines: dict) -> dict[str, list[dict]]:
 
             if markers:
                 station_markers[sid].append(
-                    {"line_id": line_id, "color": line_color, "texts": markers}
+                    {
+                        "line_id": line_id,
+                        "color": line_color,
+                        "texts": markers,
+                        "active": _resolve_station_status(s_item) == "active",
+                    }
                 )
 
     return station_markers

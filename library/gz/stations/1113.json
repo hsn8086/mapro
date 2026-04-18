@@ -6,12 +6,22 @@
         "zh-CN": "梓元岗",
         "en-US": "Ziyuangang"
       },
-      "x": 625.0,
-      "y": 50.0,
+      "x": 600.0,
+      "y": 25.0,
       "isTransfer": true,
       "lines": [
         "11",
         "24"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

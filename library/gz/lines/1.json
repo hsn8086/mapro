@@ -8,6 +8,66 @@
       },
       "color": "#edcf3b",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁",
+          "en-US": "Guangzhou Metro"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司",
+          "en-US": "Guangzhou Metro Group Co., Ltd."
+        },
+        "depot": [
+          {
+            "zh-CN": "西塱车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "西塱",
+          "en-US": "Xilang"
+        },
+        "endStation": {
+          "zh-CN": "广州东站",
+          "en-US": "Guangzhou East Railway Station"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 18.497,
+        "stationCount": 16,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "Siemens Trainguard LZB 700 M / FTGS",
+        "maxOperatingSpeedKmh": 80,
+        "openingDate": "1997-06-28",
+        "latestExtensionDate": "1999-02-16",
+        "branding": {
+          "code": "GZM1",
+          "themeColorName": {
+            "zh-CN": "黄色",
+            "en-US": "Yellow"
+          },
+          "logoText": "1"
+        }
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6A",
+            "trainType": "Type A",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 80
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "ato": true
+        },
+        "trainNotes": {
+          "zh-CN": "维基百科线路总表记载本线采用 6A 编组列车。"
+        }
+      },
       "stations": [
         {
           "id": "101",

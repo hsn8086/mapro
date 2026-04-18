@@ -7,13 +7,23 @@
         "en-US": "Guangzhou East Railway Station"
       },
       "x": 900.0,
-      "y": 50.0,
+      "y": 0.0,
       "isTransfer": true,
       "lines": [
         "1",
         "3",
         "11",
         "18"
+      ],
+      "facilities": [
+        {
+          "type": "toilet",
+          "description": {
+            "zh-CN": "站内卫生间",
+            "en-US": "Restroom inside station",
+            "location": "inside"
+          }
+        }
       ]
     }
   }

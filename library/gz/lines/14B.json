@@ -8,6 +8,50 @@
       },
       "color": "#792720",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "镇龙车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "新和"
+        },
+        "endStation": {
+          "zh-CN": "镇龙"
+        },
+        "serviceType": "branch",
+        "lineLengthKm": 22,
+        "stationCount": 10,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC third rail",
+        "powerCollection": "third rail",
+        "signalling": "SelTrac CBTC",
+        "maxOperatingSpeedKmh": 115,
+        "openingDate": "2017-12-28"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B1",
+            "trainType": "Type B",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 115
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "ato": true
+        }
+      },
       "stations": [
         {
           "id": "1416"

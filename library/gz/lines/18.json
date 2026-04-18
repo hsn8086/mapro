@@ -8,6 +8,55 @@
       },
       "color": "#364c9c",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "万顷沙车辆段"
+          },
+          {
+            "zh-CN": "陇枕停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "冼村"
+        },
+        "endStation": {
+          "zh-CN": "万顷沙"
+        },
+        "serviceType": "express",
+        "lineLengthKm": 58.7,
+        "stationCount": 8,
+        "trackGaugeMm": 1435,
+        "electrification": "25kV AC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "MTC-I CBTC",
+        "maxOperatingSpeedKmh": 160,
+        "openingDate": "2021-09-28"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "市域8D",
+            "trainType": "市域D",
+            "carCount": 8,
+            "maxServiceSpeedKmh": 160
+          }
+        ],
+        "formation": {
+          "cars": 8
+        },
+        "serviceFeatures": {
+          "ato": true,
+          "driverlessGrade": "GoA3",
+          "expressService": true
+        }
+      },
       "info": {
         "maxSpeed": 160
       },

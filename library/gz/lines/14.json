@@ -8,6 +8,55 @@
       },
       "color": "#792720",
       "type": "subway",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "广州地铁"
+        },
+        "operator": {
+          "zh-CN": "广州地铁集团有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "邓村车辆段"
+          },
+          {
+            "zh-CN": "石湖停车场"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "乐嘉路"
+        },
+        "endStation": {
+          "zh-CN": "东风"
+        },
+        "serviceType": "express",
+        "lineLengthKm": 63.1,
+        "stationCount": 20,
+        "trackGaugeMm": 1435,
+        "electrification": "1500V DC third rail",
+        "powerCollection": "third rail",
+        "signalling": "SelTrac CBTC",
+        "maxOperatingSpeedKmh": 115,
+        "openingDate": "2018-12-28",
+        "latestExtensionDate": "2025-09-29"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "6B1",
+            "trainType": "Type B",
+            "carCount": 6,
+            "maxServiceSpeedKmh": 115
+          }
+        ],
+        "formation": {
+          "cars": 6
+        },
+        "serviceFeatures": {
+          "expressService": true,
+          "ato": true
+        }
+      },
       "stations": [
         {
           "id": "216",

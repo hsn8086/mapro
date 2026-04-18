@@ -264,8 +264,13 @@ def draw_stations(
             if line_markers and facility_tags:
                 w_m_total += float(2 * scale_factor)
 
+            facility_font = get_font(font_paths, int(6 * scale_factor), weight="Bold")
+            facility_label = "WC"
+            facility_bbox = draw.textbbox((0, 0), facility_label, font=facility_font)
+            facility_label_w = float(facility_bbox[2] - facility_bbox[0])
+
             for _tag in facility_tags:
-                box_w_tag = float(12 * scale_factor)
+                box_w_tag = float(facility_label_w + 2 * scale_factor)
                 w_m_total += box_w_tag + float(2 * scale_factor)
 
             w_markers = float(w_m_total)
@@ -274,7 +279,7 @@ def draw_stations(
             bbox_en = draw.textbbox((0, 0), name_en, font=current_font_en)
             w_en = float(bbox_en[2] - bbox_en[0])
             h_en = float(bbox_en[3] - bbox_en[1])
-            gap = float(3 * scale_factor)
+            gap = float(5 * scale_factor)
         else:
             w_en = 0.0
             h_en = 0.0
@@ -364,6 +369,7 @@ def draw_stations(
             box_h = float(9 * scale_factor)
             font_marker_id = get_font(font_paths, int(6 * scale_factor), weight="Bold")
             font_marker_num = get_font(font_paths, int(6 * scale_factor), weight="Bold")
+            inactive_color = str(styles["COLOR_INACTIVE"])
 
             cn_visual_center_y = by + float(bbox_cn[1] + bbox_cn[3]) / 2
             marker_y = cn_visual_center_y - box_h / 2
@@ -371,7 +377,8 @@ def draw_stations(
             current_marker_x = marker_start_x
 
             for m_item in markers_list:
-                m_color = m_item["color"]
+                marker_is_active = bool(m_item.get("active", True))
+                m_color = m_item["color"] if marker_is_active else inactive_color
                 m_texts = m_item["texts"]
 
                 lid_text = str(m_item["line_id"])
@@ -398,7 +405,10 @@ def draw_stations(
                 )
 
                 draw.text(
-                    (lid_tx_visual, lid_ty), lid_text, fill="white", font=font_marker_id
+                    (lid_tx_visual, lid_ty),
+                    lid_text,
+                    fill="white",
+                    font=font_marker_id,
                 )
 
                 current_marker_x += box_w_lid
@@ -425,42 +435,30 @@ def draw_stations(
                 if markers_list:
                     current_marker_x += float(2 * scale_factor)
 
-                box_stroke = max(1, int(scale_factor))
-                icon_size = int(12 * scale_factor)
-                icon_pad = float(2 * scale_factor)
-                icon_box = float(icon_size + 2 * scale_factor)
+                facility_font = get_font(
+                    font_paths, int(6 * scale_factor), weight="Bold"
+                )
+                facility_label = "WC"
+                facility_bbox = draw.textbbox(
+                    (0, 0), facility_label, font=facility_font
+                )
+                facility_label_w = float(facility_bbox[2] - facility_bbox[0])
+                facility_box_w = float(facility_label_w + 2 * scale_factor)
                 for tag in facility_tags:
                     is_outside = tag == "toilet_outside"
-                    box_fill = "#f1f7ff" if is_outside else "#fff7ed"
-                    box_outline = "#2563eb" if is_outside else "#f59e0b"
-                    draw.rectangle(
-                        [
-                            current_marker_x,
-                            marker_y,
-                            current_marker_x + icon_box,
-                            marker_y + box_h,
-                        ],
-                        fill=box_fill,
-                        outline=box_outline,
-                        width=box_stroke,
+                    facility_color = "#2563eb" if is_outside else "#f59e0b"
+
+                    facility_text_y = (
+                        marker_y
+                        + box_h / 2
+                        - float(facility_bbox[1] + facility_bbox[3]) / 2
+                    )
+                    facility_text_x = current_marker_x + float(scale_factor)
+                    draw.text(
+                        (facility_text_x, facility_text_y),
+                        facility_label,
+                        fill=facility_color,
+                        font=facility_font,
                     )
 
-                    icon = TOILET_ICON_OUTSIDE if is_outside else TOILET_ICON_INSIDE
-                    if icon:
-                        icon_y = marker_y + (box_h - icon_size) / 2
-                        icon_x = current_marker_x + icon_pad
-                        icon_resized = icon.resize(
-                            (icon_size, icon_size), Image.Resampling.LANCZOS
-                        )
-                        mask = icon_resized.split()[3]
-                        icon_tint = Image.new(
-                            "RGBA", (icon_size, icon_size), box_outline
-                        )
-                        icon_tint.putalpha(mask)
-                        img.paste(
-                            icon_tint,
-                            (int(icon_x), int(icon_y)),
-                            icon_tint,
-                        )
-
-                    current_marker_x += icon_box + float(2 * scale_factor)
+                    current_marker_x += facility_box_w + float(2 * scale_factor)

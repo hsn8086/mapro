@@ -8,6 +8,60 @@
       },
       "color": "#61b3e3",
       "type": "tram",
+      "lineInfo": {
+        "system": {
+          "zh-CN": "佛山有轨电车"
+        },
+        "operator": {
+          "zh-CN": "佛山市地铁运营有限公司"
+        },
+        "owner": {
+          "zh-CN": "佛山市南海区铁路投资有限公司"
+        },
+        "depot": [
+          {
+            "zh-CN": "环岛车辆段"
+          }
+        ],
+        "startStation": {
+          "zh-CN": "𧒽岗"
+        },
+        "endStation": {
+          "zh-CN": "林岳东"
+        },
+        "serviceType": "local",
+        "lineLengthKm": 14.345,
+        "stationCount": 15,
+        "trackGaugeMm": 1435,
+        "electrification": "750V DC overhead catenary",
+        "powerCollection": "overhead catenary",
+        "signalling": "FZL300 point ATC",
+        "openingDate": "2021-08-18",
+        "latestExtensionDate": "2022-11-29"
+      },
+      "trainInfo": {
+        "rollingStock": [
+          {
+            "model": "三模块有轨电车",
+            "manufacturer": {
+              "zh-CN": "中车四方"
+            },
+            "trainType": "tram",
+            "carCount": 3
+          }
+        ],
+        "formation": {
+          "cars": 3
+        },
+        "serviceFeatures": {
+          "ato": true
+        },
+        "manufacturer": [
+          {
+            "zh-CN": "中车青岛四方机车车辆"
+          }
+        ]
+      },
       "stations": [
         {
           "id": "TNH101",
