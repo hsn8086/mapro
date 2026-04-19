@@ -119,6 +119,7 @@ def measure_badges(
     text_gap = float(2 * scale_factor)
     chip_padding = float(5 * scale_factor)
     line_box_min_width = float(11 * scale_factor)
+    trailing_gap = float(2 * scale_factor)
 
     for index, marker in enumerate(line_markers):
         if index > 0:
@@ -149,6 +150,9 @@ def measure_badges(
                 total_width += marker_gap
             total_width += facility_box_width
 
+    if line_markers or facility_tags:
+        total_width += trailing_gap
+
     primary = BadgeMetrics(width=total_width, height=badge_height)
     compact = BadgeMetrics(width=0.0, height=0.0)
     return BadgeVariant(primary=primary, compact=compact)
@@ -178,6 +182,7 @@ def draw_badges(
     text_gap = float(2 * scale_factor)
     chip_padding = float(5 * scale_factor)
     line_box_min_width = float(11 * scale_factor)
+    trailing_gap = float(2 * scale_factor)
 
     total_variant = measure_badges(
         draw, line_markers, facility_tags, font_paths, scale_factor
@@ -267,3 +272,6 @@ def draw_badges(
                 font_size=int(5 * scale_factor),
             )
             current_x += facility_box_width
+
+    if line_markers or facility_tags:
+        current_x += trailing_gap

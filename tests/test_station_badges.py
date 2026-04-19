@@ -58,7 +58,7 @@ class StationBadgesTests(unittest.TestCase):
             1,
         )
 
-        self.assertEqual(metrics.primary.width, 37.0)
+        self.assertEqual(metrics.primary.width, 39.0)
         self.assertEqual(metrics.primary.height, 8.0)
         self.assertEqual(metrics.compact.width, 0.0)
         self.assertEqual(metrics.compact.height, 0.0)
