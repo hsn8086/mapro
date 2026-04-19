@@ -32,10 +32,6 @@ class StationLabelingVariantsTests(unittest.TestCase):
             badge_height=9.0,
         )
 
-        self.assertEqual(variant.core.name_cn, "广州东站")
-        self.assertEqual(variant.core.name_en, "")
-        self.assertEqual(variant.core.badge_width, 0.0)
-        self.assertIsNone(variant.core.badges_y_offset)
         self.assertEqual(variant.primary.name_en, "GUANGZHOU EAST")
         self.assertEqual(variant.compact.name_en, "")
         self.assertGreater(variant.primary.block_height, variant.compact.block_height)

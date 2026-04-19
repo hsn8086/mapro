@@ -132,7 +132,7 @@ def measure_badges(
         for text in marker["texts"]:
             text_bbox = draw.textbbox((0, 0), text, font=font_marker)
             text_width = float(text_bbox[2] - text_bbox[0])
-            total_width += text_gap + max(text_width + chip_padding, 8 * scale_factor)
+            total_width += text_gap + text_width
 
     if facility_tags:
         if line_markers:
@@ -147,7 +147,7 @@ def measure_badges(
         for index, _tag in enumerate(facility_tags):
             if index > 0:
                 total_width += marker_gap
-            total_width += facility_box_width + float(2 * scale_factor)
+            total_width += facility_box_width
 
     primary = BadgeMetrics(width=total_width, height=badge_height)
     compact = BadgeMetrics(width=0.0, height=0.0)
@@ -163,6 +163,7 @@ def draw_badges(
     font_paths: list[str],
     scale_factor: int,
     inactive_color: str,
+    align: str = "left",
 ) -> None:
     if not line_markers and not facility_tags:
         return
@@ -177,6 +178,13 @@ def draw_badges(
     text_gap = float(2 * scale_factor)
     chip_padding = float(5 * scale_factor)
     line_box_min_width = float(11 * scale_factor)
+
+    total_variant = measure_badges(
+        draw, line_markers, facility_tags, font_paths, scale_factor
+    )
+    total_width = total_variant.primary.width
+    if align == "right":
+        current_x = start_x - total_width
 
     for index, marker in enumerate(line_markers):
         if index > 0:
@@ -258,4 +266,4 @@ def draw_badges(
                 font_paths=font_paths,
                 font_size=int(5 * scale_factor),
             )
-            current_x += facility_box_width + float(2 * scale_factor)
+            current_x += facility_box_width

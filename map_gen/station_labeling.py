@@ -46,7 +46,6 @@ class LabelTextMetrics:
 
 @dataclass(frozen=True)
 class LabelTextVariant:
-    core: LabelTextMetrics
     primary: LabelTextMetrics
     compact: LabelTextMetrics
 
@@ -211,24 +210,6 @@ def measure_label_text(
         block_height=block_height,
     )
 
-    core = LabelTextMetrics(
-        name_cn=name_cn,
-        name_en="",
-        bbox_cn=bbox_cn,
-        width_cn=width_cn,
-        height_cn=height_cn,
-        width_en=0.0,
-        height_en=0.0,
-        gap=0.0,
-        badge_gap=badge_gap,
-        badge_width=0.0,
-        badge_height=0.0,
-        english_y_offset=None,
-        badges_y_offset=None,
-        block_width=width_cn,
-        block_height=height_cn,
-    )
-
     compact_badges_y_offset: float | None = None
     compact_height = height_cn
     compact_width = width_cn
@@ -255,4 +236,4 @@ def measure_label_text(
         block_height=float(compact_height),
     )
 
-    return LabelTextVariant(core=core, primary=primary, compact=compact)
+    return LabelTextVariant(primary=primary, compact=compact)

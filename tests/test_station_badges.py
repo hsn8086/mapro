@@ -58,7 +58,7 @@ class StationBadgesTests(unittest.TestCase):
             1,
         )
 
-        self.assertEqual(metrics.primary.width, 44.0)
+        self.assertEqual(metrics.primary.width, 37.0)
         self.assertEqual(metrics.primary.height, 8.0)
         self.assertEqual(metrics.compact.width, 0.0)
         self.assertEqual(metrics.compact.height, 0.0)
@@ -89,6 +89,46 @@ class StationBadgesTests(unittest.TestCase):
         self.assertIn("2", rendered_texts)
         self.assertIn("快", rendered_texts)
         self.assertIn("WC", rendered_texts)
+
+    def test_draw_badges_supports_right_alignment(self) -> None:
+        draw = DrawStub()
+        draw_badges(
+            draw,
+            start_x=100.0,
+            marker_y=20.0,
+            line_markers=[
+                {"line_id": "1", "texts": ["01"], "color": "#ff0000", "active": True}
+            ],
+            facility_tags=[],
+            font_paths=[],
+            scale_factor=1,
+            inactive_color="#cccccc",
+            align="right",
+        )
+
+        self.assertLess(draw.rectangles[0][0][0], 100.0)
+        rendered_texts = [item[1] for item in draw.texts]
+        self.assertIn("1", rendered_texts)
+        self.assertIn("01", rendered_texts)
+
+    def test_draw_badges_right_alignment_uses_given_right_edge(self) -> None:
+        draw = DrawStub()
+        draw_badges(
+            draw,
+            start_x=80.0,
+            marker_y=20.0,
+            line_markers=[
+                {"line_id": "10", "texts": ["10"], "color": "#6e90b6", "active": True}
+            ],
+            facility_tags=[],
+            font_paths=[],
+            scale_factor=1,
+            inactive_color="#cccccc",
+            align="right",
+        )
+
+        # 右对齐时，第一块应整体左移，而线路主标签文本仍然保留。
+        self.assertLess(draw.rectangles[0][0][0], 80.0)
 
 
 if __name__ == "__main__":
