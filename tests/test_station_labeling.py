@@ -90,16 +90,19 @@ class StationLabelingTests(unittest.TestCase):
             badge_width=20.0,
             badge_height=9.0,
         )
+        primary = metrics.primary
 
-        self.assertEqual(metrics.name_cn, "广州东站")
-        self.assertEqual(metrics.name_en, "GUANGZHOU EAST")
-        self.assertEqual(metrics.width_cn, 20.0)
-        self.assertEqual(metrics.height_cn, 8.0)
-        self.assertEqual(metrics.width_en, 70.0)
-        self.assertEqual(metrics.height_en, 8.0)
-        self.assertEqual(metrics.gap, 5.0)
-        self.assertEqual(metrics.block_width, 70.0)
-        self.assertEqual(metrics.block_height, 22.0)
+        self.assertEqual(primary.name_cn, "广州东站")
+        self.assertEqual(primary.name_en, "GUANGZHOU EAST")
+        self.assertEqual(primary.width_cn, 20.0)
+        self.assertEqual(primary.height_cn, 8.0)
+        self.assertEqual(primary.width_en, 70.0)
+        self.assertEqual(primary.height_en, 8.0)
+        self.assertEqual(primary.gap, 4.0)
+        self.assertEqual(primary.english_y_offset, 12.0)
+        self.assertEqual(primary.badges_y_offset, 22.0)
+        self.assertEqual(primary.block_width, 70.0)
+        self.assertEqual(primary.block_height, 31.0)
 
 
 if __name__ == "__main__":

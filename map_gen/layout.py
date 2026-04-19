@@ -97,6 +97,9 @@ def get_pos_transform(
     viewport: dict[str, Any] | None = None,
     scale_factor: int = 2,
     padding: int = 150,
+    extra_left_padding: int = 0,
+    extra_top_padding: int = 0,
+    extra_bottom_padding: int = 0,
 ) -> Layout:
     bounds = resolve_layout_bounds(stations, viewport)
     if viewport is None:
@@ -107,8 +110,10 @@ def get_pos_transform(
     min_y = bounds.min_y
     max_y = bounds.max_y
 
-    base_width = int(max_x - min_x + 2 * padding)
-    base_height = int(max_y - min_y + 2 * padding)
+    base_width = int(max_x - min_x + 2 * padding + extra_left_padding)
+    base_height = int(
+        max_y - min_y + 2 * padding + extra_top_padding + extra_bottom_padding
+    )
 
     width = base_width * scale_factor
     height = base_height * scale_factor
@@ -117,8 +122,8 @@ def get_pos_transform(
         station = stations.get(station_id)
         if not station:
             return None
-        lx = station["x"] - min_x + padding
-        ly = station["y"] - min_y + padding
+        lx = station["x"] - min_x + padding + extra_left_padding
+        ly = station["y"] - min_y + padding + extra_top_padding
         return (int(lx * scale_factor), int(ly * scale_factor))
 
     return Layout(

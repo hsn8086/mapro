@@ -20,6 +20,17 @@ class DrawStub:
         _ = outline, width
         self.rectangles.append((bounds, fill))
 
+    def rounded_rectangle(
+        self,
+        bounds: list[float],
+        fill=None,
+        outline=None,
+        width=0,
+        radius=0,
+    ) -> None:
+        _ = outline, width, radius
+        self.rectangles.append((bounds, fill))
+
     def text(self, pos: tuple[float, float], text: str, fill: str, font=None) -> None:
         _ = font
         self.texts.append((pos, text, fill))
@@ -47,8 +58,10 @@ class StationBadgesTests(unittest.TestCase):
             1,
         )
 
-        self.assertEqual(metrics.width, 43.0)
-        self.assertEqual(metrics.height, 9.0)
+        self.assertEqual(metrics.primary.width, 44.0)
+        self.assertEqual(metrics.primary.height, 8.0)
+        self.assertEqual(metrics.compact.width, 0.0)
+        self.assertEqual(metrics.compact.height, 0.0)
 
     def test_draw_badges_renders_marker_blocks_and_facility_text(self) -> None:
         draw = DrawStub()
@@ -66,9 +79,10 @@ class StationBadgesTests(unittest.TestCase):
             inactive_color="#cccccc",
         )
 
-        self.assertEqual(len(draw.rectangles), 2)
+        self.assertEqual(len(draw.rectangles), 3)
         self.assertEqual(draw.rectangles[0][1], "#ff0000")
         self.assertEqual(draw.rectangles[1][1], "#cccccc")
+        self.assertEqual(draw.rectangles[2][1], "#e8f1ff")
         rendered_texts = [item[1] for item in draw.texts]
         self.assertIn("1", rendered_texts)
         self.assertIn("01", rendered_texts)

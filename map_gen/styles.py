@@ -8,6 +8,7 @@ def build_style_constants(scale_factor: int) -> dict[str, float | str]:
         "COLOR_TEXT_SUB": "#95a5a6",
         "COLOR_STATION_STROKE": "#34495e",
         "COLOR_LEGEND_BORDER": "#bdc3c7",
+        "COLOR_GUIDE_LINE": "#c7d0d9",
         "COLOR_INACTIVE": "#ecf0f1",
         "COLOR_INACTIVE_STROKE": "#bdc3c7",
         "STATION_RADIUS_NORMAL": 3.5 * scale_factor,

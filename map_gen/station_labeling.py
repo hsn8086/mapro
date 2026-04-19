@@ -35,8 +35,19 @@ class LabelTextMetrics:
     width_en: float
     height_en: float
     gap: float
+    badge_gap: float
+    badge_width: float
+    badge_height: float
+    english_y_offset: float | None
+    badges_y_offset: float | None
     block_width: float
     block_height: float
+
+
+@dataclass(frozen=True)
+class LabelTextVariant:
+    primary: LabelTextMetrics
+    compact: LabelTextMetrics
 
 
 def build_station_visual_state(
@@ -138,7 +149,7 @@ def measure_label_text(
     scale_factor: int,
     badge_width: float,
     badge_height: float,
-) -> LabelTextMetrics:
+) -> LabelTextVariant:
     name_cn = str(station.get("name", {}).get("zh-CN", station_id))
     name_en = str(station.get("name", {}).get("en-US", "")).upper()
 
@@ -155,17 +166,33 @@ def measure_label_text(
     width_en = 0.0
     height_en = 0.0
     gap = 0.0
+    badge_gap = float(2 * scale_factor)
     if name_en:
         bbox_en_raw = draw.textbbox((0, 0), name_en, font=fonts.en)
         width_en = float(bbox_en_raw[2] - bbox_en_raw[0])
         height_en = float(bbox_en_raw[3] - bbox_en_raw[1])
-        gap = float(5 * scale_factor)
+        gap = float(4 * scale_factor)
 
-    row1_width = float(width_cn + badge_width)
-    block_width = float(max(row1_width, width_en))
-    block_height = float(max(height_cn, badge_height) + gap + height_en)
+    english_y_offset: float | None = None
+    badges_y_offset: float | None = None
+    block_width = width_cn
+    current_height = height_cn
 
-    return LabelTextMetrics(
+    if name_en:
+        english_y_offset = current_height + gap
+        current_height = english_y_offset + height_en
+        block_width = max(block_width, width_en)
+
+    if badge_width > 0 and badge_height > 0:
+        badges_y_offset = current_height + (
+            badge_gap if current_height > height_cn else gap
+        )
+        current_height = badges_y_offset + badge_height
+        block_width = max(block_width, badge_width)
+
+    block_height = float(current_height)
+
+    primary = LabelTextMetrics(
         name_cn=name_cn,
         name_en=name_en,
         bbox_cn=bbox_cn,
@@ -174,6 +201,39 @@ def measure_label_text(
         width_en=width_en,
         height_en=height_en,
         gap=gap,
+        badge_gap=badge_gap,
+        badge_width=badge_width,
+        badge_height=badge_height,
+        english_y_offset=english_y_offset,
+        badges_y_offset=badges_y_offset,
         block_width=block_width,
         block_height=block_height,
     )
+
+    compact_badges_y_offset: float | None = None
+    compact_height = height_cn
+    compact_width = width_cn
+    if badge_width > 0 and badge_height > 0:
+        compact_badges_y_offset = compact_height + gap
+        compact_height = compact_badges_y_offset + badge_height
+        compact_width = max(compact_width, badge_width)
+
+    compact = LabelTextMetrics(
+        name_cn=name_cn,
+        name_en="",
+        bbox_cn=bbox_cn,
+        width_cn=width_cn,
+        height_cn=height_cn,
+        width_en=0.0,
+        height_en=0.0,
+        gap=0.0,
+        badge_gap=badge_gap,
+        badge_width=badge_width,
+        badge_height=badge_height,
+        english_y_offset=None,
+        badges_y_offset=compact_badges_y_offset,
+        block_width=float(compact_width),
+        block_height=float(compact_height),
+    )
+
+    return LabelTextVariant(primary=primary, compact=compact)

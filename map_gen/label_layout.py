@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Sequence
 
+from .label_context import DEFAULT_DIRECTIONS, LocalLabelContext
+
 Point = tuple[int, int]
 LabelBox = tuple[float, float, float, float]
 LineSegment = tuple[Point, Point]
@@ -13,6 +15,40 @@ class LabelPlacement:
     x: float
     y: float
     box: LabelBox
+    score: float
+
+
+@dataclass(frozen=True)
+class LabelCandidate:
+    placement: LabelPlacement
+    score: float
+
+
+def compute_leader_line(
+    pos: Point,
+    text_box: LabelBox,
+    station_radius: float,
+    scale_factor: int,
+) -> tuple[tuple[float, float], tuple[float, float]] | None:
+    anchor_x = min(max(float(pos[0]), text_box[0]), text_box[2])
+    anchor_y = min(max(float(pos[1]), text_box[1]), text_box[3])
+    dx = anchor_x - pos[0]
+    dy = anchor_y - pos[1]
+    distance = (dx * dx + dy * dy) ** 0.5
+    if distance <= station_radius + 6 * scale_factor:
+        return None
+
+    ux = dx / distance
+    uy = dy / distance
+    start = (
+        pos[0] + ux * (station_radius + 1.5 * scale_factor),
+        pos[1] + uy * (station_radius + 1.5 * scale_factor),
+    )
+    end = (
+        anchor_x - ux * (2.0 * scale_factor),
+        anchor_y - uy * (2.0 * scale_factor),
+    )
+    return (start, end)
 
 
 def is_line_intersecting_rect(
@@ -118,18 +154,39 @@ def place_label_block(
     existing_boxes: Sequence[LabelBox],
     label_offset_base: float,
     scale_factor: int,
+    local_context: LocalLabelContext | None = None,
 ) -> LabelPlacement:
     search_layers = [1.0, 1.3, 1.6]
-    base_directions = [
-        (1, 0),
-        (1, 1),
-        (1, -1),
-        (0, -1),
-        (0, 1),
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-    ]
+    base_directions = (
+        local_context.preferred_directions if local_context else DEFAULT_DIRECTIONS
+    )
+
+    best_candidate: LabelCandidate | None = None
+
+    def nearest_box_distance(text_box: LabelBox) -> float:
+        if not existing_boxes:
+            return 999999.0
+
+        t0x, t0y, t1x, t1y = text_box
+        min_distance = 999999.0
+        for e0x, e0y, e1x, e1y in existing_boxes:
+            dx = max(e0x - t1x, t0x - e1x, 0.0)
+            dy = max(e0y - t1y, t0y - e1y, 0.0)
+            min_distance = min(min_distance, (dx * dx + dy * dy) ** 0.5)
+        return min_distance
+
+    def nearest_neighbor_distance(text_box: LabelBox) -> float:
+        if not local_context or not local_context.nearby_stations:
+            return 999999.0
+
+        cx = (text_box[0] + text_box[2]) / 2
+        cy = (text_box[1] + text_box[3]) / 2
+        min_distance = 999999.0
+        for station in local_context.nearby_stations:
+            dx = cx - station.pos[0]
+            dy = cy - station.pos[1]
+            min_distance = min(min_distance, (dx * dx + dy * dy) ** 0.5)
+        return min_distance
 
     for layer_scale in search_layers:
         current_base = label_offset_base * layer_scale
@@ -156,7 +213,57 @@ def place_label_block(
             ):
                 continue
 
-            return LabelPlacement(x=tx, y=ty, box=text_box)
+            if local_context and local_context.dense:
+                preferred_rank = local_context.preferred_directions.index((dx, dy))
+                direction_score = preferred_rank * 0.22
+                if dx == 0:
+                    direction_score += 0.05
+                if dy > 0:
+                    direction_score += 0.08
+            else:
+                direction_score = 0.0
+                if dx == 1 and dy == 0:
+                    direction_score = 0.0
+                elif dx == 1:
+                    direction_score = 0.25
+                elif dx == 0:
+                    direction_score = 0.6
+                else:
+                    direction_score = 1.0
+
+            vertical_penalty = 0.0 if dy <= 0 else 0.2
+            layer_penalty = (layer_scale - 1.0) * 2.0
+            distance_penalty = abs(tx - pos[0]) / max(block_w, 1.0) * 0.05
+            label_clearance_penalty = 0.0
+            nearest_label_gap = nearest_box_distance(text_box)
+            if nearest_label_gap < 12 * scale_factor:
+                label_clearance_penalty = (12 * scale_factor - nearest_label_gap) * 0.04
+
+            neighbor_anchor_penalty = 0.0
+            nearest_neighbor_gap = nearest_neighbor_distance(text_box)
+            if nearest_neighbor_gap < 24 * scale_factor:
+                neighbor_anchor_penalty = (
+                    24 * scale_factor - nearest_neighbor_gap
+                ) * 0.05
+
+            score = (
+                direction_score
+                + vertical_penalty
+                + layer_penalty
+                + distance_penalty
+                + label_clearance_penalty
+                + neighbor_anchor_penalty
+            )
+            candidate = LabelCandidate(
+                placement=LabelPlacement(x=tx, y=ty, box=text_box, score=score),
+                score=score,
+            )
+
+            if best_candidate is None or candidate.score < best_candidate.score:
+                best_candidate = candidate
+
+    if best_candidate is not None:
+        return best_candidate.placement
 
     fallback_dist = label_offset_base * 1.5
     fallback_x = pos[0] + fallback_dist
@@ -165,4 +272,5 @@ def place_label_block(
         x=fallback_x,
         y=fallback_y,
         box=(fallback_x, fallback_y, fallback_x + block_w, fallback_y + block_h),
+        score=999999.0,
     )

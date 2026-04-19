@@ -11,6 +11,7 @@ class DrawStub:
         self.line_calls: list[
             tuple[list[tuple[float, float]], str, int, str | None]
         ] = []
+        self.polygon_calls: list[tuple[list[tuple[float, float]], str | None]] = []
         self.ellipse_calls: list[tuple[list[float], str | None]] = []
 
     def line(
@@ -26,6 +27,11 @@ class DrawStub:
     def ellipse(self, bounds: list[float], *, fill: str | None = None) -> None:
         self.ellipse_calls.append((bounds, fill))
 
+    def polygon(
+        self, points: list[tuple[float, float]], *, fill: str | None = None
+    ) -> None:
+        self.polygon_calls.append((points, fill))
+
 
 class DrawLinesTests(unittest.TestCase):
     def test_draw_lines_groups_consecutive_segments_into_curved_path(self) -> None:
@@ -38,15 +44,10 @@ class DrawLinesTests(unittest.TestCase):
             ],
         )
 
-        self.assertEqual(len(draw.line_calls), 1)
-        points, fill, width, joint = draw.line_calls[0]
-        self.assertEqual(
-            points,
-            [(10.0, 10.0), (20.0, 10.0), (20.0, 10.0), (20.0, 20.0)],
-        )
-        self.assertEqual(fill, "#ff0000")
-        self.assertEqual(width, 8)
-        self.assertEqual(joint, "curve")
+        self.assertEqual(len(draw.polygon_calls), 3)
+        self.assertEqual(draw.polygon_calls[0][1], "#ff0000")
+        self.assertEqual(draw.polygon_calls[1][1], "#ff0000")
+        self.assertEqual(draw.polygon_calls[2][1], "#ff0000")
         self.assertEqual(len(draw.ellipse_calls), 2)
 
     def test_draw_lines_still_draws_inactive_paths_first(self) -> None:
@@ -59,9 +60,9 @@ class DrawLinesTests(unittest.TestCase):
             ],
         )
 
-        self.assertEqual(len(draw.line_calls), 2)
-        self.assertEqual(draw.line_calls[0][1], "#cccccc")
-        self.assertEqual(draw.line_calls[1][1], "#ff0000")
+        self.assertEqual(len(draw.polygon_calls), 2)
+        self.assertEqual(draw.polygon_calls[0][1], "#cccccc")
+        self.assertEqual(draw.polygon_calls[1][1], "#ff0000")
 
 
 if __name__ == "__main__":

@@ -102,6 +102,42 @@ class LayoutBoundsTests(unittest.TestCase):
         self.assertEqual(layout.height, 316)
         self.assertEqual(layout.get_pos("a"), (8, 8))
 
+    def test_get_pos_transform_adds_extra_top_padding(self) -> None:
+        layout = get_pos_transform(
+            {"a": {"x": 100, "y": 200}, "b": {"x": 300, "y": 500}},
+            scale_factor=1,
+            padding=0,
+            extra_top_padding=40,
+        )
+
+        self.assertEqual(layout.width, 216)
+        self.assertEqual(layout.height, 356)
+        self.assertEqual(layout.get_pos("a"), (8, 48))
+
+    def test_get_pos_transform_adds_extra_left_padding(self) -> None:
+        layout = get_pos_transform(
+            {"a": {"x": 100, "y": 200}, "b": {"x": 300, "y": 500}},
+            scale_factor=1,
+            padding=0,
+            extra_left_padding=50,
+        )
+
+        self.assertEqual(layout.width, 266)
+        self.assertEqual(layout.height, 316)
+        self.assertEqual(layout.get_pos("a"), (58, 8))
+
+    def test_get_pos_transform_adds_extra_bottom_padding(self) -> None:
+        layout = get_pos_transform(
+            {"a": {"x": 100, "y": 200}, "b": {"x": 300, "y": 500}},
+            scale_factor=1,
+            padding=0,
+            extra_bottom_padding=60,
+        )
+
+        self.assertEqual(layout.width, 216)
+        self.assertEqual(layout.height, 376)
+        self.assertEqual(layout.get_pos("a"), (8, 8))
+
 
 if __name__ == "__main__":
     unittest.main()

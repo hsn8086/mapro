@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from PIL import Image, ImageDraw
+
 from .fonts import get_font
 
 
@@ -10,6 +12,78 @@ from .fonts import get_font
 class BadgeMetrics:
     width: float
     height: float
+
+
+@dataclass(frozen=True)
+class BadgeVariant:
+    primary: BadgeMetrics
+    compact: BadgeMetrics
+
+
+def _hex_to_rgb(color: str) -> tuple[int, int, int]:
+    stripped = color.lstrip("#")
+    if len(stripped) != 6:
+        return (52, 73, 94)
+    return (int(stripped[0:2], 16), int(stripped[2:4], 16), int(stripped[4:6], 16))
+
+
+def _rgb_to_hex(rgb: tuple[int, int, int]) -> str:
+    return f"#{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}"
+
+
+def _mix_with_white(color: str, strength: float) -> str:
+    red, green, blue = _hex_to_rgb(color)
+    mixed = (
+        round(red + (255 - red) * strength),
+        round(green + (255 - green) * strength),
+        round(blue + (255 - blue) * strength),
+    )
+    return _rgb_to_hex(mixed)
+
+
+def _draw_supersampled_pill(
+    draw,
+    bounds: tuple[float, float, float, float],
+    *,
+    fill: str,
+    radius: int,
+    text: str,
+    text_fill: str,
+    font_paths: list[str],
+    font_size: int,
+) -> None:
+    if not hasattr(draw, "_image"):
+        draw.rounded_rectangle(bounds, fill=fill, radius=radius)
+        font = get_font(font_paths, font_size, weight="Bold")
+        bbox = draw.textbbox((0, 0), text, font=font)
+        center_x = (bounds[0] + bounds[2]) / 2
+        center_y = (bounds[1] + bounds[3]) / 2
+        text_x = center_x - float(bbox[0] + bbox[2]) / 2
+        text_y = center_y - float(bbox[1] + bbox[3]) / 2
+        draw.text((text_x, text_y), text, fill=text_fill, font=font)
+        return
+
+    scale = 4
+    left, top, right, bottom = bounds
+    width = max(1, int(round(right - left)))
+    height = max(1, int(round(bottom - top)))
+    layer = Image.new("RGBA", (width * scale, height * scale), (0, 0, 0, 0))
+    layer_draw = ImageDraw.Draw(layer)
+    layer_draw.rounded_rectangle(
+        [0, 0, width * scale, height * scale],
+        fill=fill,
+        radius=radius * scale,
+    )
+    font = get_font(font_paths, font_size * scale, weight="Bold")
+    bbox = layer_draw.textbbox((0, 0), text, font=font)
+    center_x = width * scale / 2
+    center_y = height * scale / 2
+    text_x = center_x - float(bbox[0] + bbox[2]) / 2
+    text_y = center_y - float(bbox[1] + bbox[3]) / 2
+    layer_draw.text((text_x, text_y), text, fill=text_fill, font=font)
+
+    resized = layer.resize((width, height), Image.Resampling.LANCZOS)
+    draw._image.paste(resized, (int(round(left)), int(round(top))), resized)
 
 
 def collect_facility_tags(station: dict[str, Any]) -> list[str]:
@@ -33,41 +107,51 @@ def measure_badges(
     facility_tags: list[str],
     font_paths: list[str],
     scale_factor: int,
-) -> BadgeMetrics:
+) -> BadgeVariant:
     if not line_markers and not facility_tags:
-        return BadgeMetrics(width=0.0, height=0.0)
+        empty = BadgeMetrics(width=0.0, height=0.0)
+        return BadgeVariant(primary=empty, compact=empty)
 
-    font_marker = get_font(font_paths, int(6 * scale_factor), weight="Bold")
-    badge_height = float(9 * scale_factor)
-    total_width = float(4 * scale_factor)
+    font_marker = get_font(font_paths, int(5 * scale_factor), weight="Bold")
+    badge_height = float(8 * scale_factor)
+    total_width = 0.0
+    marker_gap = float(3 * scale_factor)
+    text_gap = float(2 * scale_factor)
+    chip_padding = float(5 * scale_factor)
+    line_box_min_width = float(11 * scale_factor)
 
-    for marker in line_markers:
+    for index, marker in enumerate(line_markers):
+        if index > 0:
+            total_width += marker_gap
+
         line_text = str(marker["line_id"])
         line_bbox = draw.textbbox((0, 0), line_text, font=font_marker)
         line_width = float(line_bbox[2] - line_bbox[0])
-        total_width += float(max(line_width + 3 * scale_factor, 10 * scale_factor))
+        total_width += float(max(line_width + chip_padding, line_box_min_width))
 
         for text in marker["texts"]:
             text_bbox = draw.textbbox((0, 0), text, font=font_marker)
             text_width = float(text_bbox[2] - text_bbox[0])
-            total_width += (
-                float(2 * scale_factor) + text_width + float(3 * scale_factor)
-            )
-
-        total_width += float(2 * scale_factor)
-
-    if line_markers and facility_tags:
-        total_width += float(2 * scale_factor)
+            total_width += text_gap + max(text_width + chip_padding, 8 * scale_factor)
 
     if facility_tags:
+        if line_markers:
+            total_width += marker_gap
+
         facility_label = "WC"
         facility_bbox = draw.textbbox((0, 0), facility_label, font=font_marker)
         facility_label_width = float(facility_bbox[2] - facility_bbox[0])
-        facility_box_width = float(facility_label_width + 2 * scale_factor)
-        for _tag in facility_tags:
+        facility_box_width = float(
+            max(facility_label_width + chip_padding, 10 * scale_factor)
+        )
+        for index, _tag in enumerate(facility_tags):
+            if index > 0:
+                total_width += marker_gap
             total_width += facility_box_width + float(2 * scale_factor)
 
-    return BadgeMetrics(width=total_width, height=badge_height)
+    primary = BadgeMetrics(width=total_width, height=badge_height)
+    compact = BadgeMetrics(width=0.0, height=0.0)
+    return BadgeVariant(primary=primary, compact=compact)
 
 
 def draw_badges(
@@ -83,12 +167,21 @@ def draw_badges(
     if not line_markers and not facility_tags:
         return
 
-    box_height = float(9 * scale_factor)
-    font_marker_id = get_font(font_paths, int(6 * scale_factor), weight="Bold")
-    font_marker_num = get_font(font_paths, int(6 * scale_factor), weight="Bold")
+    box_height = float(8 * scale_factor)
+    line_radius = max(1, int(2 * scale_factor))
+    facility_radius = line_radius
+    font_marker_id = get_font(font_paths, int(5 * scale_factor), weight="Bold")
+    font_marker_num = get_font(font_paths, int(5 * scale_factor), weight="Bold")
     current_x = start_x
+    marker_gap = float(3 * scale_factor)
+    text_gap = float(2 * scale_factor)
+    chip_padding = float(5 * scale_factor)
+    line_box_min_width = float(11 * scale_factor)
 
-    for marker in line_markers:
+    for index, marker in enumerate(line_markers):
+        if index > 0:
+            current_x += marker_gap
+
         marker_is_active = bool(marker.get("active", True))
         marker_color = str(marker["color"]) if marker_is_active else inactive_color
         marker_texts = marker["texts"]
@@ -96,59 +189,73 @@ def draw_badges(
         line_text = str(marker["line_id"])
         line_bbox = draw.textbbox((0, 0), line_text, font=font_marker_id)
         line_width = float(line_bbox[2] - line_bbox[0])
-        line_box_width = float(max(line_width + 3 * scale_factor, 10 * scale_factor))
+        line_box_width = float(max(line_width + chip_padding, line_box_min_width))
 
-        draw.rectangle(
-            [current_x, marker_y, current_x + line_box_width, marker_y + box_height],
+        line_bounds = (
+            current_x,
+            marker_y,
+            current_x + line_box_width,
+            marker_y + box_height,
+        )
+        _draw_supersampled_pill(
+            draw,
+            line_bounds,
             fill=marker_color,
+            radius=line_radius,
+            text=line_text,
+            text_fill="white",
+            font_paths=font_paths,
+            font_size=int(5 * scale_factor),
         )
 
         box_center_y = marker_y + box_height / 2
-        line_text_y = box_center_y - float(line_bbox[1] + line_bbox[3]) / 2
-        line_text_x = (
-            current_x + line_box_width / 2 - float(line_bbox[0] + line_bbox[2]) / 2
-        )
-        draw.text(
-            (line_text_x, line_text_y), line_text, fill="white", font=font_marker_id
-        )
-
         current_x += line_box_width
 
         for text in marker_texts:
             text_bbox = draw.textbbox((0, 0), text, font=font_marker_num)
             text_width = float(text_bbox[2] - text_bbox[0])
 
-            current_x += float(2 * scale_factor)
+            current_x += text_gap
             text_y = box_center_y - float(text_bbox[1] + text_bbox[3]) / 2
             draw.text(
-                (current_x, text_y), text, fill=marker_color, font=font_marker_num
+                (current_x, text_y),
+                text,
+                fill=marker_color,
+                font=font_marker_num,
             )
-            current_x += text_width + float(3 * scale_factor)
-
-        current_x += float(2 * scale_factor)
+            current_x += text_width
 
     if facility_tags:
         if line_markers:
-            current_x += float(2 * scale_factor)
+            current_x += marker_gap
 
-        facility_font = get_font(font_paths, int(6 * scale_factor), weight="Bold")
+        facility_font = get_font(font_paths, int(5 * scale_factor), weight="Bold")
         facility_label = "WC"
         facility_bbox = draw.textbbox((0, 0), facility_label, font=facility_font)
         facility_label_width = float(facility_bbox[2] - facility_bbox[0])
-        facility_box_width = float(facility_label_width + 2 * scale_factor)
-        for tag in facility_tags:
+        facility_box_width = float(
+            max(facility_label_width + chip_padding, 10 * scale_factor)
+        )
+        for index, tag in enumerate(facility_tags):
+            if index > 0:
+                current_x += marker_gap
             is_outside = tag == "toilet_outside"
-            facility_color = "#2563eb" if is_outside else "#f59e0b"
-            facility_text_y = (
-                marker_y
-                + box_height / 2
-                - float(facility_bbox[1] + facility_bbox[3]) / 2
+            facility_color = "#2563eb" if is_outside else "#c97a00"
+            facility_bg = "#e8f1ff" if is_outside else "#fff2df"
+            facility_bounds = (
+                current_x,
+                marker_y,
+                current_x + facility_box_width,
+                marker_y + box_height,
             )
-            facility_text_x = current_x + float(scale_factor)
-            draw.text(
-                (facility_text_x, facility_text_y),
-                facility_label,
-                fill=facility_color,
-                font=facility_font,
+            _draw_supersampled_pill(
+                draw,
+                facility_bounds,
+                fill=facility_bg,
+                radius=facility_radius,
+                text=facility_label,
+                text_fill=facility_color,
+                font_paths=font_paths,
+                font_size=int(5 * scale_factor),
             )
             current_x += facility_box_width + float(2 * scale_factor)

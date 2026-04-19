@@ -56,7 +56,7 @@ def draw_metro_map(
         styles,
     )
 
-    title_bottom = draw_title_block(draw, plan.meta, plan.font_paths, styles)
+    draw_title_block(draw, plan.meta, plan.font_paths, styles)
 
     draw_legend(
         draw,
@@ -67,7 +67,7 @@ def draw_metro_map(
         height,
         str(styles["COLOR_TEXT_MAIN"]),
         str(styles["COLOR_LEGEND_BORDER"]),
-        title_bottom + 40 * scale_factor,
+        None,
     )
 
     img.save(output_path)
