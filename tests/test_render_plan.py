@@ -46,6 +46,7 @@ class RenderPlanTests(unittest.TestCase):
         self.assertEqual(plan.connections, [data["connections"][0]])
         self.assertEqual(plan.line_width, 18.0)
         self.assertIn("1", plan.segment_data.line_polylines)
+        self.assertEqual(len(plan.segment_data.shared_segments), 1)
         self.assertIn(("1", "s2"), plan.segment_data.skip_map)
         self.assertEqual(plan.station_markers["s1"][0]["texts"], ["01"])
         self.assertFalse(plan.station_markers["s2"][0]["active"])
@@ -66,6 +67,26 @@ class RenderPlanTests(unittest.TestCase):
         self.assertEqual(plan.station_markers, {})
         self.assertEqual(plan.segment_data.line_polylines, {})
         self.assertEqual(plan.font_paths, [])
+
+    def test_build_render_plan_compresses_redundant_polyline_points(self) -> None:
+        data = {
+            "stations": {
+                "s1": {"x": 0, "y": 0, "name": {"zh-CN": "甲"}},
+                "s2": {"x": 20, "y": 0, "name": {"zh-CN": "乙"}},
+                "s3": {"x": 40, "y": 0, "name": {"zh-CN": "丙"}},
+            },
+            "lines": {
+                "1": {
+                    "id": "1",
+                    "color": "#ff0000",
+                    "stations": ["s1", "s2", "s3"],
+                }
+            },
+        }
+
+        plan = build_render_plan(data)
+
+        self.assertEqual(len(plan.segment_data.line_polylines["1"]), 2)
 
 
 if __name__ == "__main__":

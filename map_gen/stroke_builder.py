@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from .styles import is_non_active_status, resolve_status_color
+
 
 @dataclass(frozen=True)
 class StrokeSegment:
@@ -14,12 +16,15 @@ class StrokeSegment:
     is_inactive: bool
 
 
-def _resolve_base_color(line_data: dict[str, Any], inactive_color: str) -> str:
+def _resolve_base_color(
+    line_data: dict[str, Any], styles: dict[str, float | str]
+) -> tuple[str, str]:
     base_color = str(line_data.get("color", "#000000"))
     line_status = str(line_data.get("status", "active"))
-    if line_status != "active":
-        return inactive_color
-    return base_color
+    return (
+        resolve_status_color(line_status, styles, active_color=base_color),
+        line_status,
+    )
 
 
 def _build_point_map(line_meta: dict[str, Any]) -> dict[tuple[int, int], int]:
@@ -29,12 +34,17 @@ def _build_point_map(line_meta: dict[str, Any]) -> dict[tuple[int, int], int]:
     }
 
 
-def _is_planned_segment(statuses: list[str], station_index: int) -> bool:
-    if station_index < len(statuses) and statuses[station_index] == "planned":
-        return True
-    if station_index + 1 < len(statuses) and statuses[station_index + 1] == "planned":
-        return True
-    return False
+def _resolve_segment_status(statuses: list[str], station_index: int) -> str:
+    candidates: list[str] = []
+    if station_index < len(statuses):
+        candidates.append(statuses[station_index])
+    if station_index + 1 < len(statuses):
+        candidates.append(statuses[station_index + 1])
+
+    for status in ("under_construction", "planned"):
+        if status in candidates:
+            return status
+    return "active"
 
 
 def _build_offset_segment(
@@ -91,7 +101,6 @@ def build_line_strokes(
     styles: dict[str, float | str],
     line_width: float,
 ) -> list[StrokeSegment]:
-    inactive_color = str(styles["COLOR_INACTIVE"])
     stroke_segments: list[StrokeSegment] = []
 
     for line_id, polyline in line_polylines.items():
@@ -104,7 +113,7 @@ def build_line_strokes(
         point_map = _build_point_map(meta)
         statuses_raw = meta.get("statuses", [])
         statuses = [str(status) for status in statuses_raw]
-        base_color = _resolve_base_color(line_data, inactive_color)
+        base_color, line_status = _resolve_base_color(line_data, styles)
         line_draw_state_station_idx = 0
         is_tram = str(line_data.get("type", "subway")) == "tram"
 
@@ -115,8 +124,15 @@ def build_line_strokes(
             if p1 in point_map:
                 line_draw_state_station_idx = point_map[p1]
 
-            is_inactive = _is_planned_segment(statuses, line_draw_state_station_idx)
-            color = inactive_color if is_inactive else base_color
+            segment_status = _resolve_segment_status(statuses, line_draw_state_station_idx)
+            color = resolve_status_color(
+                segment_status,
+                styles,
+                active_color=base_color,
+            )
+            is_inactive = is_non_active_status(line_status) or is_non_active_status(
+                segment_status
+            )
 
             key = (p2, p1) if p1 > p2 else (p1, p2)
             group = segment_map.get(key, [line_id])
@@ -131,7 +147,7 @@ def build_line_strokes(
                 line_index=line_index,
                 line_width=line_width,
                 is_tram=is_tram,
-                is_inactive=color == inactive_color,
+                is_inactive=is_inactive,
             )
             if segment is not None:
                 stroke_segments.append(segment)

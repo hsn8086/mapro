@@ -4,30 +4,86 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Callable
 
+from .geometry import get_dir
+from .path_postprocess import postprocess_polyline
+
+Point = tuple[int, int]
+SegmentKey = tuple[Point, Point]
+
+
+@dataclass(frozen=True)
+class SharedSegment:
+    key: SegmentKey
+    start: Point
+    end: Point
+    line_ids: tuple[str, ...]
+    is_shared: bool
+
 
 @dataclass
 class SegmentData:
-    line_polylines: dict[str, list[tuple[int, int]]]
+    line_polylines: dict[str, list[Point]]
     line_meta: dict[str, dict]
     skip_map: set[tuple[str, str]]
-    segment_map: dict[tuple[tuple[int, int], tuple[int, int]], list[str]]
-    segment_offsets: dict[tuple[tuple[int, int], tuple[int, int]], dict[str, int]]
-    line_segments_for_collision: list[tuple[tuple[int, int], tuple[int, int]]]
+    segment_map: dict[SegmentKey, list[str]]
+    segment_offsets: dict[SegmentKey, dict[str, int]]
+    line_segments_for_collision: list[SegmentKey]
+    tram_line_segments_for_collision: list[SegmentKey]
+    shared_segments: tuple[SharedSegment, ...]
+
+
+def _sort_bundle_line_ids(
+    key: SegmentKey,
+    line_ids: list[str],
+    line_polylines: dict[str, list[Point]],
+) -> list[str]:
+    start, end = key
+
+    def direction_before_after(line_id: str) -> tuple[tuple[int, int], tuple[int, int]]:
+        polyline = line_polylines.get(line_id, [])
+        for index in range(len(polyline) - 1):
+            p1 = polyline[index]
+            p2 = polyline[index + 1]
+            normalized = (p2, p1) if p1 > p2 else (p1, p2)
+            if normalized != key:
+                continue
+
+            before_dir = (0, 0)
+            after_dir = (0, 0)
+            if p1 == start and p2 == end:
+                if index > 0:
+                    before_dir = get_dir(polyline[index - 1], p1)
+                if index + 2 < len(polyline):
+                    after_dir = get_dir(p2, polyline[index + 2])
+            else:
+                if index > 0:
+                    before_dir = get_dir(polyline[index - 1], p1)
+                if index + 2 < len(polyline):
+                    after_dir = get_dir(p2, polyline[index + 2])
+                before_dir = (-before_dir[0], -before_dir[1])
+                after_dir = (-after_dir[0], -after_dir[1])
+            return (before_dir, after_dir)
+
+        return ((0, 0), (0, 0))
+
+    return sorted(
+        line_ids, key=lambda line_id: (*direction_before_after(line_id), line_id)
+    )
 
 
 def build_segment_index(
     lines: dict,
-    get_pos: Callable[[str], tuple[int, int] | None],
-    build_line_polyline: Callable[[list[tuple[int, int]]], list[tuple[int, int]]],
+    get_pos: Callable[[str], Point | None],
+    build_line_polyline: Callable[[list[Point]], list[Point]],
 ) -> SegmentData:
-    line_polylines: dict[str, list[tuple[int, int]]] = {}
-    all_points: set[tuple[int, int]] = set()
+    line_polylines: dict[str, list[Point]] = {}
+    all_points: set[Point] = set()
     skip_map: set[tuple[str, str]] = set()
     line_meta: dict[str, dict] = {}
 
     for line_id, line in lines.items():
         line_stations = line.get("stations", [])
-        pts: list[tuple[int, int]] = []
+        pts: list[Point] = []
         statuses: list[str] = []
 
         for s_item in line_stations:
@@ -49,15 +105,13 @@ def build_segment_index(
                 statuses.append(status)
 
         if len(pts) > 1:
-            polyline = build_line_polyline(pts)
+            polyline = postprocess_polyline(build_line_polyline(pts))
             line_polylines[line_id] = polyline
             line_meta[line_id] = {"points": pts, "statuses": statuses}
             for p in polyline:
                 all_points.add(p)
 
-    def is_on_segment(
-        p: tuple[int, int], a: tuple[int, int], b: tuple[int, int]
-    ) -> bool:
+    def is_on_segment(p: Point, a: Point, b: Point) -> bool:
         if p == a or p == b:
             return False
         dx1, dy1 = b[0] - a[0], b[1] - a[1]
@@ -74,21 +128,19 @@ def build_segment_index(
             return False
         return True
 
-    segment_map: dict[tuple[tuple[int, int], tuple[int, int]], list[str]] = defaultdict(
-        list
-    )
+    segment_map: dict[SegmentKey, list[str]] = defaultdict(list)
     for line_id, poly in line_polylines.items():
         if not poly:
             continue
 
-        new_poly: list[tuple[int, int]] = []
+        new_poly: list[Point] = []
         new_poly.append(poly[0])
 
         for i in range(len(poly) - 1):
             p_start = poly[i]
             p_end = poly[i + 1]
 
-            on_segment: list[tuple[int, int]] = []
+            on_segment: list[Point] = []
             for p in all_points:
                 if is_on_segment(p, p_start, p_end):
                     on_segment.append(p)
@@ -100,24 +152,44 @@ def build_segment_index(
             new_poly.extend(on_segment)
             new_poly.append(p_end)
 
-        line_polylines[line_id] = new_poly
+        line_polylines[line_id] = postprocess_polyline(new_poly)
 
-        for i in range(len(new_poly) - 1):
-            p1 = new_poly[i]
-            p2 = new_poly[i + 1]
+        processed_poly = line_polylines[line_id]
+        for i in range(len(processed_poly) - 1):
+            p1 = processed_poly[i]
+            p2 = processed_poly[i + 1]
             key = (p2, p1) if p1 > p2 else (p1, p2)
             segment_map[key].append(line_id)
 
-    segment_offsets: dict[tuple[tuple[int, int], tuple[int, int]], dict[str, int]] = {}
+    segment_offsets: dict[SegmentKey, dict[str, int]] = {}
+    shared_segments: list[SharedSegment] = []
     for key, line_ids in segment_map.items():
-        line_ids.sort()
-        offsets = {lid: i for i, lid in enumerate(line_ids)}
+        ordered_line_ids = _sort_bundle_line_ids(key, list(line_ids), line_polylines)
+        offsets = {lid: i for i, lid in enumerate(ordered_line_ids)}
         segment_offsets[key] = offsets
+        shared_segments.append(
+            SharedSegment(
+                key=key,
+                start=key[0],
+                end=key[1],
+                line_ids=tuple(ordered_line_ids),
+                is_shared=len(ordered_line_ids) > 1,
+            )
+        )
 
-    line_segments_for_collision: list[tuple[tuple[int, int], tuple[int, int]]] = []
-    unique_segments = set(segment_map.keys())
-    for s in unique_segments:
-        line_segments_for_collision.append(s)
+    line_segments_for_collision: list[SegmentKey] = []
+    tram_line_segments_for_collision: list[SegmentKey] = []
+    for shared_segment in shared_segments:
+        line_segments_for_collision.append(shared_segment.key)
+        if any(
+            str(lines.get(line_id, {}).get("type", "subway")) == "tram"
+            for line_id in shared_segment.line_ids
+        ):
+            tram_line_segments_for_collision.append(shared_segment.key)
+
+    shared_segments.sort(
+        key=lambda segment: (segment.start, segment.end, segment.line_ids)
+    )
 
     return SegmentData(
         line_polylines=line_polylines,
@@ -126,4 +198,6 @@ def build_segment_index(
         segment_map=segment_map,
         segment_offsets=segment_offsets,
         line_segments_for_collision=line_segments_for_collision,
+        tram_line_segments_for_collision=tram_line_segments_for_collision,
+        shared_segments=tuple(shared_segments),
     )

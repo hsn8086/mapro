@@ -43,13 +43,36 @@ class StrokeBuilderTests(unittest.TestCase):
             {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
             {((0, 0), (10, 0)): ["1"]},
             {((0, 0), (10, 0)): {"1": 0}},
-            {"COLOR_INACTIVE": "#cccccc"},
+            {"COLOR_INACTIVE": "#cccccc", "COLOR_STATUS_PLANNED": "#bbbbbb"},
             18.0,
         )
 
         self.assertEqual(len(strokes), 1)
         self.assertTrue(strokes[0].is_inactive)
-        self.assertEqual(strokes[0].color, "#cccccc")
+        self.assertEqual(strokes[0].color, "#bbbbbb")
+
+    def test_build_line_strokes_marks_under_construction_segment_inactive(self) -> None:
+        strokes = build_line_strokes(
+            {"1": [(0, 0), (10, 0)]},
+            {
+                "1": {
+                    "points": [(0, 0), (10, 0)],
+                    "statuses": ["under_construction", "active"],
+                }
+            },
+            {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
+            {((0, 0), (10, 0)): ["1"]},
+            {((0, 0), (10, 0)): {"1": 0}},
+            {
+                "COLOR_INACTIVE": "#cccccc",
+                "COLOR_STATUS_UNDER_CONSTRUCTION": "#aa8844",
+            },
+            18.0,
+        )
+
+        self.assertEqual(len(strokes), 1)
+        self.assertTrue(strokes[0].is_inactive)
+        self.assertEqual(strokes[0].color, "#aa8844")
 
     def test_build_line_strokes_reduces_single_tram_thickness(self) -> None:
         strokes = build_line_strokes(

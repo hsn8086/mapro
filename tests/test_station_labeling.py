@@ -52,6 +52,8 @@ class StationLabelingTests(unittest.TestCase):
                 "COLOR_TEXT_MAIN": "#222222",
                 "COLOR_TEXT_SUB": "#333333",
                 "COLOR_INACTIVE": "#cccccc",
+                "COLOR_STATUS_PLANNED": "#bbbbbb",
+                "COLOR_STATUS_UNDER_CONSTRUCTION": "#aa8844",
                 "STATION_RADIUS_NORMAL": 3.0,
                 "STATION_RADIUS_TRANSFER": 6.0,
                 "STATION_STROKE": 1.0,
@@ -62,6 +64,30 @@ class StationLabelingTests(unittest.TestCase):
         self.assertEqual(state.stroke_color, "#cccccc")
         self.assertEqual(state.text_color_main, "#cccccc")
         self.assertEqual(state.text_color_sub, "#cccccc")
+
+    def test_build_station_visual_state_uses_under_construction_colors(self) -> None:
+        state = build_station_visual_state(
+            "s1",
+            {"status": "under_construction", "lines": ["1"]},
+            {"1": {"type": "subway"}},
+            set(),
+            {
+                "COLOR_STATION_STROKE": "#111111",
+                "COLOR_TEXT_MAIN": "#222222",
+                "COLOR_TEXT_SUB": "#333333",
+                "COLOR_INACTIVE": "#cccccc",
+                "COLOR_STATUS_PLANNED": "#bbbbbb",
+                "COLOR_STATUS_UNDER_CONSTRUCTION": "#aa8844",
+                "STATION_RADIUS_NORMAL": 3.0,
+                "STATION_RADIUS_TRANSFER": 6.0,
+                "STATION_STROKE": 1.0,
+                "STATION_STROKE_TRANSFER": 2.0,
+            },
+        )
+
+        self.assertEqual(state.stroke_color, "#aa8844")
+        self.assertEqual(state.text_color_main, "#aa8844")
+        self.assertEqual(state.text_color_sub, "#aa8844")
 
     def test_resolve_station_fonts_returns_font_pair(self) -> None:
         fonts = resolve_station_fonts(

@@ -6,6 +6,7 @@ from typing import Any
 from PIL import ImageFont
 
 from .fonts import get_font
+from .styles import resolve_status_color
 
 
 @dataclass(frozen=True)
@@ -76,10 +77,21 @@ def build_station_visual_state(
     text_color_main = str(styles["COLOR_TEXT_MAIN"])
     text_color_sub = str(styles["COLOR_TEXT_SUB"])
     if station_status != "active":
-        inactive_color = str(styles["COLOR_INACTIVE"])
-        stroke_color = inactive_color
-        text_color_main = inactive_color
-        text_color_sub = inactive_color
+        stroke_color = resolve_status_color(
+            station_status,
+            styles,
+            active_color=stroke_color,
+        )
+        text_color_main = resolve_status_color(
+            station_status,
+            styles,
+            active_color=text_color_main,
+        )
+        text_color_sub = resolve_status_color(
+            station_status,
+            styles,
+            active_color=text_color_sub,
+        )
 
     is_tram_station = bool(active_stopping_lines) and all(
         str(lines.get(line_id, {}).get("type", "subway")) == "tram"

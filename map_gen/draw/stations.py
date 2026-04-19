@@ -51,6 +51,7 @@ def draw_stations(
     skip_map: set[tuple[str, str]],
     station_markers: dict[str, list[dict]],
     line_segments_for_collision: list[tuple[tuple[int, int], tuple[int, int]]],
+    tram_line_segments_for_collision: list[tuple[tuple[int, int], tuple[int, int]]],
     scale_factor: int,
     font_paths: list[str],
     styles: dict[str, float | str],
@@ -168,11 +169,16 @@ def draw_stations(
         facility_tags = collect_facility_tags(s)
 
         label_offset_base = float(styles["LABEL_OFFSET_BASE"])
+        collision_segments = (
+            tram_line_segments_for_collision
+            if visual_state.is_tram_station
+            else line_segments_for_collision
+        )
         placement = place_label_block(
             pos,
             text_metrics.block_width,
             text_metrics.block_height,
-            line_segments_for_collision,
+            collision_segments,
             label_boxes,
             label_offset_base,
             scale_factor,

@@ -51,6 +51,7 @@ def draw_metro_map(
         segment_data.skip_map,
         plan.station_markers,
         segment_data.line_segments_for_collision,
+        segment_data.tram_line_segments_for_collision,
         scale_factor,
         plan.font_paths,
         styles,

@@ -119,7 +119,7 @@ def draw_transfer_connections(
         if not p1 or not p2:
             continue
 
-        conn_color = "#7f8c8d"
+        conn_color = str(styles.get("COLOR_CONNECTION_PHYSICAL", "#7f8c8d"))
         conn_width = int(2 * scale_factor)
 
         label_text = ""
@@ -128,11 +128,11 @@ def draw_transfer_connections(
         if c_type == "virtual":
             label_text = "出站换乘"
             is_dashed = True
-            conn_color = "#95a5a6"
+            conn_color = str(styles.get("COLOR_CONNECTION_VIRTUAL", "#95a5a6"))
         elif c_type == "bus":
             label_text = "接驳公交"
             is_dashed = True
-            conn_color = "#e67e22"
+            conn_color = str(styles.get("COLOR_CONNECTION_BUS", "#e67e22"))
         elif c_type == "physical":
             label_text = "同站换乘"
             is_dashed = False
