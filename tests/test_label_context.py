@@ -36,6 +36,20 @@ class LabelContextTests(unittest.TestCase):
         self.assertEqual(contexts["b"].corridor_axis, "horizontal")
         self.assertEqual(contexts["b"].corridor_index, 0)
 
+    def test_build_local_label_contexts_detects_tight_horizontal_pair(self) -> None:
+        contexts = build_local_label_contexts(
+            [
+                StationContextInput("a", (100, 100), 20.0, 10.0, False, True, 2),
+                StationContextInput("b", (150, 100), 28.0, 10.0, True, True, 2),
+            ],
+            1,
+        )
+
+        self.assertTrue(contexts["a"].dense)
+        self.assertTrue(contexts["b"].dense)
+        self.assertEqual(contexts["a"].corridor_axis, "horizontal")
+        self.assertEqual(contexts["b"].corridor_axis, "horizontal")
+
 
 if __name__ == "__main__":
     unittest.main()

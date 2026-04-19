@@ -157,11 +157,16 @@ def place_label_block(
     local_context: LocalLabelContext | None = None,
 ) -> LabelPlacement:
     search_layers = [1.0, 1.3, 1.6]
+    if local_context and local_context.dense:
+        search_layers.extend([2.0, 2.4, 2.8, 3.2, 3.8, 4.4])
     base_directions = (
         local_context.preferred_directions if local_context else DEFAULT_DIRECTIONS
     )
 
     best_candidate: LabelCandidate | None = None
+    best_line_clear_candidate: LabelCandidate | None = None
+    best_overlap_clear_candidate: LabelCandidate | None = None
+    best_relaxed_candidate: LabelCandidate | None = None
 
     def nearest_box_distance(text_box: LabelBox) -> float:
         if not existing_boxes:
@@ -199,19 +204,16 @@ def place_label_block(
             ty = target_cy - block_h / 2
             text_box = (tx, ty, tx + block_w, ty + block_h)
 
-            if is_box_colliding_with_lines(
+            line_collision = is_box_colliding_with_lines(
                 text_box,
                 line_segments_for_collision,
                 threshold=float(5 * scale_factor),
-            ):
-                continue
-
-            if is_box_overlapping_other_labels(
+            )
+            label_overlap = is_box_overlapping_other_labels(
                 text_box,
                 existing_boxes,
                 padding=float(scale_factor),
-            ):
-                continue
+            )
 
             if local_context and local_context.dense:
                 preferred_rank = local_context.preferred_directions.index((dx, dy))
@@ -246,7 +248,7 @@ def place_label_block(
                     24 * scale_factor - nearest_neighbor_gap
                 ) * 0.05
 
-            score = (
+            base_score = (
                 direction_score
                 + vertical_penalty
                 + layer_penalty
@@ -254,16 +256,51 @@ def place_label_block(
                 + label_clearance_penalty
                 + neighbor_anchor_penalty
             )
+            score = base_score
+            if label_overlap:
+                score += 40.0
+            if line_collision:
+                score += 80.0
             candidate = LabelCandidate(
                 placement=LabelPlacement(x=tx, y=ty, box=text_box, score=score),
                 score=score,
             )
+
+            if (
+                best_relaxed_candidate is None
+                or candidate.score < best_relaxed_candidate.score
+            ):
+                best_relaxed_candidate = candidate
+
+            if not line_collision and (
+                best_line_clear_candidate is None
+                or candidate.score < best_line_clear_candidate.score
+            ):
+                best_line_clear_candidate = candidate
+
+            if not label_overlap and (
+                best_overlap_clear_candidate is None
+                or candidate.score < best_overlap_clear_candidate.score
+            ):
+                best_overlap_clear_candidate = candidate
+
+            if line_collision or label_overlap:
+                continue
 
             if best_candidate is None or candidate.score < best_candidate.score:
                 best_candidate = candidate
 
     if best_candidate is not None:
         return best_candidate.placement
+
+    if best_line_clear_candidate is not None:
+        return best_line_clear_candidate.placement
+
+    if best_overlap_clear_candidate is not None:
+        return best_overlap_clear_candidate.placement
+
+    if best_relaxed_candidate is not None:
+        return best_relaxed_candidate.placement
 
     fallback_dist = label_offset_base * 1.5
     fallback_x = pos[0] + fallback_dist

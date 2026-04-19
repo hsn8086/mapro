@@ -108,6 +108,94 @@ class LabelLayoutTests(unittest.TestCase):
 
         self.assertEqual((placement.x, placement.y), (110.0, 110.0))
 
+    def test_place_label_block_prefers_line_clear_candidate_when_all_overlap(
+        self,
+    ) -> None:
+        context = LocalLabelContext(
+            station_id="s1",
+            dense=True,
+            cluster_id=1,
+            corridor_axis="none",
+            corridor_index=0,
+            preferred_directions=((0, 1), (1, 0)),
+            tangent_vector=(0.0, 0.0),
+            nearby_stations=(),
+        )
+        line_segments = [((125, 0), (125, 200))]
+        existing_boxes = [(88.0, 108.0, 112.0, 128.0)]
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=line_segments,
+            existing_boxes=existing_boxes,
+            label_offset_base=10.0,
+            scale_factor=1,
+            local_context=context,
+        )
+
+        self.assertFalse(
+            is_box_colliding_with_lines(placement.box, line_segments, threshold=5.0)
+        )
+        self.assertLessEqual(placement.box[3], existing_boxes[0][1])
+
+    def test_place_label_block_prefers_overlap_clear_candidate_when_all_hit_lines(
+        self,
+    ) -> None:
+        context = LocalLabelContext(
+            station_id="s1",
+            dense=True,
+            cluster_id=1,
+            corridor_axis="none",
+            corridor_index=0,
+            preferred_directions=((0, 1), (1, 0)),
+            tangent_vector=(0.0, 0.0),
+            nearby_stations=(),
+        )
+        line_segments = [((125, 0), (125, 200)), ((0, 125), (200, 125))]
+        existing_boxes = [(88.0, 108.0, 112.0, 128.0)]
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=line_segments,
+            existing_boxes=existing_boxes,
+            label_offset_base=10.0,
+            scale_factor=1,
+            local_context=context,
+        )
+
+        self.assertFalse(
+            is_box_overlapping_other_labels(placement.box, existing_boxes, padding=1.0)
+        )
+        self.assertLessEqual(placement.box[3], existing_boxes[0][1])
+
+    def test_place_label_block_searches_farther_for_dense_safe_position(self) -> None:
+        context = LocalLabelContext(
+            station_id="s1",
+            dense=True,
+            cluster_id=1,
+            corridor_axis="vertical",
+            corridor_index=1,
+            preferred_directions=((0, -1),),
+            tangent_vector=(0.0, 1.0),
+            nearby_stations=(),
+        )
+
+        obstacle = (90.0, 63.0, 110.0, 96.0)
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=[((0, 70), (200, 70))],
+            existing_boxes=[obstacle],
+            label_offset_base=10.0,
+            scale_factor=1,
+            local_context=context,
+        )
+
+        self.assertLess(placement.box[3], obstacle[1])
+
     def test_place_label_block_respects_dense_corridor_preferred_directions(
         self,
     ) -> None:

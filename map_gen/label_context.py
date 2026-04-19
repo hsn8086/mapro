@@ -198,6 +198,15 @@ def build_local_label_contexts(
 
     radius = 70.0 * scale_factor
     neighbors = _build_neighbors(inputs, radius)
+    tight_pair_radius = 75.0 * scale_factor
+    for index, item in enumerate(inputs):
+        for other in inputs[index + 1 :]:
+            if _distance(item.pos, other.pos) > tight_pair_radius:
+                continue
+            if item.station_id in neighbors[other.station_id]:
+                continue
+            neighbors[item.station_id].append(other.station_id)
+            neighbors[other.station_id].append(item.station_id)
     components = _build_components(neighbors)
     input_map = {item.station_id: item for item in inputs}
     contexts: dict[str, LocalLabelContext] = {}
@@ -205,6 +214,11 @@ def build_local_label_contexts(
     cluster_counter = 0
     for component in components:
         dense = len(component) >= 3
+        if not dense and len(component) == 2:
+            first = input_map[component[0]]
+            second = input_map[component[1]]
+            if _distance(first.pos, second.pos) <= tight_pair_radius:
+                dense = True
         axis: CorridorAxis = "none"
         ordered_ids = list(component)
         cluster_id: int | None = None
