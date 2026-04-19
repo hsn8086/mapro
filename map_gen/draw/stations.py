@@ -109,8 +109,8 @@ def draw_stations(
             StationContextInput(
                 station_id=s_id,
                 pos=pos,
-                block_width=text_metrics.primary.block_width,
-                block_height=text_metrics.primary.block_height,
+                block_width=text_metrics.core.block_width,
+                block_height=text_metrics.core.block_height,
                 is_transfer=visual_state.is_transfer,
                 has_badges=bool(line_markers or facility_tags),
                 name_length=len(text_metrics.primary.name_cn),
@@ -131,8 +131,8 @@ def draw_stations(
         corridor_rank = context.corridor_index if context else 999999
         transfer_rank = 0 if item.visual_state.is_transfer else 1
         block_rank = -max(
-            item.text_variant.primary.block_width,
-            item.text_variant.primary.block_height,
+            item.text_variant.core.block_width,
+            item.text_variant.core.block_height,
         )
         return (
             dense_rank,
@@ -168,7 +168,7 @@ def draw_stations(
         facility_tags = collect_facility_tags(s)
 
         label_offset_base = float(styles["LABEL_OFFSET_BASE"])
-        placement = place_label_block(
+        base_placement = place_label_block(
             pos,
             text_metrics.block_width,
             text_metrics.block_height,
@@ -179,9 +179,23 @@ def draw_stations(
             local_context=local_contexts.get(s_id),
         )
 
+        placement = base_placement
+
         effective_line_markers = line_markers
         effective_facility_tags = facility_tags
         if local_contexts.get(s_id) and local_contexts[s_id].dense:
+            text_metrics = text_variant.core
+            core_placement = place_label_block(
+                pos,
+                text_metrics.block_width,
+                text_metrics.block_height,
+                line_segments_for_collision,
+                label_boxes,
+                label_offset_base,
+                scale_factor,
+                local_context=local_contexts.get(s_id),
+            )
+            placement = core_placement
             candidates: list[
                 tuple[
                     float,
@@ -193,16 +207,37 @@ def draw_stations(
                 ]
             ] = []
 
-            full_text = text_variant.primary
-            full_badges = badge_variant.primary
             candidates.append(
                 (
-                    placement.score,
+                    core_placement.score,
+                    text_variant.core,
+                    badge_variant.compact,
+                    [],
+                    [],
+                    core_placement,
+                )
+            )
+
+            full_text = text_variant.primary
+            full_badges = badge_variant.primary
+            full_placement = place_label_block(
+                pos,
+                full_text.block_width,
+                full_text.block_height,
+                line_segments_for_collision,
+                label_boxes,
+                label_offset_base,
+                scale_factor,
+                local_context=local_contexts.get(s_id),
+            )
+            candidates.append(
+                (
+                    full_placement.score + 0.08,
                     full_text,
                     full_badges,
                     line_markers,
                     facility_tags,
-                    placement,
+                    full_placement,
                 )
             )
 
@@ -292,10 +327,44 @@ def draw_stations(
                     )
 
             best = min(candidates, key=lambda item: item[0])
-            text_metrics = best[1]
-            effective_line_markers = best[3]
-            effective_facility_tags = best[4]
-            placement = best[5]
+            chosen_text = best[1]
+            chosen_line_markers = best[3]
+            chosen_facility_tags = best[4]
+
+            # 主标签位置永远由 core placement 决定，只允许在其下附着次要信息。
+            # 这样无论密集区怎么退让，都不会出现“主标签实际缺席”的情况。
+            if chosen_text is not text_variant.core:
+                horizontal_shift = best[5].x - core_placement.x
+                vertical_shift = best[5].y - core_placement.y
+                if abs(horizontal_shift) <= 24 * scale_factor:
+                    placement = LabelPlacement(
+                        x=core_placement.x,
+                        y=core_placement.y,
+                        box=(
+                            core_placement.box[0],
+                            core_placement.box[1],
+                            core_placement.box[0] + chosen_text.block_width,
+                            core_placement.box[1] + chosen_text.block_height,
+                        ),
+                        score=best[0] + 0.02,
+                    )
+                elif abs(vertical_shift) <= 24 * scale_factor:
+                    placement = LabelPlacement(
+                        x=core_placement.x,
+                        y=core_placement.y,
+                        box=(
+                            core_placement.box[0],
+                            core_placement.box[1],
+                            core_placement.box[0] + chosen_text.block_width,
+                            core_placement.box[1] + chosen_text.block_height,
+                        ),
+                        score=best[0] + 0.04,
+                    )
+                else:
+                    placement = best[5]
+            text_metrics = chosen_text
+            effective_line_markers = chosen_line_markers
+            effective_facility_tags = chosen_facility_tags
 
         label_boxes.append(placement.box)
         bx = placement.x
