@@ -10,3 +10,6 @@ dependencies = [
 
 [project.scripts]
 mapro = "main:main"
+
+[tool.ty.src]
+exclude = ["design/"]

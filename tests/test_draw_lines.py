@@ -33,6 +33,33 @@ class DrawStub:
         self.polygon_calls.append((points, fill))
 
 
+class NativePathDrawStub(DrawStub):
+    def __init__(self) -> None:
+        super().__init__()
+        self.path_calls: list[dict[str, object]] = []
+
+    def path(
+        self,
+        d: str,
+        *,
+        fill: str | None = None,
+        stroke: str | None = None,
+        stroke_width: int | float = 1,
+        stroke_linecap: str | None = None,
+        stroke_linejoin: str | None = None,
+    ) -> None:
+        self.path_calls.append(
+            {
+                "d": d,
+                "fill": fill,
+                "stroke": stroke,
+                "stroke_width": stroke_width,
+                "stroke_linecap": stroke_linecap,
+                "stroke_linejoin": stroke_linejoin,
+            }
+        )
+
+
 class DrawLinesTests(unittest.TestCase):
     def test_draw_lines_groups_consecutive_segments_into_curved_path(self) -> None:
         draw = DrawStub()
@@ -63,6 +90,22 @@ class DrawLinesTests(unittest.TestCase):
         self.assertEqual(len(draw.polygon_calls), 2)
         self.assertEqual(draw.polygon_calls[0][1], "#cccccc")
         self.assertEqual(draw.polygon_calls[1][1], "#ff0000")
+
+    def test_draw_lines_uses_native_stroke_path_when_backend_supports_it(self) -> None:
+        draw = NativePathDrawStub()
+        draw_lines(
+            draw,
+            [
+                StrokeSegment("1", (10.0, 10.0), (20.0, 10.0), "#ff0000", 8.0, False),
+                StrokeSegment("1", (20.0, 10.0), (20.0, 20.0), "#ff0000", 8.0, False),
+            ],
+        )
+
+        self.assertEqual(len(draw.path_calls), 1)
+        self.assertEqual(draw.path_calls[0]["stroke"], "#ff0000")
+        self.assertEqual(draw.path_calls[0]["stroke_linecap"], "round")
+        self.assertEqual(draw.path_calls[0]["stroke_linejoin"], "round")
+        self.assertEqual(draw.polygon_calls, [])
 
 
 if __name__ == "__main__":

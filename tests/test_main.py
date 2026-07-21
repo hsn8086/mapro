@@ -63,6 +63,77 @@ class RenderCommandTests(unittest.TestCase):
         self.assertEqual(renderer_calls[0][0]["stations"], {"s1": {"x": 4.0, "y": 8.0}})
         self.assertEqual(renderer_calls[0][1], str(output_path))
 
+    def test_render_map_svg_mode_writes_svg_output(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            data_path = Path(temp_dir) / "map.json"
+            output_path = Path(temp_dir) / "preview.png"
+            data_path.write_text(
+                json.dumps({"stations": {"s1": {"x": 2, "y": 4}}, "lines": {}}),
+                encoding="utf-8",
+            )
+            renderer_calls: list[str] = []
+
+            def renderer(
+                data: dict[str, object],
+                output: str,
+                background: str | None,
+                fonts: list[str] | None,
+            ) -> None:
+                _ = data, background, fonts
+                renderer_calls.append(output)
+                Path(output).write_text("<svg />", encoding="utf-8")
+
+            success = main.render_map(
+                data_path=data_path,
+                output_path=output_path,
+                mode="svg",
+                renderer=renderer,
+            )
+
+            self.assertTrue(success)
+            self.assertEqual(renderer_calls, [str(output_path.with_suffix(".svg"))])
+            self.assertTrue(output_path.with_suffix(".svg").exists())
+
+    def test_render_map_svg_png_mode_converts_temporary_svg(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            data_path = Path(temp_dir) / "map.json"
+            output_path = Path(temp_dir) / "preview.png"
+            data_path.write_text(
+                json.dumps({"stations": {"s1": {"x": 2, "y": 4}}, "lines": {}}),
+                encoding="utf-8",
+            )
+            renderer_calls: list[str] = []
+            converter_calls: list[tuple[Path, Path]] = []
+
+            def renderer(
+                data: dict[str, object],
+                output: str,
+                background: str | None,
+                fonts: list[str] | None,
+            ) -> None:
+                _ = data, background, fonts
+                renderer_calls.append(output)
+                Path(output).write_text("<svg />", encoding="utf-8")
+
+            def converter(svg_path: Path, png_path: Path) -> None:
+                converter_calls.append((svg_path, png_path))
+                png_path.write_bytes(b"png")
+
+            success = main.render_map(
+                data_path=data_path,
+                output_path=output_path,
+                mode="svg-png",
+                renderer=renderer,
+                svg_png_converter=converter,
+            )
+
+            temporary_svg_path = output_path.with_suffix(output_path.suffix + ".svg")
+            self.assertTrue(success)
+            self.assertEqual(renderer_calls, [str(temporary_svg_path)])
+            self.assertEqual(converter_calls, [(temporary_svg_path, output_path)])
+            self.assertTrue(output_path.exists())
+            self.assertFalse(temporary_svg_path.exists())
+
     def test_watch_render_regenerates_when_timestamp_changes(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             data_path = Path(temp_dir) / "map.json"
@@ -92,6 +163,7 @@ class RenderCommandTests(unittest.TestCase):
                 background_path: Path | None = None,
                 font_paths: Sequence[str] | None = None,
                 scale: float = 1.0,
+                mode: str = "pil",
                 renderer_func: main.Renderer = main.draw_metro_map,
             ) -> bool:
                 result = main.render_map(
@@ -100,6 +172,7 @@ class RenderCommandTests(unittest.TestCase):
                     background_path,
                     font_paths,
                     scale,
+                    mode,
                     renderer_func,
                 )
                 if len(renderer_calls) == 1:

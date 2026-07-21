@@ -101,6 +101,37 @@ def _arc_points(
     return points
 
 
+def _stroke_path_data(path: list[StrokeSegment]) -> str:
+    if not path:
+        return ""
+
+    commands = [f"M {path[0].start[0]:.3f} {path[0].start[1]:.3f}"]
+    current = path[0].start
+    for segment in path:
+        if _distance(segment.start, current) > 1e-6:
+            commands.append(f"M {segment.start[0]:.3f} {segment.start[1]:.3f}")
+        commands.append(f"L {segment.end[0]:.3f} {segment.end[1]:.3f}")
+        current = segment.end
+    return " ".join(commands)
+
+
+def _draw_native_stroke_path(draw, path: list[StrokeSegment]) -> bool:
+    draw_path = getattr(draw, "path", None)
+    if not callable(draw_path):
+        return False
+
+    first_segment = path[0]
+    draw_path(
+        _stroke_path_data(path),
+        fill="none",
+        stroke=first_segment.color,
+        stroke_width=first_segment.thickness,
+        stroke_linecap="round",
+        stroke_linejoin="round",
+    )
+    return True
+
+
 def _draw_round_join(
     draw,
     prev_segment: StrokeSegment,
@@ -198,6 +229,16 @@ def draw_lines(draw, stroke_segments: list[StrokeSegment]) -> None:
     grouped_paths = _group_stroke_paths(stroke_segments)
     draw_buffer_inactive = [path for path in grouped_paths if path[0].is_inactive]
     draw_buffer_active = [path for path in grouped_paths if not path[0].is_inactive]
+
+    draw_path = getattr(draw, "path", None)
+    if callable(draw_path):
+        for path in draw_buffer_inactive:
+            _draw_native_stroke_path(draw, path)
+
+        for path in draw_buffer_active:
+            _draw_native_stroke_path(draw, path)
+
+        return
 
     if hasattr(draw, "_image"):
         base_image = draw._image

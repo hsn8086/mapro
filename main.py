@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import shutil
+import subprocess
 import time
 import zipfile
 from collections.abc import Sequence
@@ -21,9 +23,10 @@ DEFAULT_FONT_PATHS = [
 ]
 
 Renderer = Callable[[dict[str, Any], str, str | None, list[str] | None], None]
+SvgPngConverter = Callable[[Path, Path], None]
 SleepFunc = Callable[[float], None]
 RenderFunc = Callable[
-    [Path, Path, Path | None, Sequence[str] | None, float, Renderer],
+    [Path, Path, Path | None, Sequence[str] | None, float, str, Renderer],
     bool,
 ]
 
@@ -67,6 +70,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=1.0,
         help="Scale station coordinates before rendering",
+    )
+    render_parser.add_argument(
+        "--mode",
+        choices=("pil", "svg", "svg-png"),
+        default="pil",
+        help="Rendering backend: pil image, svg vector, or SVG converted to PNG",
     )
     render_parser.add_argument(
         "--watch",
@@ -402,6 +411,18 @@ def calculate_bounds(data: dict[str, Any]) -> tuple[float, float, float, float]:
     return min(x_values), max(x_values), min(y_values), max(y_values)
 
 
+def convert_svg_to_png(svg_path: Path, png_path: Path) -> None:
+    converter = shutil.which("rsvg-convert")
+    if converter is None:
+        raise RuntimeError("rsvg-convert is required for svg-png render mode")
+
+    png_path.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(
+        [converter, str(svg_path), "-o", str(png_path)],
+        check=True,
+    )
+
+
 def format_bounds(bounds: tuple[float, float, float, float]) -> str:
     min_x, max_x, min_y, max_y = bounds
     return "\n".join(
@@ -420,7 +441,9 @@ def render_map(
     background_path: Path | None = None,
     font_paths: Sequence[str] | None = None,
     scale: float = 1.0,
+    mode: str = "pil",
     renderer: Renderer = draw_metro_map,
+    svg_png_converter: SvgPngConverter = convert_svg_to_png,
 ) -> bool:
     if not data_path.exists():
         print(f"Data file not found: {data_path}")
@@ -429,12 +452,25 @@ def render_map(
     try:
         data = load_map_data(data_path)
         scaled_data = scale_station_coordinates(data, scale)
+        actual_output_path = output_path
+        temporary_svg_path: Path | None = None
+        if mode == "svg":
+            actual_output_path = output_path.with_suffix(".svg")
+        elif mode == "svg-png":
+            temporary_svg_path = output_path.with_suffix(output_path.suffix + ".svg")
+            actual_output_path = temporary_svg_path
+        elif mode != "pil":
+            raise ValueError(f"Unsupported render mode: {mode}")
+
         renderer(
             scaled_data,
-            str(output_path),
+            str(actual_output_path),
             None if background_path is None else str(background_path),
             resolve_font_paths(font_paths),
         )
+        if temporary_svg_path is not None:
+            svg_png_converter(temporary_svg_path, output_path)
+            temporary_svg_path.unlink(missing_ok=True)
     except Exception as exc:
         print(f"Error: {exc}")
         return False
@@ -449,6 +485,7 @@ def watch_render(
     background_path: Path | None = None,
     font_paths: Sequence[str] | None = None,
     scale: float = 1.0,
+    mode: str = "pil",
     interval: float = 1.0,
     renderer: Renderer = draw_metro_map,
     render_func: RenderFunc = render_map,
@@ -469,6 +506,7 @@ def watch_render(
                         background_path,
                         font_paths,
                         scale,
+                        mode,
                         renderer,
                     )
                     last_mtime = mtime
@@ -488,6 +526,7 @@ def run_render_command(args: argparse.Namespace) -> int:
             background_path=args.background,
             font_paths=font_paths,
             scale=args.scale,
+            mode=args.mode,
             interval=args.interval,
         )
         return 0
@@ -500,6 +539,7 @@ def run_render_command(args: argparse.Namespace) -> int:
             background_path=args.background,
             font_paths=font_paths,
             scale=args.scale,
+            mode=args.mode,
         )
         else 1
     )
