@@ -25,7 +25,9 @@ GUIDE = "#DEDEDA"
 
 CJK = "/usr/share/fonts/adobe-source-han-sans/SourceHanSansCN-Regular.otf"
 CJK_M = "/usr/share/fonts/adobe-source-han-sans/SourceHanSansCN-Medium.otf"
-LATIN = "/home/small-hsn/.agents/skills/canvas-design/canvas-fonts/GeistMono-Regular.ttf"
+LATIN = (
+    "/home/small-hsn/.agents/skills/canvas-design/canvas-fonts/GeistMono-Regular.ttf"
+)
 
 MARGIN = int(W_ * 0.055)
 LW = 18 * SS
@@ -102,24 +104,39 @@ def gap_station(p, dir_deg, breadth=LW * 0.55):
     a = math.radians(dir_deg)
     nx, ny = -math.sin(a), math.cos(a)
     h = breadth / 2
-    d.line([(p[0] - nx * h, p[1] - ny * h), (p[0] + nx * h, p[1] + ny * h)], fill=BG, width=int(GAP_ST))
+    d.line(
+        [(p[0] - nx * h, p[1] - ny * h), (p[0] + nx * h, p[1] + ny * h)],
+        fill=BG,
+        width=int(GAP_ST),
+    )
 
 
 def seam_slot(p, dir_deg):
     a = math.radians(dir_deg)
     nx, ny = -math.sin(a), math.cos(a)
     h = (GAP + LW) / 2
-    d.line([(p[0] - nx * h, p[1] - ny * h), (p[0] + nx * h, p[1] + ny * h)], fill=BG, width=int(GAP_ST))
+    d.line(
+        [(p[0] - nx * h, p[1] - ny * h), (p[0] + nx * h, p[1] + ny * h)],
+        fill=BG,
+        width=int(GAP_ST),
+    )
 
 
 def ring(p):
-    d.ellipse([p[0] - R_RING, p[1] - R_RING, p[0] + R_RING, p[1] + R_RING], fill=BG, outline=TXT, width=W_RING)
+    d.ellipse(
+        [p[0] - R_RING, p[1] - R_RING, p[0] + R_RING, p[1] + R_RING],
+        fill=BG,
+        outline=TXT,
+        width=W_RING,
+    )
 
 
 def capsule(p0, p1):
     x0, x1 = min(p0[0], p1[0]) - R_RING, max(p0[0], p1[0]) + R_RING
     y0, y1 = min(p0[1], p1[1]) - R_RING, max(p0[1], p1[1]) + R_RING
-    d.rounded_rectangle([x0, y0, x1, y1], radius=R_RING, fill=BG, outline=TXT, width=W_RING)
+    d.rounded_rectangle(
+        [x0, y0, x1, y1], radius=R_RING, fill=BG, outline=TXT, width=W_RING
+    )
 
 
 def sec_title(y, zh, en):
@@ -133,7 +150,13 @@ def sec_title(y, zh, en):
 y = MARGIN
 d.text((MARGIN, y), "并线案例集 · 风格样张", font=f_h1, fill=TXT, anchor="la")
 d.text((W_ - MARGIN, y + 12 * SS), "SPEC 03", font=f_cap, fill=SUB, anchor="ra")
-d.text((MARGIN, y + 48 * SS), "并入 · 解出 · 交叉 · 并轨 · 拐弯", font=f_note, fill=SUB, anchor="la")
+d.text(
+    (MARGIN, y + 48 * SS),
+    "并入 · 解出 · 交叉 · 并轨 · 拐弯",
+    font=f_note,
+    fill=SUB,
+    anchor="la",
+)
 
 y0 = y + 106 * SS
 sec_title(y0, "六种情形", "bundling cases")
@@ -178,7 +201,9 @@ gap_station((ox + 110 * SS, y_in), 0)
 capsule((xS, oy + 160 * SS), (xT, oy + 160 * SS))
 
 # ---- B: opposite-side leave -> 45 deg crossing, no symbol at cross
-ox, oy = panel(1, 0, "B · 异侧解出 · 45° 斜跨", "跨越处无符号 · 跨越线在上层 · 远离站点")
+ox, oy = panel(
+    1, 0, "B · 异侧解出 · 45° 斜跨", "跨越处无符号 · 跨越线在上层 · 远离站点"
+)
 xT = ox + 300 * SS
 xS = xT - OFF
 stroke([(xT, oy), (xT, oy + 290 * SS)], CA)
@@ -250,7 +275,9 @@ seam_slot((ox + 140 * SS, Cy + rA + OFF / 2), 0)
 capsule((Cx + rA, oy + 60 * SS), (Cx + rA + OFF, oy + 60 * SS))
 
 # ---- F: third line crossing under the bundle
-ox, oy = panel(1, 2, "F · 第三线横穿 · 不并入", "束几何不变 · 交叉处无符号 · 横穿线在下层")
+ox, oy = panel(
+    1, 2, "F · 第三线横穿 · 不并入", "束几何不变 · 交叉处无符号 · 横穿线在下层"
+)
 xc = ox + 270 * SS
 stroke([(ox + 10 * SS, oy + 175 * SS), (ox + 520 * SS, oy + 175 * SS)], CC)
 for k, c in ((-1, CA), (1, CB)):
@@ -269,9 +296,17 @@ rules = [
     "第三方横穿：束几何不变，交叉处无符号，横穿线绘制在束下层",
 ]
 for i, r in enumerate(rules):
-    d.text((MARGIN, fy + (22 + i * 26) * SS), f"{i + 1}.  {r}", font=f_note, fill=SUB, anchor="lm")
+    d.text(
+        (MARGIN, fy + (22 + i * 26) * SS),
+        f"{i + 1}.  {r}",
+        font=f_note,
+        fill=SUB,
+        anchor="lm",
+    )
 
-d.text((W_ - MARGIN, H_ - MARGIN), "preview ≤ 1600px", font=f_cap, fill=SUB, anchor="rs")
+d.text(
+    (W_ - MARGIN, H_ - MARGIN), "preview ≤ 1600px", font=f_cap, fill=SUB, anchor="rs"
+)
 
 out = img.resize((FW, FH), Image.LANCZOS)
 out_path = Path(__file__).resolve().parent / "style_spec_03.png"

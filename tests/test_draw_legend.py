@@ -44,7 +44,7 @@ class LegendDrawStub:
 
 
 class DrawLegendTests(unittest.TestCase):
-    def test_draw_legend_renders_header_and_sorted_items(self) -> None:
+    def test_draw_legend_renders_only_swatches_and_sorted_names(self) -> None:
         draw = LegendDrawStub()
         draw_legend(
             draw,
@@ -62,10 +62,16 @@ class DrawLegendTests(unittest.TestCase):
             "#dddddd",
         )
 
-        self.assertEqual(len(draw.rectangle_calls), 5)
-        self.assertEqual(draw.rectangle_calls[0][1], "white")
-        self.assertEqual(draw.rectangle_calls[0][2], "#dddddd")
-        self.assertEqual([call[1] for call in draw.text_calls], ["图例", "一号线", "二号线", "十号线", "支线"])
+        # flat spec: no legend box, no header — one swatch per line only
+        self.assertEqual(len(draw.rectangle_calls), 4)
+        self.assertEqual(
+            [call[1] for call in draw.rectangle_calls],
+            ["#ff0000", "#00ff00", "#cccccc", "#333333"],
+        )
+        self.assertEqual(
+            [call[1] for call in draw.text_calls],
+            ["一号线", "二号线", "十号线", "支线"],
+        )
         self.assertTrue(all(call[2] == "#222222" for call in draw.text_calls))
 
 

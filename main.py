@@ -78,6 +78,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Rendering backend: pil image, svg vector, or SVG converted to PNG",
     )
     render_parser.add_argument(
+        "--preview",
+        action="store_true",
+        help="Fast preview: clamp the longest output edge to 1600px",
+    )
+    render_parser.add_argument(
+        "--badges",
+        action="store_true",
+        help="Draw station badges (line pills, facility tags); off by default",
+    )
+    render_parser.add_argument(
         "--watch",
         action="store_true",
         help="Watch the data file and regenerate on changes",
@@ -517,8 +527,31 @@ def watch_render(
         sleep_func(interval)
 
 
+def build_cli_renderer(*, badges: bool, preview: bool) -> Renderer:
+    def renderer(
+        data: dict[str, Any],
+        output_path: str,
+        bg_path: str | None,
+        font_paths: list[str] | None,
+    ) -> None:
+        draw_metro_map(
+            data,
+            output_path,
+            bg_path,
+            font_paths,
+            badges_enabled=badges,
+            preview_max_edge=1600 if preview else None,
+        )
+
+    return renderer
+
+
 def run_render_command(args: argparse.Namespace) -> int:
     font_paths = resolve_font_paths(args.fonts)
+    renderer = build_cli_renderer(
+        badges=bool(getattr(args, "badges", False)),
+        preview=bool(getattr(args, "preview", False)),
+    )
     if args.watch:
         watch_render(
             data_path=args.data,
@@ -528,6 +561,7 @@ def run_render_command(args: argparse.Namespace) -> int:
             scale=args.scale,
             mode=args.mode,
             interval=args.interval,
+            renderer=renderer,
         )
         return 0
 
@@ -540,6 +574,7 @@ def run_render_command(args: argparse.Namespace) -> int:
             font_paths=font_paths,
             scale=args.scale,
             mode=args.mode,
+            renderer=renderer,
         )
         else 1
     )

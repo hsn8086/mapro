@@ -25,7 +25,9 @@ GUIDE = "#DEDEDA"
 
 CJK = "/usr/share/fonts/adobe-source-han-sans/SourceHanSansCN-Regular.otf"
 CJK_M = "/usr/share/fonts/adobe-source-han-sans/SourceHanSansCN-Medium.otf"
-LATIN = "/home/small-hsn/.agents/skills/canvas-design/canvas-fonts/GeistMono-Regular.ttf"
+LATIN = (
+    "/home/small-hsn/.agents/skills/canvas-design/canvas-fonts/GeistMono-Regular.ttf"
+)
 
 LIB = Path(__file__).resolve().parent.parent / "library" / "gz"
 MARGIN = int(W_ * 0.055)
@@ -81,7 +83,9 @@ f_note = ImageFont.truetype(CJK, 14 * SS)
 # ---------------------------------------------------------------- helpers
 
 
-def fillet_path(pts: list[tuple[float, float]], r: float, n: int = 24) -> list[tuple[float, float]]:
+def fillet_path(
+    pts: list[tuple[float, float]], r: float, n: int = 24
+) -> list[tuple[float, float]]:
     """Polyline with circular fillets at interior vertices."""
     out: list[tuple[float, float]] = [pts[0]]
     for i in range(1, len(pts) - 1):
@@ -114,7 +118,9 @@ def stroke(pts: list[tuple[float, float]], color: str, width: int = LW) -> None:
     d.line(pts, fill=color, width=width, joint="curve")
 
 
-def gap_station(p: tuple[float, float], dir_deg: float, breadth: float = LW * 0.55) -> None:
+def gap_station(
+    p: tuple[float, float], dir_deg: float, breadth: float = LW * 0.55
+) -> None:
     """Centred white slot inside the stroke; outer edges stay solid."""
     a = math.radians(dir_deg)
     nx, ny = -math.sin(a), math.cos(a)
@@ -150,7 +156,9 @@ def ring(p: tuple[float, float]) -> None:
 def capsule(p0: tuple[float, float], p1: tuple[float, float]) -> None:
     x0, x1 = min(p0[0], p1[0]) - R_RING, max(p0[0], p1[0]) + R_RING
     y0, y1 = min(p0[1], p1[1]) - R_RING, max(p0[1], p1[1]) + R_RING
-    d.rounded_rectangle([x0, y0, x1, y1], radius=R_RING, fill=BG, outline=TXT, width=W_RING)
+    d.rounded_rectangle(
+        [x0, y0, x1, y1], radius=R_RING, fill=BG, outline=TXT, width=W_RING
+    )
 
 
 def sec_title(y: float, zh: str, en: str) -> None:
@@ -169,7 +177,13 @@ def name_of(sid: str) -> tuple[str, str]:
 y = MARGIN
 d.text((MARGIN, y), "并线与站符 · 风格样张", font=f_h1, fill=TXT, anchor="la")
 d.text((W_ - MARGIN, y + 12 * SS), "SPEC 02", font=f_cap, fill=SUB, anchor="ra")
-d.text((MARGIN, y + 48 * SS), "4/12 大学城段 · 真实数据 · 画布层并线", font=f_note, fill=SUB, anchor="la")
+d.text(
+    (MARGIN, y + 48 * SS),
+    "4/12 大学城段 · 真实数据 · 画布层并线",
+    font=f_note,
+    fill=SUB,
+    anchor="la",
+)
 
 y0 = y + 110 * SS
 sec_title(y0, "线网裁片", "bundling · gap stations · capsules")
@@ -242,7 +256,13 @@ lab_x = X4 + R_RING + LW * 0.9
 
 
 def label_r(yv: float, zh: str, en: str, medium: bool = True) -> None:
-    d.text((lab_x, yv - 11 * SS), zh, font=f_zh_m if medium else f_zh, fill=TXT, anchor="lm")
+    d.text(
+        (lab_x, yv - 11 * SS),
+        zh,
+        font=f_zh_m if medium else f_zh,
+        fill=TXT,
+        anchor="lm",
+    )
     d.text((lab_x, yv + 12 * SS), en, font=f_en, fill=SUB, anchor="lm")
 
 
@@ -260,7 +280,13 @@ for sid, wx, wy in [("417", 1275, 650), ("416", 1300, 675)]:
 for sid, wx in [("1220", 1050), ("1101", 1100), ("1222", 1150)]:
     zh, en = name_of(sid)
     p = P(wx, 400)
-    d.text((p[0], p[1] + LW * 1.2), zh, font=f_zh_m if sid == "1101" else f_zh, fill=TXT, anchor="ma")
+    d.text(
+        (p[0], p[1] + LW * 1.2),
+        zh,
+        font=f_zh_m if sid == "1101" else f_zh,
+        fill=TXT,
+        anchor="ma",
+    )
     d.text((p[0], p[1] + LW * 1.2 + 23 * SS), en, font=f_en, fill=SUB, anchor="ma")
 
 # line 7 stations, labels on the clear side
@@ -272,7 +298,9 @@ d.text((p[0], p[1] + 23 * SS), en, font=f_en, fill=SUB, anchor="ra")
 zh, en = name_of("710")
 p = P(1350, 475)
 d.text((p[0] + LW * 0.9, p[1] + LW * 0.5), zh, font=f_zh, fill=TXT, anchor="la")
-d.text((p[0] + LW * 0.9, p[1] + LW * 0.5 + 26 * SS), en, font=f_en, fill=SUB, anchor="la")
+d.text(
+    (p[0] + LW * 0.9, p[1] + LW * 0.5 + 26 * SS), en, font=f_en, fill=SUB, anchor="la"
+)
 
 # legend
 ly = by1 + 34 * SS
@@ -298,13 +326,19 @@ d.text((ix[0], sy + LW * 2.2), "单线中缝槽 0.35W", font=f_note, fill=SUB, a
 
 # 2 seam slot (co-running normal station)
 for k in (-1, 1):
-    stroke([(ix[1] - LW * 2.4, sy + k * OFF / 2), (ix[1] + LW * 2.4, sy + k * OFF / 2)], C4 if k < 0 else C12)
+    stroke(
+        [(ix[1] - LW * 2.4, sy + k * OFF / 2), (ix[1] + LW * 2.4, sy + k * OFF / 2)],
+        C4 if k < 0 else C12,
+    )
 seam_slot((ix[1], sy), 0)
 d.text((ix[1], sy + LW * 2.2), "束中缝白槽", font=f_note, fill=SUB, anchor="ma")
 
 # 3 bundle capsule
 for k in (-1, 1):
-    stroke([(ix[2] - LW * 2.4, sy + k * OFF / 2), (ix[2] + LW * 2.4, sy + k * OFF / 2)], C4 if k < 0 else C12)
+    stroke(
+        [(ix[2] - LW * 2.4, sy + k * OFF / 2), (ix[2] + LW * 2.4, sy + k * OFF / 2)],
+        C4 if k < 0 else C12,
+    )
 capsule((ix[2], sy - OFF / 2), (ix[2], sy + OFF / 2))
 d.text((ix[2], sy + LW * 2.2), "束上换乘胶囊", font=f_note, fill=SUB, anchor="ma")
 
@@ -324,8 +358,16 @@ for k, c in ((0, C4), (1, C12)):  # k=0 inner (upper-left), k=1 outer
 d.text((ix[3], sy + LW * 2.2), "同心圆角拐弯", font=f_note, fill=SUB, anchor="ma")
 
 # footer
-d.text((MARGIN, H_ - MARGIN), "并线为画布层计算 · 换乘由 isTransfer 决定 · 无元数据", font=f_note, fill=SUB, anchor="ls")
-d.text((W_ - MARGIN, H_ - MARGIN), "preview ≤ 1600px", font=f_cap, fill=SUB, anchor="rs")
+d.text(
+    (MARGIN, H_ - MARGIN),
+    "并线为画布层计算 · 换乘由 isTransfer 决定 · 无元数据",
+    font=f_note,
+    fill=SUB,
+    anchor="ls",
+)
+d.text(
+    (W_ - MARGIN, H_ - MARGIN), "preview ≤ 1600px", font=f_cap, fill=SUB, anchor="rs"
+)
 
 out = img.resize((FW, FH), Image.LANCZOS)
 out_path = Path(__file__).resolve().parent / "style_spec_02.png"

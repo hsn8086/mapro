@@ -41,7 +41,7 @@ class LinkDrawStub:
 
 
 class DrawLinksTests(unittest.TestCase):
-    def test_draw_transfer_connections_draws_physical_link_and_label(self) -> None:
+    def test_draw_transfer_connections_draws_physical_link_without_text(self) -> None:
         draw = LinkDrawStub()
         draw_transfer_connections(
             draw,
@@ -58,9 +58,8 @@ class DrawLinksTests(unittest.TestCase):
         )
 
         self.assertEqual(draw.line_calls, [([(10, 10), (30, 10)], "#112233", 2)])
-        self.assertEqual(len(draw.text_calls), 1)
-        self.assertEqual(draw.text_calls[0][1], "同站换乘")
-        self.assertEqual(draw.text_calls[0][2], "#112233")
+        # flat spec: connections carry no text annotations
+        self.assertEqual(draw.text_calls, [])
 
     def test_draw_transfer_connections_draws_virtual_link_with_dashed_segments(
         self,
@@ -82,8 +81,7 @@ class DrawLinksTests(unittest.TestCase):
 
         self.assertGreater(len(draw.line_calls), 1)
         self.assertTrue(all(call[1] == "#445566" for call in draw.line_calls))
-        self.assertEqual(len(draw.text_calls), 1)
-        self.assertEqual(draw.text_calls[0][1], "出站换乘")
+        self.assertEqual(draw.text_calls, [])
 
 
 if __name__ == "__main__":

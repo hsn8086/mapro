@@ -4,6 +4,7 @@ import io
 import json
 import tempfile
 import unittest
+import unittest.mock
 from collections import defaultdict
 from collections.abc import Sequence
 from contextlib import redirect_stdout
@@ -194,6 +195,69 @@ class RenderCommandTests(unittest.TestCase):
             )
 
         self.assertEqual(renderer_calls, [str(output_path), str(output_path)])
+
+
+class BuildCliRendererTests(unittest.TestCase):
+    def test_build_cli_renderer_forwards_badges_and_preview(self) -> None:
+        calls: list[dict[str, object]] = []
+
+        def fake_draw_metro_map(
+            data: dict[str, object],
+            output_path: str,
+            bg_path: str | None = None,
+            font_paths: list[str] | None = None,
+            *,
+            badges_enabled: bool = False,
+            preview_max_edge: int | None = None,
+        ) -> None:
+            calls.append(
+                {
+                    "output": output_path,
+                    "badges_enabled": badges_enabled,
+                    "preview_max_edge": preview_max_edge,
+                }
+            )
+
+        with unittest.mock.patch.object(main, "draw_metro_map", fake_draw_metro_map):
+            renderer = main.build_cli_renderer(badges=True, preview=True)
+            renderer({"stations": {}}, "out.png", None, None)
+
+        self.assertEqual(len(calls), 1)
+        self.assertTrue(calls[0]["badges_enabled"])
+        self.assertEqual(calls[0]["preview_max_edge"], 1600)
+
+    def test_build_cli_renderer_defaults_disable_badges_and_preview(self) -> None:
+        calls: list[dict[str, object]] = []
+
+        def fake_draw_metro_map(
+            data: dict[str, object],
+            output_path: str,
+            bg_path: str | None = None,
+            font_paths: list[str] | None = None,
+            *,
+            badges_enabled: bool = False,
+            preview_max_edge: int | None = None,
+        ) -> None:
+            calls.append(
+                {
+                    "badges_enabled": badges_enabled,
+                    "preview_max_edge": preview_max_edge,
+                }
+            )
+
+        with unittest.mock.patch.object(main, "draw_metro_map", fake_draw_metro_map):
+            renderer = main.build_cli_renderer(badges=False, preview=False)
+            renderer({"stations": {}}, "out.png", None, None)
+
+        self.assertFalse(calls[0]["badges_enabled"])
+        self.assertIsNone(calls[0]["preview_max_edge"])
+
+    def test_render_parser_accepts_preview_and_badges_flags(self) -> None:
+        parser = main.build_parser()
+        args = parser.parse_args(["render", "--preview", "--badges"])
+
+        self.assertTrue(args.preview)
+        self.assertTrue(args.badges)
 
 
 class BoundsCommandTests(unittest.TestCase):

@@ -75,9 +75,10 @@ def _build_legend_render_data(
         bbox = draw.textbbox((0, 0), name, font=font)
         max_text_width = max(max_text_width, float(bbox[2] - bbox[0]))
 
-    header_text = "图例"
-    header_bbox = draw.textbbox((0, 0), header_text, font=header_font)
-    header_height = float(header_bbox[3] - header_bbox[1])
+    # flat spec: no box, no header — swatches sit directly on the canvas
+    header_text = ""
+    header_height = 0.0
+    header_gap = 0.0
     item_width = swatch_width + 12 * scale_factor + max_text_width
 
     columns = 1
@@ -179,23 +180,8 @@ def draw_legend(
     start_y = data.start_y
     start_x = data.start_x
 
-    draw.rectangle(
-        [start_x, start_y, start_x + box_w, start_y + box_h],
-        fill="white",
-        outline=border_color,
-        width=1,
-    )
-
-    header_x = start_x + data.padding_x
-    header_y = start_y + data.padding_y
-    draw.text(
-        (header_x, header_y),
-        data.header_text,
-        fill=text_color,
-        font=data.header_font,
-    )
-
-    items_start_y = header_y + data.header_height + data.header_gap
+    _ = (box_w, box_h, border_color)  # flat spec: no legend box, no header
+    items_start_y = start_y + data.padding_y
     for index, (_, _, ldata) in enumerate(data.sorted_lines):
         color = ldata.get("color", "#000000")
         name = ldata.get("name", {}).get("zh-CN", "Line")

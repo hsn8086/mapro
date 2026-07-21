@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import time
 from dataclasses import dataclass
 
 from ..fonts import get_font
@@ -26,12 +25,11 @@ class TitleBlockLayout:
 
 
 def _build_meta_text(meta: dict) -> str:
+    """Flat spec: no timestamp — only an optional author credit."""
     author = meta.get("author", "")
-    parts: list[str] = []
-    if author:
-        parts.append(f"Designed by {author}")
-    parts.append(f"Updated: {time.strftime('%Y-%m-%d %H:%M')}")
-    return "  ·  ".join(parts)
+    if not author:
+        return ""
+    return f"Designed by {author}"
 
 
 def _measure_text_bbox(
@@ -89,7 +87,10 @@ def measure_title_block(
         append_line(
             title_en, title_en_font, str(styles["COLOR_TEXT_SUB"]), 3 * scale_factor
         )
-    append_line(meta_text, meta_font, str(styles["COLOR_TEXT_SUB"]), 6 * scale_factor)
+    if meta_text:
+        append_line(
+            meta_text, meta_font, str(styles["COLOR_TEXT_SUB"]), 6 * scale_factor
+        )
 
     last_line = lines[-1]
     occupied_bottom = last_line.y + last_line.bbox[3]

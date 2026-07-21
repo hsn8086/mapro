@@ -3,6 +3,7 @@ from __future__ import annotations
 import unittest
 
 from map_gen.label_layout import (
+    axis_direction_ranks,
     compute_leader_line,
     is_box_colliding_with_lines,
     is_box_overlapping_other_labels,
@@ -233,6 +234,98 @@ class LabelLayoutTests(unittest.TestCase):
         )
 
         self.assertEqual((placement.x, placement.y), (70.0, 95.0))
+
+    def test_is_box_colliding_with_lines_adds_segment_extents_to_padding(self) -> None:
+        box = (10.0, 10.0, 20.0, 20.0)
+        segment = ((0, 26), (30, 26))
+
+        # 6 units away from the box: threshold 2 alone is not enough...
+        self.assertFalse(is_box_colliding_with_lines(box, [segment], threshold=2.0))
+        # ...but a wide bundle extent pushes the collision envelope out
+        self.assertTrue(
+            is_box_colliding_with_lines(
+                box,
+                [segment],
+                threshold=2.0,
+                segment_extents={segment: 5.0},
+            )
+        )
+
+    def test_axis_direction_ranks_horizontal_prefers_below(self) -> None:
+        ranks = axis_direction_ranks((1, 0))
+
+        self.assertIsNotNone(ranks)
+        assert ranks is not None
+        self.assertEqual(ranks[0], (0, 1))
+
+    def test_axis_direction_ranks_vertical_prefers_right(self) -> None:
+        for axis in ((0, 1), (0, -1)):
+            with self.subTest(axis=axis):
+                ranks = axis_direction_ranks(axis)
+                self.assertIsNotNone(ranks)
+                assert ranks is not None
+                self.assertEqual(ranks[0], (1, 0))
+
+    def test_axis_direction_ranks_diagonal_prefers_clear_quadrant(self) -> None:
+        down_right = axis_direction_ranks((1, 1))
+        up_right = axis_direction_ranks((1, -1))
+
+        assert down_right is not None and up_right is not None
+        # first choices must be perpendicular-ish to the run, never along it
+        self.assertNotIn(down_right[0], ((1, 1), (-1, -1)))
+        self.assertNotIn(up_right[0], ((1, -1), (-1, 1)))
+
+    def test_axis_direction_ranks_none_without_axis(self) -> None:
+        self.assertIsNone(axis_direction_ranks(None))
+
+    def test_place_label_block_follows_horizontal_axis_preference(self) -> None:
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=[],
+            existing_boxes=[],
+            label_offset_base=10.0,
+            scale_factor=1,
+            axis_dir=(1, 0),
+        )
+
+        # horizontal run: label sits below the station
+        self.assertGreater(placement.box[1], 100.0)
+        self.assertAlmostEqual((placement.box[0] + placement.box[2]) / 2, 100.0)
+
+    def test_place_label_block_follows_vertical_axis_preference(self) -> None:
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=[],
+            existing_boxes=[],
+            label_offset_base=10.0,
+            scale_factor=1,
+            axis_dir=(0, 1),
+        )
+
+        # vertical run: label sits to the right of the station
+        self.assertGreater(placement.box[0], 100.0)
+        self.assertAlmostEqual((placement.box[1] + placement.box[3]) / 2, 100.0)
+
+    def test_place_label_block_avoids_obstacle_boxes(self) -> None:
+        obstacle = (105.0, 90.0, 135.0, 110.0)  # blocks the right side
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=[],
+            existing_boxes=[],
+            label_offset_base=10.0,
+            scale_factor=1,
+            obstacle_boxes=[obstacle],
+        )
+
+        self.assertFalse(
+            is_box_overlapping_other_labels(placement.box, [obstacle], padding=0.0)
+        )
 
     def test_compute_leader_line_returns_subtle_connector_for_far_label(self) -> None:
         leader = compute_leader_line((100, 100), (140.0, 80.0, 180.0, 110.0), 6.0, 1)

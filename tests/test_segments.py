@@ -62,6 +62,35 @@ class SegmentIndexTests(unittest.TestCase):
             [((10, 0), (20, 0))],
         )
 
+    def test_build_segment_index_keeps_injected_collinear_vertices(self) -> None:
+        # B starts mid-way along A's straight run; the injected vertex must be
+        # kept (no collinear compression) so the shared sub-segment is detected
+        segment_data = build_segment_index(
+            {
+                "A": {"stations": ["a", "c"]},
+                "B": {"stations": ["b", "c"]},
+            },
+            lambda station_id: {
+                "a": (0, 0),
+                "b": (10, 0),
+                "c": (20, 0),
+            }.get(station_id),
+            lambda points: list(points),
+        )
+
+        self.assertEqual(
+            segment_data.line_polylines["A"],
+            [(0, 0), (10, 0), (20, 0)],
+        )
+        self.assertEqual(
+            segment_data.segment_map[((10, 0), (20, 0))],
+            ["A", "B"],
+        )
+        self.assertEqual(
+            segment_data.segment_map[((0, 0), (10, 0))],
+            ["A"],
+        )
+
     def test_build_segment_index_orders_bundle_by_local_continuity(self) -> None:
         segment_data = build_segment_index(
             {

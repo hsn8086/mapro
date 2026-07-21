@@ -4,14 +4,14 @@ import math
 
 from PIL import Image, ImageDraw
 
-from ..stroke_builder import StrokeSegment
+from ..stroke_builder import StrokeArc, StrokeElement, StrokeSegment
 
 
 def _group_stroke_paths(
-    stroke_segments: list[StrokeSegment],
-) -> list[list[StrokeSegment]]:
-    grouped_paths: list[list[StrokeSegment]] = []
-    current_path: list[StrokeSegment] = []
+    stroke_segments: list[StrokeElement],
+) -> list[list[StrokeElement]]:
+    grouped_paths: list[list[StrokeElement]] = []
+    current_path: list[StrokeElement] = []
     current_key: tuple[str, str, float, bool] | None = None
 
     for segment in stroke_segments:
@@ -101,7 +101,7 @@ def _arc_points(
     return points
 
 
-def _stroke_path_data(path: list[StrokeSegment]) -> str:
+def _stroke_path_data(path: list[StrokeElement]) -> str:
     if not path:
         return ""
 
@@ -110,12 +110,22 @@ def _stroke_path_data(path: list[StrokeSegment]) -> str:
     for segment in path:
         if _distance(segment.start, current) > 1e-6:
             commands.append(f"M {segment.start[0]:.3f} {segment.start[1]:.3f}")
-        commands.append(f"L {segment.end[0]:.3f} {segment.end[1]:.3f}")
+        if isinstance(segment, StrokeArc):
+            end = segment.end
+            # clockwise here means angle-decreasing; SVG sweep=1 is
+            # angle-increasing in its y-down coordinate system
+            sweep = 0 if segment.clockwise else 1
+            commands.append(
+                f"A {segment.radius:.3f} {segment.radius:.3f} 0 0 {sweep} "
+                f"{end[0]:.3f} {end[1]:.3f}"
+            )
+        else:
+            commands.append(f"L {segment.end[0]:.3f} {segment.end[1]:.3f}")
         current = segment.end
     return " ".join(commands)
 
 
-def _draw_native_stroke_path(draw, path: list[StrokeSegment]) -> bool:
+def _draw_native_stroke_path(draw, path: list[StrokeElement]) -> bool:
     draw_path = getattr(draw, "path", None)
     if not callable(draw_path):
         return False
@@ -182,37 +192,78 @@ def _scale_point(point: tuple[float, float], factor: int) -> tuple[float, float]
     return (point[0] * factor, point[1] * factor)
 
 
-def _draw_path(draw, path: list[StrokeSegment], scale_factor: int = 1) -> None:
+def _annular_sector_polygon(
+    arc: StrokeArc, scale_factor: int, half_width: float
+) -> list[tuple[float, float]]:
+    center = _scale_point(arc.center, scale_factor)
+    radius = arc.radius * scale_factor
+    outer = _arc_points(
+        center,
+        radius + half_width,
+        arc.start_angle,
+        arc.end_angle,
+        clockwise=arc.clockwise,
+    )
+    inner = _arc_points(
+        center,
+        max(0.1, radius - half_width),
+        arc.start_angle,
+        arc.end_angle,
+        clockwise=arc.clockwise,
+    )
+    return outer + inner[::-1]
+
+
+def _scale_element(element: StrokeElement, factor: int) -> StrokeElement:
+    if isinstance(element, StrokeArc):
+        return StrokeArc(
+            line_id=element.line_id,
+            center=_scale_point(element.center, factor),
+            radius=element.radius * factor,
+            start_angle=element.start_angle,
+            end_angle=element.end_angle,
+            clockwise=element.clockwise,
+            color=element.color,
+            thickness=element.thickness * factor,
+            is_inactive=element.is_inactive,
+        )
+    return StrokeSegment(
+        line_id=element.line_id,
+        start=_scale_point(element.start, factor),
+        end=_scale_point(element.end, factor),
+        color=element.color,
+        thickness=element.thickness * factor,
+        is_inactive=element.is_inactive,
+    )
+
+
+def _draw_path(draw, path: list[StrokeElement], scale_factor: int = 1) -> None:
     first_segment = path[0]
     color = first_segment.color
     half_width = first_segment.thickness * scale_factor / 2.0
 
-    scaled_segments: list[StrokeSegment] = []
-    for segment in path:
-        scaled_segments.append(
-            StrokeSegment(
-                line_id=segment.line_id,
-                start=_scale_point(segment.start, scale_factor),
-                end=_scale_point(segment.end, scale_factor),
-                color=segment.color,
-                thickness=segment.thickness * scale_factor,
-                is_inactive=segment.is_inactive,
-            )
-        )
+    scaled_elements = [_scale_element(element, scale_factor) for element in path]
 
-    for segment in scaled_segments:
-        polygon = _build_segment_polygon(segment.start, segment.end, half_width)
+    for element in scaled_elements:
+        if isinstance(element, StrokeArc):
+            draw.polygon(_annular_sector_polygon(element, 1, half_width), fill=color)
+            continue
+        polygon = _build_segment_polygon(element.start, element.end, half_width)
         if polygon is not None:
             draw.polygon(polygon, fill=color)
 
-    for index in range(len(scaled_segments) - 1):
-        current = scaled_segments[index]
-        nxt = scaled_segments[index + 1]
-        if _distance(current.end, nxt.start) <= 1e-6:
+    for index in range(len(scaled_elements) - 1):
+        current = scaled_elements[index]
+        nxt = scaled_elements[index + 1]
+        if (
+            isinstance(current, StrokeSegment)
+            and isinstance(nxt, StrokeSegment)
+            and _distance(current.end, nxt.start) <= 1e-6
+        ):
             _draw_round_join(draw, current, nxt, scale_factor=1)
 
     radius = max(0.0, (first_segment.thickness - 1) / 2.0) * scale_factor
-    endpoints = [scaled_segments[0].start, scaled_segments[-1].end]
+    endpoints = [scaled_elements[0].start, scaled_elements[-1].end]
     for point in endpoints:
         draw.ellipse(
             [
@@ -225,7 +276,7 @@ def _draw_path(draw, path: list[StrokeSegment], scale_factor: int = 1) -> None:
         )
 
 
-def draw_lines(draw, stroke_segments: list[StrokeSegment]) -> None:
+def draw_lines(draw, stroke_segments: list[StrokeElement]) -> None:
     grouped_paths = _group_stroke_paths(stroke_segments)
     draw_buffer_inactive = [path for path in grouped_paths if path[0].is_inactive]
     draw_buffer_active = [path for path in grouped_paths if not path[0].is_inactive]

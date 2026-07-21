@@ -27,7 +27,9 @@ GUIDE = "#DEDEDA"
 
 CJK = "/usr/share/fonts/adobe-source-han-sans/SourceHanSansCN-Regular.otf"
 CJK_M = "/usr/share/fonts/adobe-source-han-sans/SourceHanSansCN-Medium.otf"
-LATIN = "/home/small-hsn/.agents/skills/canvas-design/canvas-fonts/GeistMono-Regular.ttf"
+LATIN = (
+    "/home/small-hsn/.agents/skills/canvas-design/canvas-fonts/GeistMono-Regular.ttf"
+)
 
 LIB = Path(__file__).resolve().parent.parent / "library" / "gz"
 MARGIN = int(W * 0.055)
@@ -61,7 +63,9 @@ def load_gz() -> tuple[dict, dict]:
     return stations, lines
 
 
-def crop_around(center_id: str, reach: int = 2) -> tuple[dict[str, list[str]], set[str]]:
+def crop_around(
+    center_id: str, reach: int = 2
+) -> tuple[dict[str, list[str]], set[str]]:
     """Per-line ordered station-id windows of +-reach around the centre."""
     windows: dict[str, list[str]] = {}
     used: set[str] = set()
@@ -155,7 +159,9 @@ def sec_title(y, zh, en):
 y = MARGIN
 d.text((MARGIN, y), "扁平制图 · 风格样张", font=f_h1, fill=TXT, anchor="la")
 d.text((W - MARGIN, y + 12 * SS), "SPEC 01", font=f_cap, fill=SUB, anchor="ra")
-d.text((MARGIN, y + 48 * SS), "实用 · 地铁图 · 简约", font=f_note, fill=SUB, anchor="la")
+d.text(
+    (MARGIN, y + 48 * SS), "实用 · 地铁图 · 简约", font=f_note, fill=SUB, anchor="la"
+)
 
 # ---------------------------------------------------------------- real crop demo
 
@@ -227,14 +233,36 @@ for sid in sorted(USED):
     medium = bool(st.get("isTransfer"))
     f_main = f_zh_m if medium else f_zh
     if sid == "109":  # crossing: tuck into the upper-left quadrant
-        d.text((p[0] - LW * 1.2, p[1] - LW * 2.6), zh, font=f_zh_m, fill=TXT, anchor="rs")
-        d.text((p[0] - LW * 1.2, p[1] - LW * 1.4), en.upper(), font=f_en, fill=SUB, anchor="rs")
+        d.text(
+            (p[0] - LW * 1.2, p[1] - LW * 2.6), zh, font=f_zh_m, fill=TXT, anchor="rs"
+        )
+        d.text(
+            (p[0] - LW * 1.2, p[1] - LW * 1.4),
+            en.upper(),
+            font=f_en,
+            fill=SUB,
+            anchor="rs",
+        )
     elif local_dir(sid) == "v":
-        d.text((p[0] + LW * 1.3, p[1] - 12 * SS), zh, font=f_main, fill=TXT, anchor="lm")
-        d.text((p[0] + LW * 1.3, p[1] + 12 * SS), en.upper(), font=f_en, fill=SUB, anchor="lm")
+        d.text(
+            (p[0] + LW * 1.3, p[1] - 12 * SS), zh, font=f_main, fill=TXT, anchor="lm"
+        )
+        d.text(
+            (p[0] + LW * 1.3, p[1] + 12 * SS),
+            en.upper(),
+            font=f_en,
+            fill=SUB,
+            anchor="lm",
+        )
     else:
         d.text((p[0], p[1] + LW * 1.1), zh, font=f_main, fill=TXT, anchor="ma")
-        d.text((p[0], p[1] + LW * 1.1 + 24 * SS), en.upper(), font=f_en, fill=SUB, anchor="ma")
+        d.text(
+            (p[0], p[1] + LW * 1.1 + 24 * SS),
+            en.upper(),
+            font=f_en,
+            fill=SUB,
+            anchor="ma",
+        )
 
 # minimal legend, no box
 ly = box_y1 + 40 * SS
@@ -258,19 +286,41 @@ gap = LW * 0.15
 
 rline((items_x[0] - LW * 2.2, sy), (items_x[0] + LW * 2.2, sy), C_B)
 tick((items_x[0], sy), 0, C_B)
-d.text((items_x[0], sy + LW * 2.2), "普通站 tick 0.5W", font=f_note, fill=SUB, anchor="ma")
+d.text(
+    (items_x[0], sy + LW * 2.2), "普通站 tick 0.5W", font=f_note, fill=SUB, anchor="ma"
+)
 
 rline((items_x[1] - LW * 2.2, sy), (items_x[1] + LW * 2.2, sy), C_A)
 transfer_ring((items_x[1], sy))
-d.text((items_x[1], sy + LW * 2.2), "换乘环 r 0.55W", font=f_note, fill=SUB, anchor="ma")
+d.text(
+    (items_x[1], sy + LW * 2.2), "换乘环 r 0.55W", font=f_note, fill=SUB, anchor="ma"
+)
 
-rline((items_x[2] - LW * 2.2, sy - LW * 0.9), (items_x[2] + LW * 2.2, sy - LW * 0.9), C_A)
-rline((items_x[2] - LW * 2.2, sy + LW * 0.9), (items_x[2] + LW * 2.2, sy + LW * 0.9), C_B)
+rline(
+    (items_x[2] - LW * 2.2, sy - LW * 0.9), (items_x[2] + LW * 2.2, sy - LW * 0.9), C_A
+)
+rline(
+    (items_x[2] - LW * 2.2, sy + LW * 0.9), (items_x[2] + LW * 2.2, sy + LW * 0.9), C_B
+)
 stadium((items_x[2], sy - LW * 0.9), (items_x[2], sy + LW * 0.9))
 d.text((items_x[2], sy + LW * 2.2), "长换乘 胶囊", font=f_note, fill=SUB, anchor="ma")
 
-d.line([(items_x[3] - LW * 2.2, sy - LW * 0.5 - gap / 2), (items_x[3] + LW * 2.2, sy - LW * 0.5 - gap / 2)], fill=C_A, width=LW)
-d.line([(items_x[3] - LW * 2.2, sy + LW * 0.5 + gap / 2), (items_x[3] + LW * 2.2, sy + LW * 0.5 + gap / 2)], fill=C_B, width=LW)
+d.line(
+    [
+        (items_x[3] - LW * 2.2, sy - LW * 0.5 - gap / 2),
+        (items_x[3] + LW * 2.2, sy - LW * 0.5 - gap / 2),
+    ],
+    fill=C_A,
+    width=LW,
+)
+d.line(
+    [
+        (items_x[3] - LW * 2.2, sy + LW * 0.5 + gap / 2),
+        (items_x[3] + LW * 2.2, sy + LW * 0.5 + gap / 2),
+    ],
+    fill=C_B,
+    width=LW,
+)
 d.text((items_x[3], sy + LW * 2.2), "共线缝 0.15W", font=f_note, fill=SUB, anchor="ma")
 
 # under-construction dash specimen
@@ -283,7 +333,14 @@ d.text((MARGIN + LW * 10, dy2), "在建 · 灰阶虚线", font=f_note, fill=SUB,
 y2 = dy2 + 70 * SS
 sec_title(y2, "线路色归一化", "S 55–85 · L 38–58")
 
-GZ_SAMPLE = [("1", "#edcf3b"), ("2", "#00679e"), ("5", "#c70541"), ("11", "#F5BB17"), ("21", "#230b55"), ("GF", "#bbd80a")]
+GZ_SAMPLE = [
+    ("1", "#edcf3b"),
+    ("2", "#00679e"),
+    ("5", "#c70541"),
+    ("11", "#F5BB17"),
+    ("21", "#230b55"),
+    ("GF", "#bbd80a"),
+]
 swy = y2 + 80 * SS
 col_w = (W - 2 * MARGIN - 5 * 24 * SS) / 6
 for i, (lid, c) in enumerate(GZ_SAMPLE):
@@ -300,10 +357,18 @@ gw = (W - 2 * MARGIN - 4 * 24 * SS) / 5
 for i, (name, c) in enumerate(grays):
     x = MARGIN + i * (gw + 24 * SS)
     d.rectangle([x, gy, x + gw, gy + 26 * SS], fill=c)
-    d.text((x, gy + 38 * SS), f"{name}  {c.upper()}", font=f_note, fill=SUB, anchor="la")
+    d.text(
+        (x, gy + 38 * SS), f"{name}  {c.upper()}", font=f_note, fill=SUB, anchor="la"
+    )
 
 # footer
-d.text((MARGIN, H - MARGIN), "无网格 · 无阴影 · 无渐变 · 徽章默认关闭", font=f_note, fill=SUB, anchor="ls")
+d.text(
+    (MARGIN, H - MARGIN),
+    "无网格 · 无阴影 · 无渐变 · 徽章默认关闭",
+    font=f_note,
+    fill=SUB,
+    anchor="ls",
+)
 d.text((W - MARGIN, H - MARGIN), "preview ≤ 1600px", font=f_cap, fill=SUB, anchor="rs")
 
 out = img.resize((FW, FH), Image.LANCZOS)

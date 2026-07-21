@@ -1,19 +1,54 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
 from .styles import is_non_active_status, resolve_status_color
 
+Point = tuple[int, int]
+FloatPoint = tuple[float, float]
+SegmentKey = tuple[Point, Point]
+
 
 @dataclass(frozen=True)
 class StrokeSegment:
     line_id: str
-    start: tuple[float, float]
-    end: tuple[float, float]
+    start: FloatPoint
+    end: FloatPoint
     color: str
     thickness: float
     is_inactive: bool
+
+
+@dataclass(frozen=True)
+class StrokeArc:
+    line_id: str
+    center: FloatPoint
+    radius: float
+    start_angle: float
+    end_angle: float
+    clockwise: bool
+    color: str
+    thickness: float
+    is_inactive: bool
+
+    @property
+    def start(self) -> FloatPoint:
+        return (
+            self.center[0] + math.cos(self.start_angle) * self.radius,
+            self.center[1] + math.sin(self.start_angle) * self.radius,
+        )
+
+    @property
+    def end(self) -> FloatPoint:
+        return (
+            self.center[0] + math.cos(self.end_angle) * self.radius,
+            self.center[1] + math.sin(self.end_angle) * self.radius,
+        )
+
+
+StrokeElement = StrokeSegment | StrokeArc
 
 
 def _resolve_base_color(
@@ -27,7 +62,7 @@ def _resolve_base_color(
     )
 
 
-def _build_point_map(line_meta: dict[str, Any]) -> dict[tuple[int, int], int]:
+def _build_point_map(line_meta: dict[str, Any]) -> dict[Point, int]:
     points = line_meta.get("points", [])
     return {
         point: index for index, point in enumerate(points) if isinstance(point, tuple)
@@ -47,61 +82,249 @@ def _resolve_segment_status(statuses: list[str], station_index: int) -> str:
     return "active"
 
 
-def _build_offset_segment(
-    line_id: str,
-    p1: tuple[int, int],
-    p2: tuple[int, int],
-    *,
-    color: str,
-    total_lines: int,
-    line_index: int,
-    line_width: float,
-    is_tram: bool,
-    is_inactive: bool,
-) -> StrokeSegment | None:
-    c_p1, c_p2 = (p2, p1) if p1 > p2 else (p1, p2)
-    c_dx = c_p2[0] - c_p1[0]
-    c_dy = c_p2[1] - c_p1[1]
-    c_len = (c_dx * c_dx + c_dy * c_dy) ** 0.5
-    if c_len == 0:
+def _canonical_key(p1: Point, p2: Point) -> SegmentKey:
+    return (p2, p1) if p1 > p2 else (p1, p2)
+
+
+def _normalize(dx: float, dy: float) -> FloatPoint:
+    length = math.hypot(dx, dy)
+    if length == 0:
+        return (0.0, 0.0)
+    return (dx / length, dy / length)
+
+
+def _canonical_left_normal(key: SegmentKey) -> FloatPoint:
+    direction = _normalize(key[1][0] - key[0][0], key[1][1] - key[0][1])
+    return (-direction[1], direction[0])
+
+
+def _line_intersection(
+    p: FloatPoint, d1: FloatPoint, q: FloatPoint, d2: FloatPoint
+) -> FloatPoint | None:
+    denominator = d1[0] * d2[1] - d1[1] * d2[0]
+    if abs(denominator) < 1e-9:
         return None
+    t = ((q[0] - p[0]) * d2[1] - (q[1] - p[1]) * d2[0]) / denominator
+    return (p[0] + d1[0] * t, p[1] + d1[1] * t)
 
-    c_ux = -c_dy / c_len
-    c_uy = c_dx / c_len
 
-    slot_width = line_width / total_lines
-    draw_thickness = slot_width
-    if is_tram and total_lines == 1:
-        draw_thickness = slot_width * 0.5
+def _foot_of_perpendicular(
+    center: FloatPoint, origin: FloatPoint, direction: FloatPoint
+) -> FloatPoint:
+    t = (center[0] - origin[0]) * direction[0] + (center[1] - origin[1]) * direction[1]
+    return (origin[0] + direction[0] * t, origin[1] + direction[1] * t)
 
-    draw_thickness = max(1.5, draw_thickness)
-    if abs(draw_thickness - slot_width) < 0.1:
-        draw_thickness = int(draw_thickness + 1.5)
 
-    offset_from_center = -line_width / 2.0 + slot_width * (line_index + 0.5)
-    ox = c_ux * offset_from_center
-    oy = c_uy * offset_from_center
+@dataclass
+class _OffsetSegment:
+    start: FloatPoint
+    end: FloatPoint
+    direction: FloatPoint
+    color: str
+    is_inactive: bool
+    center_start: Point
+    center_end: Point
+    lateral: float
 
-    return StrokeSegment(
+
+def _corner_arc(
+    line_id: str,
+    center: FloatPoint,
+    entry: FloatPoint,
+    exit_: FloatPoint,
+    clockwise: bool,
+    color: str,
+    thickness: float,
+    is_inactive: bool,
+) -> StrokeArc | None:
+    radius = math.hypot(entry[0] - center[0], entry[1] - center[1])
+    if radius < 0.5:
+        return None
+    start_angle = math.atan2(entry[1] - center[1], entry[0] - center[0])
+    end_angle = math.atan2(exit_[1] - center[1], exit_[0] - center[0])
+    return StrokeArc(
         line_id=line_id,
-        start=(p1[0] + ox, p1[1] + oy),
-        end=(p2[0] + ox, p2[1] + oy),
+        center=center,
+        radius=radius,
+        start_angle=start_angle,
+        end_angle=end_angle,
+        clockwise=clockwise,
         color=color,
-        thickness=draw_thickness,
+        thickness=thickness,
         is_inactive=is_inactive,
     )
 
 
+def _build_line_elements(
+    line_id: str,
+    segments: list[_OffsetSegment],
+    *,
+    corner_radius: float,
+    thickness: float,
+) -> list[StrokeElement]:
+    """Join offset segments with miters and replace corners with true arcs."""
+    if not segments:
+        return []
+
+    count = len(segments)
+    starts = [seg.start for seg in segments]
+    ends = [seg.end for seg in segments]
+    arcs: list[StrokeArc | None] = [None] * count
+
+    for index in range(count - 1):
+        seg_a = segments[index]
+        seg_b = segments[index + 1]
+        cross = (
+            seg_a.direction[0] * seg_b.direction[1]
+            - seg_a.direction[1] * seg_b.direction[0]
+        )
+        if abs(cross) < 1e-9:
+            # parallel: either continuous or an offset jog; connect directly
+            continue
+
+        dir_to_prev = (-seg_a.direction[0], -seg_a.direction[1])
+        dir_to_next = seg_b.direction
+        dot = max(
+            -1.0,
+            min(
+                1.0,
+                dir_to_prev[0] * dir_to_next[0] + dir_to_prev[1] * dir_to_next[1],
+            ),
+        )
+        turn_angle = math.acos(dot)
+        if turn_angle <= 1e-6 or abs(turn_angle - math.pi) <= 1e-6:
+            continue
+
+        bisector = _normalize(
+            dir_to_prev[0] + dir_to_next[0], dir_to_prev[1] + dir_to_next[1]
+        )
+        if bisector == (0.0, 0.0):
+            continue
+
+        miter = _line_intersection(
+            seg_a.start, seg_a.direction, seg_b.start, seg_b.direction
+        )
+        if miter is None:
+            continue
+
+        in_bundle_corner = (
+            seg_a.center_end == seg_b.center_start
+            and abs(seg_a.lateral - seg_b.lateral) < 1e-9
+            and abs(seg_a.lateral) > 1e-9
+        )
+
+        if in_bundle_corner:
+            # concentric: fillet computed on the shared centreline, then the
+            # arc for this stroke is the projection onto its offset lines,
+            # so every member of the bundle shares the same centre point
+            vertex = seg_a.center_end
+            length_in = math.hypot(
+                vertex[0] - seg_a.center_start[0], vertex[1] - seg_a.center_start[1]
+            )
+            length_out = math.hypot(
+                seg_b.center_end[0] - vertex[0], seg_b.center_end[1] - vertex[1]
+            )
+            limit = min(length_in, length_out) * 0.45 * math.tan(turn_angle / 2.0)
+            radius = min(corner_radius, limit)
+            if radius <= 0.5:
+                ends[index] = miter
+                starts[index + 1] = miter
+                continue
+            center_distance = radius / math.sin(turn_angle / 2.0)
+            center = (
+                vertex[0] + bisector[0] * center_distance,
+                vertex[1] + bisector[1] * center_distance,
+            )
+            entry = _foot_of_perpendicular(center, seg_a.start, seg_a.direction)
+            exit_ = _foot_of_perpendicular(center, seg_b.start, seg_b.direction)
+            arc = _corner_arc(
+                line_id,
+                center,
+                entry,
+                exit_,
+                cross < 0,
+                seg_b.color,
+                thickness,
+                seg_b.is_inactive,
+            )
+            if arc is None:
+                ends[index] = miter
+                starts[index + 1] = miter
+                continue
+            ends[index] = entry
+            starts[index + 1] = exit_
+            arcs[index] = arc
+            continue
+
+        length_a = math.hypot(miter[0] - seg_a.start[0], miter[1] - seg_a.start[1])
+        length_b = math.hypot(seg_b.end[0] - miter[0], seg_b.end[1] - miter[1])
+        limit = min(length_a, length_b) * 0.45 * math.tan(turn_angle / 2.0)
+        radius = min(corner_radius, limit)
+        if radius <= 0.5:
+            ends[index] = miter
+            starts[index + 1] = miter
+            continue
+
+        trim = radius / math.tan(turn_angle / 2.0)
+        center_distance = radius / math.sin(turn_angle / 2.0)
+        center = (
+            miter[0] + bisector[0] * center_distance,
+            miter[1] + bisector[1] * center_distance,
+        )
+        entry = (
+            miter[0] + dir_to_prev[0] * trim,
+            miter[1] + dir_to_prev[1] * trim,
+        )
+        exit_ = (
+            miter[0] + dir_to_next[0] * trim,
+            miter[1] + dir_to_next[1] * trim,
+        )
+        ends[index] = entry
+        starts[index + 1] = exit_
+        arcs[index] = _corner_arc(
+            line_id,
+            center,
+            entry,
+            exit_,
+            cross < 0,
+            seg_b.color,
+            thickness,
+            seg_b.is_inactive,
+        )
+
+    elements: list[StrokeElement] = []
+    for index in range(count):
+        seg = segments[index]
+        start = starts[index]
+        end = ends[index]
+        if math.hypot(end[0] - start[0], end[1] - start[1]) > 1e-6:
+            elements.append(
+                StrokeSegment(
+                    line_id=line_id,
+                    start=start,
+                    end=end,
+                    color=seg.color,
+                    thickness=thickness,
+                    is_inactive=seg.is_inactive,
+                )
+            )
+        arc = arcs[index]
+        if arc is not None:
+            elements.append(arc)
+    return elements
+
+
 def build_line_strokes(
-    line_polylines: dict[str, list[tuple[int, int]]],
+    line_polylines: dict[str, list[Point]],
     line_meta: dict[str, dict[str, Any]],
     lines: dict[str, Any],
-    segment_map: dict[tuple[tuple[int, int], tuple[int, int]], list[str]],
-    segment_offsets: dict[tuple[tuple[int, int], tuple[int, int]], dict[str, int]],
+    segment_map: dict[SegmentKey, list[str]],
+    bundle_offsets: dict[tuple[str, SegmentKey], float],
     styles: dict[str, float | str],
     line_width: float,
-) -> list[StrokeSegment]:
-    stroke_segments: list[StrokeSegment] = []
+) -> list[StrokeElement]:
+    corner_radius = float(styles.get("CORNER_RADIUS", line_width * 1.25))
+    stroke_elements: list[StrokeElement] = []
 
     for line_id, polyline in line_polylines.items():
         line_data_raw = lines.get(line_id, {})
@@ -111,45 +334,54 @@ def build_line_strokes(
             continue
 
         point_map = _build_point_map(meta)
-        statuses_raw = meta.get("statuses", [])
-        statuses = [str(status) for status in statuses_raw]
+        statuses = [str(status) for status in meta.get("statuses", [])]
         base_color, line_status = _resolve_base_color(line_data, styles)
-        line_draw_state_station_idx = 0
         is_tram = str(line_data.get("type", "subway")) == "tram"
+        thickness = line_width * (0.55 if is_tram else 1.0)
+        station_index = 0
 
+        offset_segments: list[_OffsetSegment] = []
         for index in range(len(polyline) - 1):
             p1 = polyline[index]
             p2 = polyline[index + 1]
-
             if p1 in point_map:
-                line_draw_state_station_idx = point_map[p1]
+                station_index = point_map[p1]
 
-            segment_status = _resolve_segment_status(statuses, line_draw_state_station_idx)
+            segment_status = _resolve_segment_status(statuses, station_index)
             color = resolve_status_color(
-                segment_status,
-                styles,
-                active_color=base_color,
+                segment_status, styles, active_color=base_color
             )
             is_inactive = is_non_active_status(line_status) or is_non_active_status(
                 segment_status
             )
 
-            key = (p2, p1) if p1 > p2 else (p1, p2)
-            group = segment_map.get(key, [line_id])
-            total_lines = len(group)
-            line_index = segment_offsets.get(key, {}).get(line_id, 0)
-            segment = _build_offset_segment(
-                line_id,
-                p1,
-                p2,
-                color=color,
-                total_lines=total_lines,
-                line_index=line_index,
-                line_width=line_width,
-                is_tram=is_tram,
-                is_inactive=is_inactive,
+            key = _canonical_key(p1, p2)
+            lateral = bundle_offsets.get((line_id, key), 0.0)
+            normal = _canonical_left_normal(key)
+            offset_vec = (normal[0] * lateral, normal[1] * lateral)
+            direction = _normalize(p2[0] - p1[0], p2[1] - p1[1])
+            if direction == (0.0, 0.0):
+                continue
+            offset_segments.append(
+                _OffsetSegment(
+                    start=(p1[0] + offset_vec[0], p1[1] + offset_vec[1]),
+                    end=(p2[0] + offset_vec[0], p2[1] + offset_vec[1]),
+                    direction=direction,
+                    color=color,
+                    is_inactive=is_inactive,
+                    center_start=p1,
+                    center_end=p2,
+                    lateral=lateral,
+                )
             )
-            if segment is not None:
-                stroke_segments.append(segment)
 
-    return stroke_segments
+        stroke_elements.extend(
+            _build_line_elements(
+                line_id,
+                offset_segments,
+                corner_radius=corner_radius,
+                thickness=thickness,
+            )
+        )
+
+    return stroke_elements

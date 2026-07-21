@@ -66,7 +66,9 @@ RIVER = (50.0, 63.0)  # y-band kept free of stations
 SPACING = 4.6
 
 
-def seg_points(a: tuple[float, float], b: tuple[float, float]) -> list[tuple[float, float]]:
+def seg_points(
+    a: tuple[float, float], b: tuple[float, float]
+) -> list[tuple[float, float]]:
     ax, ay = a
     bx, by = b
     d = math.hypot(bx - ax, by - ay)
@@ -74,7 +76,9 @@ def seg_points(a: tuple[float, float], b: tuple[float, float]) -> list[tuple[flo
     return [(ax + (bx - ax) * i / n, ay + (by - ay) * i / n) for i in range(1, n)]
 
 
-def build() -> tuple[dict[tuple[float, float], set[str]], dict[str, list[tuple[float, float]]]]:
+def build() -> tuple[
+    dict[tuple[float, float], set[str]], dict[str, list[tuple[float, float]]]
+]:
     """Return station->lines map and per-line ordered stations."""
     raw: dict[str, list[tuple[float, float]]] = {}
     for lid, wps in LINES.items():
@@ -106,7 +110,9 @@ def build() -> tuple[dict[tuple[float, float], set[str]], dict[str, list[tuple[f
                 idxs.append(found)
         line_station_idx[lid] = idxs
     stations = {merged[i]: station_lines[i] for i in range(len(merged))}
-    per_line = {lid: [merged[i] for i in idxs] for lid, idxs in line_station_idx.items()}
+    per_line = {
+        lid: [merged[i] for i in idxs] for lid, idxs in line_station_idx.items()
+    }
     return stations, per_line
 
 
@@ -122,7 +128,9 @@ def gaussian_sprite(radius_px: float, size: int) -> np.ndarray:
     return np.clip(core + halo, 0, 1)
 
 
-def add_sprite(buf: np.ndarray, x: float, y: float, spr: np.ndarray, gain: float) -> None:
+def add_sprite(
+    buf: np.ndarray, x: float, y: float, spr: np.ndarray, gain: float
+) -> None:
     s = spr.shape[0]
     x0 = int(round(x - s / 2))
     y0 = int(round(y - s / 2))
@@ -215,7 +223,9 @@ def render() -> None:
     # ---- film grain: shadow-bound high-frequency + sparse cold hot pixels
     lum_map = img.mean(axis=2)
     shadow = np.clip(1 - lum_map / 0.20, 0, 1)
-    noise = (np.random.default_rng(7).standard_normal((H, W)) * 0.016).astype(np.float32)
+    noise = (np.random.default_rng(7).standard_normal((H, W)) * 0.016).astype(
+        np.float32
+    )
     for c in range(3):
         img[..., c] = np.clip(img[..., c] + noise * shadow, 0, 1)
     hot = np.random.default_rng(11)
@@ -251,7 +261,13 @@ def render() -> None:
         d.line([(px, PY1), (px, PY1 + tl)], fill=tick_a, width=SS)
         d.line([(px, PY0), (px, PY0 - tl)], fill=tick_a, width=SS)
         if long:
-            d.text((px, PY1 + 20 * SS), f"{gx:03d}", font=fnt_tick, fill=(*INK, 210), anchor="ma")
+            d.text(
+                (px, PY1 + 20 * SS),
+                f"{gx:03d}",
+                font=fnt_tick,
+                fill=(*INK, 210),
+                anchor="ma",
+            )
     for gy in range(0, int(WY) + 1, 2):
         _, py = to_px(0, gy)
         long = gy % 10 == 0
@@ -259,7 +275,13 @@ def render() -> None:
         d.line([(PX0, py), (PX0 - tl, py)], fill=tick_a, width=SS)
         d.line([(PX1, py), (PX1 + tl, py)], fill=tick_a, width=SS)
         if long:
-            d.text((PX0 - 22 * SS, py), f"{gy:03d}", font=fnt_tick, fill=(*INK, 210), anchor="rm")
+            d.text(
+                (PX0 - 22 * SS, py),
+                f"{gy:03d}",
+                font=fnt_tick,
+                fill=(*INK, 210),
+                anchor="rm",
+            )
 
     # ---- transfer rings (open ring residue of interchange symbol)
     for (x, y), lines_here in stations.items():
@@ -271,7 +293,12 @@ def render() -> None:
     # ---- annotation: dashed circle on the densest southern cluster
     fnt_note = ImageFont.truetype(str(FONT_DIR / "GeistMono-Regular.ttf"), int(24 * SS))
     south = [p for p in stations if p[1] < RIVER[0]]
-    dense = max(south, key=lambda p: sum(1 for q in stations if math.hypot(p[0] - q[0], p[1] - q[1]) < 10))
+    dense = max(
+        south,
+        key=lambda p: sum(
+            1 for q in stations if math.hypot(p[0] - q[0], p[1] - q[1]) < 10
+        ),
+    )
     cxp, cyp = to_px(*dense)
     rr = 60 * SS
     for ang in range(0, 360, 9):
@@ -285,7 +312,13 @@ def render() -> None:
             fill=(*INK, 170),
             width=SS,
         )
-    d.text((cxp + rr + 16 * SS, cyp), "cluster 04", font=fnt_note, fill=(*INK, 200), anchor="lm")
+    d.text(
+        (cxp + rr + 16 * SS, cyp),
+        "cluster 04",
+        font=fnt_note,
+        fill=(*INK, 200),
+        anchor="lm",
+    )
 
     # ---- unidentified source in the river void (the only crosshair)
     ux, uy = to_px(68, 56.5)
@@ -297,20 +330,38 @@ def render() -> None:
             fill=(*GOLD, 200),
             width=SS,
         )
-    d.text((ux + arm + 12 * SS, uy), "unidentified source", font=fnt_note, fill=(*INK, 200), anchor="lm")
+    d.text(
+        (ux + arm + 12 * SS, uy),
+        "unidentified source",
+        font=fnt_note,
+        fill=(*INK, 200),
+        anchor="lm",
+    )
 
     # ---- typography block
     fnt_title = ImageFont.truetype(str(FONT_DIR / "Jura-Medium.ttf"), int(64 * SS))
-    fnt_small = ImageFont.truetype(str(FONT_DIR / "GeistMono-Regular.ttf"), int(28 * SS))
+    fnt_small = ImageFont.truetype(
+        str(FONT_DIR / "GeistMono-Regular.ttf"), int(28 * SS)
+    )
 
-    def tracked(draw: ImageDraw.ImageDraw, xy: tuple[float, float], text: str, font, fill, tracking: float, anchor_left: bool = True):
+    def tracked(
+        draw: ImageDraw.ImageDraw,
+        xy: tuple[float, float],
+        text: str,
+        font,
+        fill,
+        tracking: float,
+        anchor_left: bool = True,
+    ):
         x, y = xy
         for ch in text:
             draw.text((x, y), ch, font=font, fill=fill)
             x += draw.textlength(ch, font=font) + tracking
 
     ty = H * (1 - PLATE_BOT) + 70 * SS
-    tracked(d, (PX0, ty + 30 * SS), "DARK FIELD SURVEY", fnt_title, (*STAR, 235), 26 * SS)
+    tracked(
+        d, (PX0, ty + 30 * SS), "DARK FIELD SURVEY", fnt_title, (*STAR, 235), 26 * SS
+    )
     d.text(
         (PX0, ty + 130 * SS),
         f"{n_objects} objects · {n_transfer} interchanges · 8 traces · 2 plotted",
@@ -337,7 +388,13 @@ def render() -> None:
         d.ellipse([lx - r, ly - r, lx + r, ly + r], fill=(*STAR, 225))
         d.text((lx + 16 * SS, ly), label, font=fnt_tick, fill=(*INK, 210), anchor="lm")
         lx += 90 * SS
-    d.text((lx + 6 * SS, ly), "lines through node", font=fnt_tick, fill=(*INK, 190), anchor="lm")
+    d.text(
+        (lx + 6 * SS, ly),
+        "lines through node",
+        font=fnt_tick,
+        fill=(*INK, 190),
+        anchor="lm",
+    )
     # field designation, top right
     d.text((PX1, ly), "field DC-01", font=fnt_tick, fill=(*INK, 210), anchor="rm")
 

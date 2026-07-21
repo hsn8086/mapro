@@ -152,7 +152,13 @@ def build_segment_index(
             new_poly.extend(on_segment)
             new_poly.append(p_end)
 
-        line_polylines[line_id] = postprocess_polyline(new_poly)
+        # keep injected collinear vertices: they align segment keys across
+        # lines so shared runs can be detected; only drop exact duplicates
+        deduped: list[Point] = []
+        for point in new_poly:
+            if not deduped or deduped[-1] != point:
+                deduped.append(point)
+        line_polylines[line_id] = deduped
 
         processed_poly = line_polylines[line_id]
         for i in range(len(processed_poly) - 1):

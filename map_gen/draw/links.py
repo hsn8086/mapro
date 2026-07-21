@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Callable
 
-from ..fonts import get_font
-
 
 def draw_dashed_line(
     draw_obj,
@@ -98,13 +96,7 @@ def draw_transfer_connections(
     font_paths: list[str],
     styles: dict[str, float | str],
 ) -> None:
-    font_conn = get_font(
-        font_paths,
-        int(float(styles["FONT_SIZE_LABEL_EN"]) * 0.9),
-        priority_index=1,
-        weight="Regular",
-    )
-
+    _ = font_paths  # kept for signature stability; flat spec draws no text
     for conn in connections:
         sid1 = conn.get("fromStationId")
         sid2 = conn.get("toStationId")
@@ -122,24 +114,15 @@ def draw_transfer_connections(
         conn_color = str(styles.get("COLOR_CONNECTION_PHYSICAL", "#7f8c8d"))
         conn_width = int(2 * scale_factor)
 
-        label_text = ""
-        is_dashed = False
-
+        # flat spec: connections speak through symbols only, no text notes
+        is_dashed = c_type in ("virtual", "bus")
         if c_type == "virtual":
-            label_text = "出站换乘"
-            is_dashed = True
-            conn_color = str(styles.get("COLOR_CONNECTION_VIRTUAL", "#95a5a6"))
+            conn_color = str(styles.get("COLOR_CONNECTION_VIRTUAL", "#B8B8B4"))
         elif c_type == "bus":
-            label_text = "接驳公交"
-            is_dashed = True
-            conn_color = str(styles.get("COLOR_CONNECTION_BUS", "#e67e22"))
-        elif c_type == "physical":
-            label_text = "同站换乘"
-            is_dashed = False
+            conn_color = str(styles.get("COLOR_CONNECTION_BUS", "#8A8A8A"))
 
-        label_anchor = None
         if is_dashed:
-            label_anchor = draw_orthogonal_dashed_connection(
+            draw_orthogonal_dashed_connection(
                 draw,
                 (float(p1[0]), float(p1[1])),
                 (float(p2[0]), float(p2[1])),
@@ -151,30 +134,3 @@ def draw_transfer_connections(
             )
         else:
             draw.line([p1, p2], fill=conn_color, width=conn_width)
-            label_anchor = ((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
-
-        if label_text and label_anchor:
-            tx, ty = label_anchor
-
-            if not is_dashed:
-                dx = p2[0] - p1[0]
-                dy = p2[1] - p1[1]
-                dist = (dx * dx + dy * dy) ** 0.5
-                offset_dist = float(8 * scale_factor)
-
-                if dist > 0:
-                    ux = -dy / dist
-                    uy = dx / dist
-                    tx = tx + ux * offset_dist
-                    ty = ty + uy * offset_dist
-
-            bbox = draw.textbbox((0, 0), label_text, font=font_conn)
-            tw = float(bbox[2] - bbox[0])
-            th = float(bbox[3] - bbox[1])
-
-            draw.text(
-                (tx - tw / 2, ty - th / 2),
-                label_text,
-                fill=conn_color,
-                font=font_conn,
-            )

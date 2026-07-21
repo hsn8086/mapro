@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import unittest
 
-from map_gen.stroke_builder import build_line_strokes
+from map_gen.stroke_builder import StrokeArc, StrokeSegment, build_line_strokes
 
 
 class StrokeBuilderTests(unittest.TestCase):
     def test_build_line_strokes_splits_shared_segment_into_parallel_offsets(
         self,
     ) -> None:
+        key = ((0, 0), (10, 0))
         strokes = build_line_strokes(
             {
                 "1": [(0, 0), (10, 0)],
@@ -22,8 +23,8 @@ class StrokeBuilderTests(unittest.TestCase):
                 "1": {"id": "1", "color": "#ff0000", "type": "subway"},
                 "2": {"id": "2", "color": "#00ff00", "type": "subway"},
             },
-            {((0, 0), (10, 0)): ["1", "2"]},
-            {((0, 0), (10, 0)): {"1": 0, "2": 1}},
+            {key: ["1", "2"]},
+            {("1", key): -4.5, ("2", key): 4.5},
             {"COLOR_INACTIVE": "#cccccc"},
             18.0,
         )
@@ -33,8 +34,8 @@ class StrokeBuilderTests(unittest.TestCase):
         self.assertEqual(strokes[0].end, (10.0, -4.5))
         self.assertEqual(strokes[1].start, (0.0, 4.5))
         self.assertEqual(strokes[1].end, (10.0, 4.5))
-        self.assertEqual(strokes[0].thickness, 10)
-        self.assertEqual(strokes[1].thickness, 10)
+        self.assertEqual(strokes[0].thickness, 18.0)
+        self.assertEqual(strokes[1].thickness, 18.0)
 
     def test_build_line_strokes_marks_planned_segment_inactive(self) -> None:
         strokes = build_line_strokes(
@@ -42,7 +43,7 @@ class StrokeBuilderTests(unittest.TestCase):
             {"1": {"points": [(0, 0), (10, 0)], "statuses": ["planned", "active"]}},
             {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
             {((0, 0), (10, 0)): ["1"]},
-            {((0, 0), (10, 0)): {"1": 0}},
+            {("1", ((0, 0), (10, 0))): 0.0},
             {"COLOR_INACTIVE": "#cccccc", "COLOR_STATUS_PLANNED": "#bbbbbb"},
             18.0,
         )
@@ -62,7 +63,7 @@ class StrokeBuilderTests(unittest.TestCase):
             },
             {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
             {((0, 0), (10, 0)): ["1"]},
-            {((0, 0), (10, 0)): {"1": 0}},
+            {},
             {
                 "COLOR_INACTIVE": "#cccccc",
                 "COLOR_STATUS_UNDER_CONSTRUCTION": "#aa8844",
@@ -80,13 +81,95 @@ class StrokeBuilderTests(unittest.TestCase):
             {"T": {"points": [(0, 0), (10, 0)], "statuses": ["active", "active"]}},
             {"T": {"id": "T", "color": "#00bde2", "type": "tram"}},
             {((0, 0), (10, 0)): ["T"]},
-            {((0, 0), (10, 0)): {"T": 0}},
+            {},
             {"COLOR_INACTIVE": "#cccccc"},
             18.0,
         )
 
         self.assertEqual(len(strokes), 1)
-        self.assertEqual(strokes[0].thickness, 9.0)
+        self.assertAlmostEqual(strokes[0].thickness, 18.0 * 0.55)
+
+    def test_build_line_strokes_replaces_corner_with_arc(self) -> None:
+        strokes = build_line_strokes(
+            {"1": [(0, 0), (100, 0), (100, 100)]},
+            {
+                "1": {
+                    "points": [(0, 0), (100, 0), (100, 100)],
+                    "statuses": ["active", "active", "active"],
+                }
+            },
+            {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
+            {
+                ((0, 0), (100, 0)): ["1"],
+                ((100, 0), (100, 100)): ["1"],
+            },
+            {},
+            {"COLOR_INACTIVE": "#cccccc", "CORNER_RADIUS": 10.0},
+            8.0,
+        )
+
+        segments = [s for s in strokes if isinstance(s, StrokeSegment)]
+        arcs = [s for s in strokes if isinstance(s, StrokeArc)]
+        self.assertEqual(len(segments), 2)
+        self.assertEqual(len(arcs), 1)
+
+        arc = arcs[0]
+        # the arc joins the trimmed segment ends continuously
+        self.assertAlmostEqual(arc.start[0], segments[0].end[0], places=6)
+        self.assertAlmostEqual(arc.start[1], segments[0].end[1], places=6)
+        self.assertAlmostEqual(arc.end[0], segments[1].start[0], places=6)
+        self.assertAlmostEqual(arc.end[1], segments[1].start[1], places=6)
+        self.assertAlmostEqual(arc.radius, 10.0)
+
+    def test_build_line_strokes_bundle_corner_arcs_share_center(self) -> None:
+        polyline = [(0, 0), (100, 0), (100, 100)]
+        key_h = ((0, 0), (100, 0))
+        key_v = ((100, 0), (100, 100))
+        strokes = build_line_strokes(
+            {"A": list(polyline), "B": list(polyline)},
+            {
+                "A": {"points": list(polyline), "statuses": ["active"] * 3},
+                "B": {"points": list(polyline), "statuses": ["active"] * 3},
+            },
+            {
+                "A": {"id": "A", "color": "#ff0000", "type": "subway"},
+                "B": {"id": "B", "color": "#0000ff", "type": "subway"},
+            },
+            {key_h: ["A", "B"], key_v: ["A", "B"]},
+            {
+                ("A", key_h): 10.0,
+                ("A", key_v): 10.0,
+                ("B", key_h): -10.0,
+                ("B", key_v): -10.0,
+            },
+            {"COLOR_INACTIVE": "#cccccc", "CORNER_RADIUS": 12.0},
+            8.0,
+        )
+
+        arcs = [s for s in strokes if isinstance(s, StrokeArc)]
+        self.assertEqual(len(arcs), 2)
+        self.assertAlmostEqual(arcs[0].center[0], arcs[1].center[0], places=6)
+        self.assertAlmostEqual(arcs[0].center[1], arcs[1].center[1], places=6)
+        # every stroke keeps its own radius so the offset bands stay parallel
+        self.assertNotAlmostEqual(arcs[0].radius, arcs[1].radius)
+
+    def test_stroke_arc_start_end_properties_follow_angles(self) -> None:
+        arc = StrokeArc(
+            line_id="1",
+            center=(10.0, 20.0),
+            radius=5.0,
+            start_angle=0.0,
+            end_angle=1.5707963267948966,
+            clockwise=False,
+            color="#ff0000",
+            thickness=4.0,
+            is_inactive=False,
+        )
+
+        self.assertAlmostEqual(arc.start[0], 15.0)
+        self.assertAlmostEqual(arc.start[1], 20.0)
+        self.assertAlmostEqual(arc.end[0], 10.0)
+        self.assertAlmostEqual(arc.end[1], 25.0)
 
 
 if __name__ == "__main__":

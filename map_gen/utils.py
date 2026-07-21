@@ -5,9 +5,9 @@ import os
 
 
 def prepare_canvas(
-    width: int, height: int, bg_path: str | None
+    width: int, height: int, bg_path: str | None, *, bg_color: str = "#FAFAF7"
 ) -> tuple[Image.Image, ImageDraw.ImageDraw]:
-    img = Image.new("RGB", (width, height), (255, 255, 255))
+    img = Image.new("RGB", (width, height), bg_color)
     draw = ImageDraw.Draw(img)
 
     if bg_path and os.path.exists(bg_path):

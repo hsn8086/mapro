@@ -10,10 +10,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from map_gen.draw.lines import draw_lines
-from map_gen.stroke_builder import StrokeSegment
+from map_gen.stroke_builder import StrokeElement, StrokeSegment
 
 
-def render_case(name: str, segments: list[StrokeSegment]) -> None:
+def render_case(name: str, segments: list[StrokeElement]) -> None:
     image = Image.new("RGB", (320, 240), "white")
     draw = ImageDraw.Draw(image)
     draw_lines(draw, segments)

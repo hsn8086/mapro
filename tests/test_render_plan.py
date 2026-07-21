@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 
+from map_gen.color_norm import normalize_line_color
 from map_gen.render_plan import build_render_plan
 
 
@@ -32,7 +33,7 @@ class RenderPlanTests(unittest.TestCase):
             ],
         }
 
-        plan = build_render_plan(data, ["font-a.ttf"])
+        plan = build_render_plan(data, ["font-a.ttf"], badges_enabled=True)
 
         self.assertEqual(plan.meta["name"]["zh-CN"], "示例图")
         self.assertEqual(plan.font_paths, ["font-a.ttf"])
@@ -44,12 +45,36 @@ class RenderPlanTests(unittest.TestCase):
         self.assertEqual(s1_pos[0], 320)
         self.assertGreaterEqual(s1_pos[1], 340)
         self.assertEqual(plan.connections, [data["connections"][0]])
-        self.assertEqual(plan.line_width, 18.0)
+        self.assertEqual(plan.line_width, float(plan.styles["LINE_WIDTH"]))
         self.assertIn("1", plan.segment_data.line_polylines)
         self.assertEqual(len(plan.segment_data.shared_segments), 1)
         self.assertIn(("1", "s2"), plan.segment_data.skip_map)
+        self.assertTrue(plan.badges_enabled)
+        self.assertIsInstance(plan.bundle_offsets, dict)
         self.assertEqual(plan.station_markers["s1"][0]["texts"], ["01"])
         self.assertFalse(plan.station_markers["s2"][0]["active"])
+        # line colours are harmonised inside the plan
+        self.assertEqual(plan.lines["1"]["color"], normalize_line_color("#ff0000"))
+
+    def test_build_render_plan_disables_badges_by_default(self) -> None:
+        plan = build_render_plan(
+            {
+                "stations": {
+                    "s1": {"x": 0, "y": 0, "name": {"zh-CN": "甲"}},
+                    "s2": {"x": 20, "y": 0, "name": {"zh-CN": "乙"}},
+                },
+                "lines": {
+                    "1": {
+                        "id": "1",
+                        "color": "#ff0000",
+                        "stations": [{"id": "s1", "num": "01"}, {"id": "s2"}],
+                    }
+                },
+            }
+        )
+
+        self.assertFalse(plan.badges_enabled)
+        self.assertEqual(plan.station_markers, {})
 
     def test_build_render_plan_uses_empty_defaults_for_invalid_sections(self) -> None:
         plan = build_render_plan(

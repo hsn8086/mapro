@@ -39,6 +39,10 @@ def draw_render_plan(plan: RenderPlan, img, draw) -> None:
         scale_factor,
         plan.font_paths,
         styles,
+        line_polylines=segment_data.line_polylines,
+        segment_map=segment_data.segment_map,
+        bundle_offsets=plan.bundle_offsets,
+        badges_enabled=plan.badges_enabled,
     )
 
     draw_title_block(draw, plan.meta, plan.font_paths, styles)

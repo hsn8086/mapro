@@ -163,6 +163,7 @@ class DrawStationsTests(unittest.TestCase):
                 1,
                 [],
                 {
+                    "LINE_WIDTH": 8.0,
                     "LABEL_OFFSET_BASE": 10.0,
                     "COLOR_GUIDE_LINE": "#cccccc",
                     "COLOR_LEGEND_BORDER": "#bbbbbb",
@@ -273,6 +274,7 @@ class DrawStationsTests(unittest.TestCase):
                 1,
                 [],
                 {
+                    "LINE_WIDTH": 8.0,
                     "LABEL_OFFSET_BASE": 10.0,
                     "COLOR_GUIDE_LINE": "#cccccc",
                     "COLOR_LEGEND_BORDER": "#bbbbbb",
@@ -284,6 +286,166 @@ class DrawStationsTests(unittest.TestCase):
             place_label_block_mock.call_args.args[3],
             [((100, 100), (130, 100))],
         )
+
+    def _make_simple_station_patches(
+        self,
+        *,
+        facility_tags: list[str],
+        placement_box: tuple[float, float, float, float] = (110.0, 70.0, 140.0, 86.0),
+    ):
+        default_font = ImageFont.load_default()
+        visual_state = StationVisualState(
+            is_transfer=False,
+            stroke_color="#123456",
+            text_color_main="#111111",
+            text_color_sub="#666666",
+            radius=3.0,
+            stroke_width=1.0,
+            is_tram_station=False,
+        )
+        text_metrics = LabelTextMetrics(
+            name_cn="东湖",
+            name_en="DONGHU",
+            bbox_cn=(0.0, 0.0, 20.0, 10.0),
+            width_cn=20.0,
+            height_cn=10.0,
+            width_en=30.0,
+            height_en=6.0,
+            gap=4.0,
+            badge_gap=2.0,
+            badge_width=0.0,
+            badge_height=0.0,
+            english_y_offset=10.0,
+            badges_y_offset=None,
+            block_width=30.0,
+            block_height=16.0,
+        )
+        text_variant = LabelTextVariant(primary=text_metrics, compact=text_metrics)
+        badge_variant = BadgeVariant(
+            primary=BadgeMetrics(width=0.0, height=0.0),
+            compact=BadgeMetrics(width=0.0, height=0.0),
+        )
+        return (
+            patch("map_gen.draw.stations.os.path.exists", return_value=False),
+            patch(
+                "map_gen.draw.stations.build_station_visual_state",
+                return_value=visual_state,
+            ),
+            patch(
+                "map_gen.draw.stations.collect_facility_tags",
+                return_value=facility_tags,
+            ),
+            patch(
+                "map_gen.draw.stations.resolve_station_fonts",
+                return_value=StationFonts(cn=default_font, en=default_font),
+            ),
+            patch(
+                "map_gen.draw.stations.measure_badges",
+                return_value=badge_variant,
+            ),
+            patch(
+                "map_gen.draw.stations.measure_label_text",
+                return_value=LabelTextVariant(
+                    primary=text_metrics, compact=text_metrics
+                ),
+            ),
+            patch(
+                "map_gen.draw.stations.build_local_label_contexts",
+                return_value={"s1": None},
+            ),
+            patch(
+                "map_gen.draw.stations.place_label_block",
+                return_value=LabelPlacement(
+                    x=placement_box[0],
+                    y=placement_box[1],
+                    box=placement_box,
+                    score=0.0,
+                ),
+            ),
+        )
+
+    def test_draw_stations_skips_facility_tags_when_badges_disabled(self) -> None:
+        draw = StationDrawStub()
+        patches = self._make_simple_station_patches(facility_tags=["toilet_inside"])
+        with (
+            patches[0],
+            patches[1],
+            patches[2] as collect_mock,
+            patches[3],
+            patches[4],
+            patches[5],
+            patches[6],
+            patches[7],
+        ):
+            draw_stations(
+                None,
+                draw,
+                {"s1": {"name": {"zh-CN": "东湖", "en-US": "Donghu"}, "lines": ["1"]}},
+                {"1": {"type": "subway"}},
+                lambda station_id: (100, 100) if station_id == "s1" else None,
+                set(),
+                {},
+                [],
+                [],
+                1,
+                [],
+                {
+                    "LINE_WIDTH": 8.0,
+                    "LABEL_OFFSET_BASE": 10.0,
+                    "COLOR_GUIDE_LINE": "#cccccc",
+                    "COLOR_LEGEND_BORDER": "#bbbbbb",
+                    "COLOR_INACTIVE": "#eeeeee",
+                },
+                badges_enabled=False,
+            )
+
+        collect_mock.assert_not_called()
+
+    def test_draw_stations_renders_slot_symbol_when_axis_found(self) -> None:
+        draw = StationDrawStub()
+        patches = self._make_simple_station_patches(facility_tags=[])
+        with (
+            patches[0],
+            patches[1],
+            patches[2],
+            patches[3],
+            patches[4],
+            patches[5],
+            patches[6],
+            patches[7],
+        ):
+            draw_stations(
+                None,
+                draw,
+                {"s1": {"name": {"zh-CN": "东湖", "en-US": "Donghu"}, "lines": ["1"]}},
+                {"1": {"type": "subway"}},
+                lambda station_id: (100, 100) if station_id == "s1" else None,
+                set(),
+                {},
+                [],
+                [],
+                1,
+                [],
+                {
+                    "LINE_WIDTH": 8.0,
+                    "LABEL_OFFSET_BASE": 10.0,
+                    "COLOR_GUIDE_LINE": "#cccccc",
+                    "COLOR_LEGEND_BORDER": "#bbbbbb",
+                    "COLOR_INACTIVE": "#eeeeee",
+                    "COLOR_BG": "#ffffff",
+                },
+                line_polylines={"1": [(80, 100), (100, 100), (140, 100)]},
+                segment_map={
+                    ((80, 100), (100, 100)): ["1"],
+                    ((100, 100), (140, 100)): ["1"],
+                },
+                bundle_offsets={},
+            )
+
+        # slot symbol renders as a background-coloured line, not an ellipse
+        self.assertEqual(draw.ellipse_calls, [])
+        self.assertEqual(len(draw.line_calls), 1)
+        self.assertEqual(draw.line_calls[0][1], "#ffffff")
 
 
 if __name__ == "__main__":

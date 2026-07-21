@@ -23,6 +23,12 @@ from ..station_labeling import (
     measure_label_text,
     resolve_station_fonts,
 )
+from ..station_symbols import (
+    StationSymbol,
+    build_station_symbol,
+    find_station_axis,
+    render_station_symbol,
+)
 
 _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 _TOILET_INSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_inside.png")
@@ -40,6 +46,8 @@ class MeasuredStation:
     station_fonts: StationFonts
     badge_variant: BadgeVariant
     text_variant: LabelTextVariant
+    symbol: StationSymbol | None = None
+    axis_dir: tuple[int, int] | None = None
 
 
 def draw_stations(
@@ -55,8 +63,16 @@ def draw_stations(
     scale_factor: int,
     font_paths: list[str],
     styles: dict[str, float | str],
+    *,
+    line_polylines: dict[str, list[tuple[int, int]]] | None = None,
+    segment_map: dict | None = None,
+    bundle_offsets: dict | None = None,
+    badges_enabled: bool = True,
 ) -> None:
     global TOILET_ICON_INSIDE, TOILET_ICON_OUTSIDE
+    line_polylines = line_polylines or {}
+    segment_map = segment_map or {}
+    bundle_offsets = bundle_offsets or {}
     if TOILET_ICON_INSIDE is None and os.path.exists(_TOILET_INSIDE_PATH):
         TOILET_ICON_INSIDE = Image.open(_TOILET_INSIDE_PATH).convert("RGBA")
     if TOILET_ICON_OUTSIDE is None and os.path.exists(_TOILET_OUTSIDE_PATH):
@@ -71,7 +87,7 @@ def draw_stations(
             continue
 
         visual_state = build_station_visual_state(s_id, s, lines, skip_map, styles)
-        facility_tags = collect_facility_tags(s)
+        facility_tags = collect_facility_tags(s) if badges_enabled else []
         station_fonts = resolve_station_fonts(
             font_paths,
             styles,
@@ -95,6 +111,29 @@ def draw_stations(
             badge_metrics.primary.height,
         )
 
+        symbol: StationSymbol | None = None
+        axis_dir: tuple[int, int] | None = None
+        station_line_ids = [str(lid) for lid in s.get("lines", [])]
+        axis = find_station_axis(pos, station_line_ids, line_polylines)
+        if axis is not None:
+            normal, key = axis
+            member_lines = segment_map.get(key, station_line_ids) or station_line_ids
+            laterals = [
+                float(bundle_offsets.get((lid, key), 0.0)) for lid in member_lines
+            ]
+            symbol = build_station_symbol(
+                pos,
+                is_transfer=visual_state.is_transfer,
+                normal=normal,
+                laterals=laterals,
+                styles=styles,
+            )
+            direction = (key[1][0] - key[0][0], key[1][1] - key[0][1])
+            axis_dir = (
+                (0 if direction[0] == 0 else (1 if direction[0] > 0 else -1)),
+                (0 if direction[1] == 0 else (1 if direction[1] > 0 else -1)),
+            )
+
         measured_stations.append(
             MeasuredStation(
                 station_id=s_id,
@@ -104,6 +143,8 @@ def draw_stations(
                 station_fonts=station_fonts,
                 badge_variant=badge_metrics,
                 text_variant=text_metrics,
+                symbol=symbol,
+                axis_dir=axis_dir,
             )
         )
         context_inputs.append(
@@ -120,6 +161,19 @@ def draw_stations(
 
     local_contexts = build_local_label_contexts(context_inputs, scale_factor)
     label_boxes: list[tuple[float, float, float, float]] = []
+
+    symbol_boxes: dict[str, tuple[float, float, float, float]] = {
+        item.station_id: item.symbol.bbox
+        for item in measured_stations
+        if item.symbol is not None
+    }
+    line_width = float(styles["LINE_WIDTH"])
+    segment_extents: dict[tuple[tuple[int, int], tuple[int, int]], float] = {}
+    for key, member_lines in segment_map.items():
+        laterals = [
+            abs(float(bundle_offsets.get((lid, key), 0.0))) for lid in member_lines
+        ]
+        segment_extents[key] = (max(laterals) if laterals else 0.0) + line_width / 2.0
 
     def station_sort_key(
         item: MeasuredStation,
@@ -153,20 +207,24 @@ def draw_stations(
         badge_variant = measured.badge_variant
         text_variant = measured.text_variant
         text_metrics = text_variant.primary
-        draw.ellipse(
-            [
-                pos[0] - visual_state.radius,
-                pos[1] - visual_state.radius,
-                pos[0] + visual_state.radius,
-                pos[1] + visual_state.radius,
-            ],
-            fill="white",
-            outline=visual_state.stroke_color,
-            width=int(float(visual_state.stroke_width)),
-        )
+
+        if measured.symbol is not None:
+            render_station_symbol(draw, measured.symbol, styles)
+        else:
+            draw.ellipse(
+                [
+                    pos[0] - visual_state.radius,
+                    pos[1] - visual_state.radius,
+                    pos[0] + visual_state.radius,
+                    pos[1] + visual_state.radius,
+                ],
+                fill=str(styles.get("COLOR_BG", "#FAFAF7")),
+                outline=visual_state.stroke_color,
+                width=int(float(visual_state.stroke_width)),
+            )
 
         line_markers = station_markers.get(s_id, [])
-        facility_tags = collect_facility_tags(s)
+        facility_tags = collect_facility_tags(s) if badges_enabled else []
 
         label_offset_base = float(styles["LABEL_OFFSET_BASE"])
         collision_segments = (
@@ -174,6 +232,7 @@ def draw_stations(
             if visual_state.is_tram_station
             else line_segments_for_collision
         )
+        obstacle_boxes = [box for sid, box in symbol_boxes.items() if sid != s_id]
         placement = place_label_block(
             pos,
             text_metrics.block_width,
@@ -183,6 +242,9 @@ def draw_stations(
             label_offset_base,
             scale_factor,
             local_context=local_contexts.get(s_id),
+            axis_dir=measured.axis_dir,
+            obstacle_boxes=obstacle_boxes,
+            segment_extents=segment_extents,
         )
 
         effective_line_markers = line_markers

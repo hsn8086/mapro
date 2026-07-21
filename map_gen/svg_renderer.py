@@ -84,7 +84,10 @@ class SvgDraw:
         self,
         position: tuple[float, float],
         text: str,
-        font: ImageFont.ImageFont | ImageFont.FreeTypeFont | ImageFont.TransposedFont | None = None,
+        font: ImageFont.ImageFont
+        | ImageFont.FreeTypeFont
+        | ImageFont.TransposedFont
+        | None = None,
     ) -> tuple[float, float, float, float]:
         bbox = self._measure_draw.textbbox(position, text, font=font)
         return (float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3]))

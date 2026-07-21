@@ -122,11 +122,38 @@ def is_box_colliding_with_lines(
     text_box: LabelBox,
     segments: Sequence[LineSegment],
     threshold: float = 5,
+    segment_extents: dict[LineSegment, float] | None = None,
 ) -> bool:
     for s1, s2 in segments:
-        if is_line_intersecting_rect(s1, s2, text_box, padding=threshold):
+        padding = threshold
+        if segment_extents is not None:
+            padding += segment_extents.get((s1, s2), 0.0)
+        if is_line_intersecting_rect(s1, s2, text_box, padding=padding):
             return True
     return False
+
+
+_AXIS_DIRECTION_RANKS: dict[tuple[int, int], tuple[tuple[int, int], ...]] = {
+    # horizontal run: label below, then above, then trailing quadrants
+    (1, 0): ((0, 1), (0, -1), (1, 1), (-1, 1), (1, -1), (-1, -1), (1, 0), (-1, 0)),
+    # vertical run: label beside, right first
+    (0, 1): ((1, 0), (-1, 0), (1, -1), (1, 1), (-1, -1), (-1, 1), (0, -1), (0, 1)),
+    # down-right diagonal: clear quadrants are upper-right / lower-left
+    (1, 1): ((1, -1), (-1, 1), (1, 0), (0, 1), (0, -1), (-1, 0), (1, 1), (-1, -1)),
+    # up-right diagonal: clear quadrants are lower-right / upper-left
+    (1, -1): ((1, 1), (-1, -1), (1, 0), (0, 1), (0, -1), (-1, 0), (1, -1), (-1, 1)),
+}
+
+
+def axis_direction_ranks(
+    axis_dir: tuple[int, int] | None,
+) -> tuple[tuple[int, int], ...] | None:
+    if axis_dir is None:
+        return None
+    dx, dy = axis_dir
+    if dx < 0 or (dx == 0 and dy < 0):
+        dx, dy = -dx, -dy
+    return _AXIS_DIRECTION_RANKS.get((dx, dy))
 
 
 def is_box_overlapping_other_labels(
@@ -155,13 +182,23 @@ def place_label_block(
     label_offset_base: float,
     scale_factor: int,
     local_context: LocalLabelContext | None = None,
+    *,
+    axis_dir: tuple[int, int] | None = None,
+    obstacle_boxes: Sequence[LabelBox] = (),
+    segment_extents: dict[LineSegment, float] | None = None,
 ) -> LabelPlacement:
     search_layers = [1.0, 1.3, 1.6]
     if local_context and local_context.dense:
         search_layers.extend([2.0, 2.4, 2.8, 3.2, 3.8, 4.4])
-    base_directions = (
-        local_context.preferred_directions if local_context else DEFAULT_DIRECTIONS
-    )
+    axis_ranks = axis_direction_ranks(axis_dir)
+    if local_context and local_context.dense:
+        base_directions = local_context.preferred_directions
+    elif axis_ranks is not None:
+        base_directions = axis_ranks
+    else:
+        base_directions = (
+            local_context.preferred_directions if local_context else DEFAULT_DIRECTIONS
+        )
 
     best_candidate: LabelCandidate | None = None
     best_line_clear_candidate: LabelCandidate | None = None
@@ -207,8 +244,15 @@ def place_label_block(
             line_collision = is_box_colliding_with_lines(
                 text_box,
                 line_segments_for_collision,
-                threshold=float(5 * scale_factor),
+                threshold=float(3 * scale_factor),
+                segment_extents=segment_extents,
             )
+            if not line_collision and obstacle_boxes:
+                line_collision = is_box_overlapping_other_labels(
+                    text_box,
+                    obstacle_boxes,
+                    padding=float(scale_factor),
+                )
             label_overlap = is_box_overlapping_other_labels(
                 text_box,
                 existing_boxes,
@@ -222,6 +266,8 @@ def place_label_block(
                     direction_score += 0.05
                 if dy > 0:
                     direction_score += 0.08
+            elif axis_ranks is not None:
+                direction_score = axis_ranks.index((dx, dy)) * 0.25
             else:
                 direction_score = 0.0
                 if dx == 1 and dy == 0:
@@ -233,7 +279,7 @@ def place_label_block(
                 else:
                     direction_score = 1.0
 
-            vertical_penalty = 0.0 if dy <= 0 else 0.2
+            vertical_penalty = 0.0 if (dy <= 0 or axis_ranks is not None) else 0.2
             layer_penalty = (layer_scale - 1.0) * 2.0
             distance_penalty = abs(tx - pos[0]) / max(block_w, 1.0) * 0.05
             label_clearance_penalty = 0.0
