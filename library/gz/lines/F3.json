@@ -28,16 +28,16 @@
         ],
         "serviceType": "local",
         "lineLengthKm": 62.1,
-        "stationCount": 35,
+        "stationCount": 37,
         "trackGaugeMm": 1435,
         "electrification": "1500V DC overhead catenary",
         "powerCollection": "overhead catenary",
         "signalling": "Siemens Trainguard MT",
         "maxOperatingSpeedKmh": 100,
         "openingDate": "2022-12-28",
-        "latestExtensionDate": "2024-08-23",
+        "latestExtensionDate": "2026-07-01",
         "notes": {
-          "zh-CN": "当前为南北两段分离运营；维基百科另有完整规划口径，但此处采用现运营口径。"
+          "zh-CN": "中山公园至联和段已于2026-06-18贯通运营，敦厚站同步启用；佛山站已于2026-07-01随国铁佛山站同步启用。全线仅顺德学院站至顺德港段仍在规划阶段（尚未确定动工时间）。维基百科另有完整规划口径，但此处采用现运营口径。"
         },
         "operationFeatures": {
           "ato": true
@@ -160,13 +160,11 @@
         },
         {
           "id": "F328",
-          "num": "28",
-          "status": "planned"
+          "num": "28"
         },
         {
           "id": "F329",
-          "num": "29",
-          "status": "planned"
+          "num": "29"
         },
         {
           "id": "F330",

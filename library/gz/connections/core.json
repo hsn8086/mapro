@@ -13,12 +13,6 @@
       "walkingTime": 3
     },
     {
-      "fromStationId": "F327",
-      "toStationId": "F330",
-      "type": "bus",
-      "walkingTime": 4
-    },
-    {
       "fromStationId": "805",
       "toStationId": "1205",
       "type": "virtual",
