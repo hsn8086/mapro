@@ -170,6 +170,7 @@ def _build_line_elements(
     starts = [seg.start for seg in segments]
     ends = [seg.end for seg in segments]
     arcs: list[StrokeArc | None] = [None] * count
+    ramps: list[StrokeSegment | None] = [None] * count
 
     for index in range(count - 1):
         seg_a = segments[index]
@@ -179,7 +180,48 @@ def _build_line_elements(
             - seg_a.direction[1] * seg_b.direction[0]
         )
         if abs(cross) < 1e-9:
-            # parallel: either continuous or an offset jog; connect directly
+            # parallel: continuous run, or a lateral jog at a bundle
+            # boundary that must be absorbed by a 45-degree ramp
+            forward = (
+                seg_a.direction[0] * seg_b.direction[0]
+                + seg_a.direction[1] * seg_b.direction[1]
+            )
+            gap = math.hypot(
+                seg_b.start[0] - seg_a.end[0], seg_b.start[1] - seg_a.end[1]
+            )
+            if forward <= 0 or gap <= 1e-6:
+                continue
+            direction = seg_a.direction
+            length_a = math.hypot(
+                seg_a.end[0] - seg_a.start[0], seg_a.end[1] - seg_a.start[1]
+            )
+            length_b = math.hypot(
+                seg_b.end[0] - seg_b.start[0], seg_b.end[1] - seg_b.start[1]
+            )
+            if abs(seg_a.lateral) <= abs(seg_b.lateral):
+                # ramp before entering the offset run
+                run = min(gap, length_a * 0.5)
+                ends[index] = (
+                    seg_a.end[0] - direction[0] * run,
+                    seg_a.end[1] - direction[1] * run,
+                )
+                ramp_start, ramp_end = ends[index], starts[index + 1]
+            else:
+                # ramp after leaving the offset run
+                run = min(gap, length_b * 0.5)
+                starts[index + 1] = (
+                    seg_b.start[0] + direction[0] * run,
+                    seg_b.start[1] + direction[1] * run,
+                )
+                ramp_start, ramp_end = ends[index], starts[index + 1]
+            ramps[index] = StrokeSegment(
+                line_id=line_id,
+                start=ramp_start,
+                end=ramp_end,
+                color=seg_b.color,
+                thickness=thickness,
+                is_inactive=seg_b.is_inactive,
+            )
             continue
 
         dir_to_prev = (-seg_a.direction[0], -seg_a.direction[1])
@@ -207,9 +249,11 @@ def _build_line_elements(
         if miter is None:
             continue
 
+        # canonical scalars flip sign across corners while the geometric
+        # side stays put, so compare magnitudes only
         in_bundle_corner = (
             seg_a.center_end == seg_b.center_start
-            and abs(seg_a.lateral - seg_b.lateral) < 1e-9
+            and abs(abs(seg_a.lateral) - abs(seg_b.lateral)) < 1e-9
             and abs(seg_a.lateral) > 1e-9
         )
 
@@ -311,6 +355,9 @@ def _build_line_elements(
         arc = arcs[index]
         if arc is not None:
             elements.append(arc)
+        ramp = ramps[index]
+        if ramp is not None:
+            elements.append(ramp)
     return elements
 
 

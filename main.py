@@ -240,7 +240,7 @@ def validate_train_references(merged: dict[str, Any]) -> None:
         if not isinstance(train_info, dict):
             continue
 
-        invalid_keys = set(train_info) - {"rollingStockRefs"}
+        invalid_keys = {str(key) for key in train_info} - {"rollingStockRefs"}
         if invalid_keys:
             invalid_list = ", ".join(sorted(invalid_keys))
             raise ValueError(

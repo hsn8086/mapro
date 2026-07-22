@@ -48,41 +48,61 @@ def _point_on_segment(p: Point, a: Point, b: Point) -> bool:
     return dot <= dx1 * dx1 + dy1 * dy1
 
 
-def find_station_axis(
+def _axis_from(a: Point, b: Point) -> tuple[FloatPoint, SegmentKey]:
+    key = (b, a) if a > b else (a, b)
+    direction = _normalize(key[1][0] - key[0][0], key[1][1] - key[0][1])
+    return ((-direction[1], direction[0]), key)
+
+
+def find_station_axes(
     pos: Point,
     station_line_ids: list[str],
     line_polylines: dict[str, list[Point]],
-) -> tuple[FloatPoint, SegmentKey] | None:
-    """Locate the segment carrying the station and return (normal, key).
+) -> list[tuple[FloatPoint, SegmentKey]]:
+    """All candidate segments carrying the station, own lines first.
 
-    The normal is the canonical-direction left normal of that segment, the
+    The normal is the canonical-direction left normal of each segment, the
     same frame used by bundle offsets. Stations compressed into a straight
     run are matched by point-on-segment containment.
     """
-
-    def axis_from(a: Point, b: Point) -> tuple[FloatPoint, SegmentKey]:
-        key = (b, a) if a > b else (a, b)
-        direction = _normalize(key[1][0] - key[0][0], key[1][1] - key[0][1])
-        return ((-direction[1], direction[0]), key)
-
     candidates = list(station_line_ids) + [
         lid for lid in line_polylines if lid not in station_line_ids
     ]
+    axes: list[tuple[FloatPoint, SegmentKey]] = []
+    seen: set[SegmentKey] = set()
+
+    def add(a: Point, b: Point) -> None:
+        axis = _axis_from(a, b)
+        if axis[1] not in seen:
+            seen.add(axis[1])
+            axes.append(axis)
+
     for line_id in candidates:
         polyline = line_polylines.get(line_id, [])
         for index, point in enumerate(polyline):
             if point != pos:
                 continue
             if index + 1 < len(polyline) and polyline[index + 1] != pos:
-                return axis_from(pos, polyline[index + 1])
+                add(pos, polyline[index + 1])
             if index > 0 and polyline[index - 1] != pos:
-                return axis_from(pos, polyline[index - 1])
-    for line_id in candidates:
-        polyline = line_polylines.get(line_id, [])
-        for index in range(len(polyline) - 1):
-            if _point_on_segment(pos, polyline[index], polyline[index + 1]):
-                return axis_from(polyline[index], polyline[index + 1])
-    return None
+                add(pos, polyline[index - 1])
+    if not axes:
+        for line_id in candidates:
+            polyline = line_polylines.get(line_id, [])
+            for index in range(len(polyline) - 1):
+                if _point_on_segment(pos, polyline[index], polyline[index + 1]):
+                    add(polyline[index], polyline[index + 1])
+    return axes
+
+
+def find_station_axis(
+    pos: Point,
+    station_line_ids: list[str],
+    line_polylines: dict[str, list[Point]],
+) -> tuple[FloatPoint, SegmentKey] | None:
+    """First candidate axis (see find_station_axes)."""
+    axes = find_station_axes(pos, station_line_ids, line_polylines)
+    return axes[0] if axes else None
 
 
 def build_station_symbol(

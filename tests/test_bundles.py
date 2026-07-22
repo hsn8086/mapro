@@ -129,5 +129,55 @@ class BuildBundleOffsetsTests(unittest.TestCase):
         self.assertEqual(offsets[("B", key_1)], offsets[("B", key_2)])
 
 
+class CorridorMergeTests(unittest.TestCase):
+    """A corridor whose member set changes mid-way keeps slots stable."""
+
+    def _corridor_polylines(self) -> dict[str, list[Point]]:
+        # A and B share (10,0)..(40,0); C only rides (20,0)..(30,0),
+        # splitting the naive chain detection into three member sets
+        return {
+            "A": [(0, 0), (10, 0), (20, 0), (30, 0), (40, 0), (50, 0)],
+            "B": [(0, 10), (10, 0), (20, 0), (30, 0), (40, 0), (50, 10)],
+            "C": [(10, 10), (20, 0), (30, 0), (40, 10)],
+        }
+
+    def test_through_lines_keep_constant_slots_across_member_changes(self) -> None:
+        polylines = self._corridor_polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+        )
+
+        keys = [((10, 0), (20, 0)), ((20, 0), (30, 0)), ((30, 0), (40, 0))]
+        self.assertEqual({offsets[("A", key)] for key in keys}, {0.0})
+        self.assertEqual(len({offsets[("B", key)] for key in keys}), 1)
+
+    def test_partial_member_only_gets_offsets_on_its_own_span(self) -> None:
+        polylines = self._corridor_polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+        )
+
+        self.assertIn(("C", ((20, 0), (30, 0))), offsets)
+        self.assertNotIn(("C", ((10, 0), (20, 0))), offsets)
+        self.assertNotIn(("C", ((30, 0), (40, 0))), offsets)
+
+    def test_partial_member_stacks_outside_resident_lines(self) -> None:
+        polylines = self._corridor_polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+        )
+
+        key = ((20, 0), (30, 0))
+        # B and C both come from +y; C joins later so it sits farther out
+        self.assertEqual(offsets[("B", key)], 10.0)
+        self.assertEqual(offsets[("C", key)], 20.0)
+
+
 if __name__ == "__main__":
     unittest.main()

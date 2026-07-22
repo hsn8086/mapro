@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import unittest
 
+from map_gen.draw.stations import _choose_station_axis
 from map_gen.station_symbols import (
     build_station_symbol,
+    find_station_axes,
     find_station_axis,
     render_station_symbol,
 )
@@ -79,6 +81,60 @@ class FindStationAxisTests(unittest.TestCase):
 
     def test_returns_none_when_station_off_every_line(self) -> None:
         self.assertIsNone(find_station_axis((99, 99), ["1"], {"1": [(0, 0), (10, 0)]}))
+
+    def test_find_station_axes_returns_every_segment_at_corner_vertex(self) -> None:
+        axes = find_station_axes(
+            (10, 0),
+            ["1"],
+            {"1": [(0, 0), (10, 0), (10, 10)]},
+        )
+
+        keys = {key for _, key in axes}
+        self.assertEqual(keys, {((0, 0), (10, 0)), ((10, 0), (10, 10))})
+
+
+class ChooseStationAxisTests(unittest.TestCase):
+    def test_prefers_axis_with_widest_lateral_span_of_own_lines(self) -> None:
+        # station sits at a corner: its own line turns, but the bundle
+        # corridor (with the offset partner) must win the axis choice
+        h_key = ((0, 0), (10, 0))
+        v_key = ((10, 0), (10, 10))
+        result = _choose_station_axis(
+            (10, 0),
+            ["1", "2"],
+            {
+                "1": [(0, 0), (10, 0), (10, 10)],
+                "2": [(0, 0), (10, 0), (20, 0)],
+            },
+            {h_key: ["1", "2"], v_key: ["1"]},
+            {("1", h_key): 0.0, ("2", h_key): 8.0},
+        )
+
+        self.assertIsNotNone(result)
+        assert result is not None
+        _, key, laterals = result
+        self.assertEqual(key, h_key)
+        self.assertEqual(sorted(laterals), [0.0, 8.0])
+
+    def test_laterals_only_include_own_lines(self) -> None:
+        # non-transfer station on a shared segment: the slot must sit in
+        # its own line's offset stroke, not span every member of the bundle
+        key = ((0, 0), (10, 0))
+        result = _choose_station_axis(
+            (5, 0),
+            ["2"],
+            {
+                "1": [(0, 0), (10, 0)],
+                "2": [(0, 0), (10, 0)],
+            },
+            {key: ["1", "2"]},
+            {("1", key): 0.0, ("2", key): 8.0},
+        )
+
+        self.assertIsNotNone(result)
+        assert result is not None
+        _, _, laterals = result
+        self.assertEqual(laterals, [8.0])
 
 
 class BuildStationSymbolTests(unittest.TestCase):

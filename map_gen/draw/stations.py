@@ -26,7 +26,7 @@ from ..station_labeling import (
 from ..station_symbols import (
     StationSymbol,
     build_station_symbol,
-    find_station_axis,
+    find_station_axes,
     render_station_symbol,
 )
 
@@ -35,6 +35,32 @@ _TOILET_INSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_inside.png")
 _TOILET_OUTSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_outside.png")
 TOILET_ICON_INSIDE: Image.Image | None = None
 TOILET_ICON_OUTSIDE: Image.Image | None = None
+
+
+def _choose_station_axis(
+    pos: tuple[int, int],
+    station_line_ids: list[str],
+    line_polylines: dict[str, list[tuple[int, int]]],
+    segment_map: dict,
+    bundle_offsets: dict,
+) -> tuple[tuple[float, float], tuple, list[float]] | None:
+    """Pick the axis whose strokes (of this station's own lines) span widest.
+
+    At corner vertices a station sits on several segments; the bundle
+    corridor (largest lateral span) wins so interchange capsules cover
+    every stroke and slots land inside the offset stroke, not the axis.
+    """
+    best: tuple[tuple[float, float], tuple, list[float]] | None = None
+    best_score: tuple[float, int] = (-1.0, -1)
+    for normal, key in find_station_axes(pos, station_line_ids, line_polylines):
+        members = segment_map.get(key, [])
+        own = [lid for lid in station_line_ids if lid in members]
+        laterals = [float(bundle_offsets.get((lid, key), 0.0)) for lid in own] or [0.0]
+        score = (max(laterals) - min(laterals), len(own))
+        if score > best_score:
+            best_score = score
+            best = (normal, key, laterals)
+    return best
 
 
 @dataclass(frozen=True)
@@ -114,13 +140,11 @@ def draw_stations(
         symbol: StationSymbol | None = None
         axis_dir: tuple[int, int] | None = None
         station_line_ids = [str(lid) for lid in s.get("lines", [])]
-        axis = find_station_axis(pos, station_line_ids, line_polylines)
+        axis = _choose_station_axis(
+            pos, station_line_ids, line_polylines, segment_map, bundle_offsets
+        )
         if axis is not None:
-            normal, key = axis
-            member_lines = segment_map.get(key, station_line_ids) or station_line_ids
-            laterals = [
-                float(bundle_offsets.get((lid, key), 0.0)) for lid in member_lines
-            ]
+            normal, key, laterals = axis
             symbol = build_station_symbol(
                 pos,
                 is_transfer=visual_state.is_transfer,

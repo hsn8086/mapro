@@ -153,6 +153,61 @@ class StrokeBuilderTests(unittest.TestCase):
         # every stroke keeps its own radius so the offset bands stay parallel
         self.assertNotAlmostEqual(arcs[0].radius, arcs[1].radius)
 
+    def test_build_line_strokes_inserts_45_degree_ramp_at_bundle_boundary(
+        self,
+    ) -> None:
+        # straight line whose second segment is laterally offset (bundle
+        # entry): the jog must be bridged by a 45-degree ramp, not a gap
+        key = ((100, 0), (200, 0))
+        strokes = build_line_strokes(
+            {"1": [(0, 0), (100, 0), (200, 0)]},
+            {
+                "1": {
+                    "points": [(0, 0), (100, 0), (200, 0)],
+                    "statuses": ["active", "active", "active"],
+                }
+            },
+            {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
+            {key: ["1", "2"]},
+            {("1", key): 20.0},
+            {"COLOR_INACTIVE": "#cccccc"},
+            18.0,
+        )
+
+        segments = [s for s in strokes if isinstance(s, StrokeSegment)]
+        self.assertEqual(len(segments), 3)
+        first, ramp, second = segments
+        # the ramp bridges exactly from the trimmed flat run to the offset run
+        self.assertEqual(ramp.start, first.end)
+        self.assertEqual(ramp.end, second.start)
+        dx = abs(ramp.end[0] - ramp.start[0])
+        dy = abs(ramp.end[1] - ramp.start[1])
+        self.assertAlmostEqual(dx, dy)
+        self.assertGreater(dx, 0.0)
+
+    def test_build_line_strokes_parallel_continuation_stays_unbroken(self) -> None:
+        # equal offsets on both sides of a vertex: no ramp, no gap
+        key_1 = ((0, 0), (100, 0))
+        key_2 = ((100, 0), (200, 0))
+        strokes = build_line_strokes(
+            {"1": [(0, 0), (100, 0), (200, 0)]},
+            {
+                "1": {
+                    "points": [(0, 0), (100, 0), (200, 0)],
+                    "statuses": ["active", "active", "active"],
+                }
+            },
+            {"1": {"id": "1", "color": "#ff0000", "type": "subway"}},
+            {key_1: ["1", "2"], key_2: ["1", "2"]},
+            {("1", key_1): 20.0, ("1", key_2): 20.0},
+            {"COLOR_INACTIVE": "#cccccc"},
+            18.0,
+        )
+
+        segments = [s for s in strokes if isinstance(s, StrokeSegment)]
+        self.assertEqual(len(segments), 2)
+        self.assertEqual(segments[0].end, segments[1].start)
+
     def test_stroke_arc_start_end_properties_follow_angles(self) -> None:
         arc = StrokeArc(
             line_id="1",
