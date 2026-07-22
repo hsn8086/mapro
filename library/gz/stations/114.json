@@ -11,9 +11,9 @@
       "isTransfer": true,
       "lines": [
         "1",
+        "10",
         "3",
-        "3B",
-        "10"
+        "3B"
       ],
       "facilities": [
         {
