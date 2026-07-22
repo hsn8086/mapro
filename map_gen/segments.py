@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from typing import Callable
 
 from .geometry import get_dir
-from .path_postprocess import postprocess_polyline
 
 Point = tuple[int, int]
 SegmentKey = tuple[Point, Point]
@@ -105,7 +104,9 @@ def build_segment_index(
                 statuses.append(status)
 
         if len(pts) > 1:
-            polyline = postprocess_polyline(build_line_polyline(pts))
+            # LineStation status applies to the adjacent edge, so station
+            # vertices must survive even when consecutive sections are straight.
+            polyline = build_line_polyline(pts)
             line_polylines[line_id] = polyline
             line_meta[line_id] = {"points": pts, "statuses": statuses}
             for p in polyline:

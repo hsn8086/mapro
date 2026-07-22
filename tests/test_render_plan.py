@@ -4,6 +4,7 @@ import unittest
 
 from map_gen.color_norm import normalize_line_color
 from map_gen.render_plan import build_render_plan
+from map_gen.stroke_builder import StrokeSegment
 
 
 class RenderPlanTests(unittest.TestCase):
@@ -93,7 +94,9 @@ class RenderPlanTests(unittest.TestCase):
         self.assertEqual(plan.segment_data.line_polylines, {})
         self.assertEqual(plan.font_paths, [])
 
-    def test_build_render_plan_compresses_redundant_polyline_points(self) -> None:
+    def test_build_render_plan_keeps_collinear_vertices_for_station_statuses(
+        self,
+    ) -> None:
         data = {
             "stations": {
                 "s1": {"x": 0, "y": 0, "name": {"zh-CN": "甲"}},
@@ -104,14 +107,26 @@ class RenderPlanTests(unittest.TestCase):
                 "1": {
                     "id": "1",
                     "color": "#ff0000",
-                    "stations": ["s1", "s2", "s3"],
+                    "stations": [
+                        {"id": "s1", "status": "planned"},
+                        "s2",
+                        "s3",
+                    ],
                 }
             },
         }
 
         plan = build_render_plan(data)
 
-        self.assertEqual(len(plan.segment_data.line_polylines["1"]), 2)
+        self.assertEqual(len(plan.segment_data.line_polylines["1"]), 3)
+        strokes = [
+            stroke
+            for stroke in plan.line_strokes
+            if isinstance(stroke, StrokeSegment) and stroke.line_id == "1"
+        ]
+        self.assertEqual(len(strokes), 2)
+        self.assertEqual(sum(stroke.is_inactive for stroke in strokes), 1)
+        self.assertEqual(sum(not stroke.is_inactive for stroke in strokes), 1)
 
 
 if __name__ == "__main__":
