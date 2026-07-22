@@ -421,6 +421,36 @@ class LabelLayoutTests(unittest.TestCase):
             is_box_overlapping_other_labels(placement.box, existing, padding=1.0)
         )
 
+    def test_place_label_block_avoids_hugging_a_neighbouring_station(self) -> None:
+        # the top-ranked direction would park the label right in the
+        # vertical band of a neighbouring station; the anchor-ambiguity
+        # penalty must push it to the unambiguous side instead
+        context = LocalLabelContext(
+            station_id="s1",
+            dense=True,
+            cluster_id=1,
+            corridor_axis="vertical",
+            corridor_index=0,
+            preferred_directions=((1, -1), (1, 1)),
+            tangent_vector=(0.0, 1.0),
+            nearby_stations=(
+                NearbyStation("s0", (100, 85), False, 20.0, 10.0, False, 2),
+            ),
+        )
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=[],
+            existing_boxes=[],
+            label_offset_base=10.0,
+            scale_factor=1,
+            local_context=context,
+        )
+
+        # lands below the station, away from the neighbour at (100, 85)
+        self.assertGreater(placement.box[1], 100.0)
+
     def test_compute_leader_line_returns_subtle_connector_for_far_label(self) -> None:
         leader = compute_leader_line((100, 100), (140.0, 80.0, 180.0, 110.0), 6.0, 1)
 

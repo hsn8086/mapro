@@ -265,6 +265,37 @@ def place_label_block(
             min_distance = min(min_distance, (dx * dx + dy * dy) ** 0.5)
         return min_distance
 
+    def reading_distance(text_box: LabelBox, point: Point) -> float:
+        """Perceived anchor distance from a label box to a station.
+
+        A station vertically aligned with the text band reads as the
+        label's anchor much more strongly, so aligned stations count as
+        closer than their raw rectangle distance.
+        """
+        dx = max(text_box[0] - point[0], point[0] - text_box[2], 0.0)
+        dy = max(text_box[1] - point[1], point[1] - text_box[3], 0.0)
+        distance = (dx * dx + dy * dy) ** 0.5
+        if text_box[1] <= point[1] <= text_box[3]:
+            distance *= 0.6
+        return distance
+
+    def anchor_ambiguity_penalty(text_box: LabelBox) -> float:
+        """Penalty when the box reads as belonging to a neighbouring station.
+
+        The margin by which a neighbour is perceptually closer than the
+        label's own station is charged against the candidate.
+        """
+        if not local_context or not local_context.nearby_stations:
+            return 0.0
+
+        own_distance = reading_distance(text_box, pos)
+        worst_margin = 0.0
+        for station in local_context.nearby_stations:
+            neighbor_distance = reading_distance(text_box, station.pos)
+            if neighbor_distance < own_distance:
+                worst_margin = max(worst_margin, own_distance - neighbor_distance)
+        return min(worst_margin, 40.0 * scale_factor) * 0.06
+
     def direction_score_for(dx: int, dy: int) -> float:
         if local_context and local_context.dense:
             preferred_rank = local_context.preferred_directions.index((dx, dy))
@@ -345,6 +376,7 @@ def place_label_block(
             + distance_penalty
             + label_clearance_penalty
             + neighbor_anchor_penalty
+            + anchor_ambiguity_penalty(text_box)
             + extra_penalty
         )
         if soft_collision:
@@ -397,12 +429,16 @@ def place_label_block(
             # blocked or covering a soft obstacle: try tucking the label
             # into a nearby gap by sliding perpendicular to the ray
             for shift_x, shift_y in slide_offsets((dx, dy), block_w, block_h):
-                # charge slides by displacement so a small tuck stays cheap
-                # while drifting far from the station costs like an extra
-                # search layer
-                slide_penalty = (
-                    (abs(shift_x) + abs(shift_y)) / max(label_offset_base, 1.0) * 0.7
+                # charge slides by displacement, but never more than the
+                # equivalent block fraction: a quarter-block tuck must stay
+                # affordable even for wide labels
+                absolute_cost = (abs(shift_x) + abs(shift_y)) / max(
+                    label_offset_base, 1.0
                 )
+                fractional_cost = (
+                    abs(shift_x) / max(block_w, 1.0) + abs(shift_y) / max(block_h, 1.0)
+                ) * 2.0
+                slide_penalty = min(absolute_cost, fractional_cost) * 0.7
                 evaluate_candidate(
                     tx + shift_x,
                     ty + shift_y,
