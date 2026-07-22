@@ -25,11 +25,10 @@ def build_style_constants(scale_factor: int) -> dict[str, float | str]:
         "BUNDLE_MIN_RUN": line_width * 5.0,
         "BUNDLE_CONNECTOR_MAX": line_width * 12.0,
         "CORNER_RADIUS": line_width * 1.25,
-        # shared track: full-width colour stripes alternating between the
-        # two lines, so neither line reads as subordinate
-        "SHARED_TRACK_DASH_LENGTH": line_width * 1.5,
-        "SHARED_TRACK_DASH_GAP": line_width * 1.5,
-        "SHARED_TRACK_DASH_WIDTH": line_width * 1.0,
+        # shared track: the two lines split one stroke width side by side,
+        # each taking half, so neither line reads as subordinate
+        "SHARED_TRACK_OVERLAY_WIDTH": line_width * 0.5,
+        "SHARED_TRACK_OVERLAY_OFFSET": line_width * 0.25,
         # station symbols
         "STATION_DOT_RADIUS": line_width * 0.26,
         "STATION_SLOT_WIDTH": line_width * 0.35,
