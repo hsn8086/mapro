@@ -93,6 +93,45 @@ class LabelLayoutTests(unittest.TestCase):
 
         self.assertEqual((placement.x, placement.y), (110.0, 95.0))
 
+    def test_place_label_block_dodges_soft_segments_when_space_allows(self) -> None:
+        # a planned line sits where the default spot would land: with free
+        # space elsewhere the label must move off it
+        placement = place_label_block(
+            (100, 100),
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=[],
+            existing_boxes=[],
+            label_offset_base=10.0,
+            scale_factor=1,
+            soft_line_segments=[((105, 95), (135, 95))],
+        )
+
+        self.assertNotEqual((placement.x, placement.y), (110.0, 95.0))
+
+    def test_place_label_block_prefers_soft_hit_over_hard_line_hit(self) -> None:
+        # every candidate collides with something: the winner must sit on
+        # the planned (soft) line, not on the in-service (hard) line
+        pos = (100, 100)
+        hard: list[tuple[tuple[int, int], tuple[int, int]]] = []
+        # in-service lines everywhere except to the left
+        for offset in range(-80, 81, 8):
+            hard.append(((100, 100 + offset), (220, 100 + offset)))
+        soft = [((-60, 40), (99, 160))]
+        placement = place_label_block(
+            pos,
+            block_w=20.0,
+            block_h=10.0,
+            line_segments_for_collision=hard,
+            existing_boxes=[],
+            label_offset_base=10.0,
+            scale_factor=1,
+            soft_line_segments=soft,
+        )
+
+        # label lands west of the station, in soft-line territory
+        self.assertLess(placement.box[2], 101.0)
+
     def test_place_label_block_uses_nearer_safe_layer_when_multiple_exist(self) -> None:
         placement = place_label_block(
             (100, 100),

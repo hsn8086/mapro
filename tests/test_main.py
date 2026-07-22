@@ -254,10 +254,16 @@ class BuildCliRendererTests(unittest.TestCase):
 
     def test_render_parser_accepts_preview_and_badges_flags(self) -> None:
         parser = main.build_parser()
-        args = parser.parse_args(["render", "--preview", "--badges"])
+        args = parser.parse_args(["render", "--preview"])
 
         self.assertTrue(args.preview)
         self.assertTrue(args.badges)
+
+    def test_render_parser_no_badges_flag_disables_badges(self) -> None:
+        parser = main.build_parser()
+        args = parser.parse_args(["render", "--no-badges"])
+
+        self.assertFalse(args.badges)
 
 
 class BoundsCommandTests(unittest.TestCase):

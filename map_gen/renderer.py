@@ -16,7 +16,7 @@ def draw_metro_map(
     bg_path: str | None = None,
     font_paths: list[str] | None = None,
     *,
-    badges_enabled: bool = False,
+    badges_enabled: bool = True,
     preview_max_edge: int | None = None,
 ) -> None:
     stations = data.get("stations", {})
@@ -25,7 +25,9 @@ def draw_metro_map(
         return
 
     if Path(output_path).suffix.lower() == ".svg":
-        draw_metro_map_svg(data, output_path, bg_path, font_paths)
+        draw_metro_map_svg(
+            data, output_path, bg_path, font_paths, badges_enabled=badges_enabled
+        )
         return
 
     plan = build_render_plan(data, font_paths, badges_enabled=badges_enabled)

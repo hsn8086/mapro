@@ -2,7 +2,12 @@ from __future__ import annotations
 
 import unittest
 
-from map_gen.stroke_builder import StrokeArc, StrokeSegment, build_line_strokes
+from map_gen.stroke_builder import (
+    StrokeArc,
+    StrokeSegment,
+    build_active_segment_keys,
+    build_line_strokes,
+)
 
 
 class StrokeBuilderTests(unittest.TestCase):
@@ -207,6 +212,36 @@ class StrokeBuilderTests(unittest.TestCase):
         segments = [s for s in strokes if isinstance(s, StrokeSegment)]
         self.assertEqual(len(segments), 2)
         self.assertEqual(segments[0].end, segments[1].start)
+
+    def test_build_active_segment_keys_excludes_inactive_portions(self) -> None:
+        active = build_active_segment_keys(
+            {
+                "1": [(0, 0), (10, 0), (20, 0)],
+                "2": [(0, 10), (10, 10)],
+            },
+            {
+                "1": {
+                    "points": [(0, 0), (10, 0), (20, 0)],
+                    "statuses": ["active", "active", "under_construction"],
+                },
+                "2": {"points": [(0, 10), (10, 10)], "statuses": ["active", "active"]},
+            },
+            {
+                "1": {"id": "1", "color": "#ff0000", "type": "subway"},
+                "2": {
+                    "id": "2",
+                    "color": "#00ff00",
+                    "type": "subway",
+                    "status": "planned",
+                },
+            },
+        )
+
+        self.assertIn(((0, 0), (10, 0)), active)
+        # segment adjacent to an under-construction station is inactive
+        self.assertNotIn(((10, 0), (20, 0)), active)
+        # whole line planned: nothing active
+        self.assertNotIn(((0, 10), (10, 10)), active)
 
     def test_stroke_arc_start_end_properties_follow_angles(self) -> None:
         arc = StrokeArc(

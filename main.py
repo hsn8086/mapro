@@ -83,9 +83,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Fast preview: clamp the longest output edge to 1600px",
     )
     render_parser.add_argument(
-        "--badges",
-        action="store_true",
-        help="Draw station badges (line pills, facility tags); off by default",
+        "--no-badges",
+        dest="badges",
+        action="store_false",
+        default=True,
+        help="Skip station badges (line pills, facility tags); on by default",
     )
     render_parser.add_argument(
         "--watch",
@@ -549,7 +551,7 @@ def build_cli_renderer(*, badges: bool, preview: bool) -> Renderer:
 def run_render_command(args: argparse.Namespace) -> int:
     font_paths = resolve_font_paths(args.fonts)
     renderer = build_cli_renderer(
-        badges=bool(getattr(args, "badges", False)),
+        badges=bool(getattr(args, "badges", True)),
         preview=bool(getattr(args, "preview", False)),
     )
     if args.watch:

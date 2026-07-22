@@ -228,8 +228,13 @@ class SvgDraw:
         )
 
 
-def render_svg_string(data: dict[str, Any], font_paths: list[str] | None = None) -> str:
-    plan = build_render_plan(data, font_paths)
+def render_svg_string(
+    data: dict[str, Any],
+    font_paths: list[str] | None = None,
+    *,
+    badges_enabled: bool = True,
+) -> str:
+    plan = build_render_plan(data, font_paths, badges_enabled=badges_enabled)
     canvas = SvgCanvas(plan.layout.width, plan.layout.height)
     draw_render_plan(plan, canvas, canvas.draw)
     return canvas.to_svg()
@@ -240,9 +245,11 @@ def draw_metro_map_svg(
     output_path: str,
     bg_path: str | None = None,
     font_paths: list[str] | None = None,
+    *,
+    badges_enabled: bool = True,
 ) -> None:
     _ = bg_path
-    plan = build_render_plan(data, font_paths)
+    plan = build_render_plan(data, font_paths, badges_enabled=badges_enabled)
     canvas = SvgCanvas(plan.layout.width, plan.layout.height)
     draw_render_plan(plan, canvas, canvas.draw)
     canvas.save(output_path)

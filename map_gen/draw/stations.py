@@ -180,11 +180,13 @@ def draw_stations(
     segment_map: dict | None = None,
     bundle_offsets: dict | None = None,
     badges_enabled: bool = True,
+    soft_line_segments: list[tuple[tuple[int, int], tuple[int, int]]] | None = None,
 ) -> None:
     global TOILET_ICON_INSIDE, TOILET_ICON_OUTSIDE
     line_polylines = line_polylines or {}
     segment_map = segment_map or {}
     bundle_offsets = bundle_offsets or {}
+    soft_line_segments = soft_line_segments or []
     if TOILET_ICON_INSIDE is None and os.path.exists(_TOILET_INSIDE_PATH):
         TOILET_ICON_INSIDE = Image.open(_TOILET_INSIDE_PATH).convert("RGBA")
     if TOILET_ICON_OUTSIDE is None and os.path.exists(_TOILET_OUTSIDE_PATH):
@@ -368,6 +370,9 @@ def draw_stations(
             axis_dir=measured.axis_dir,
             obstacle_boxes=obstacle_boxes,
             segment_extents=segment_extents,
+            soft_line_segments=(
+                soft_line_segments if not visual_state.is_tram_station else []
+            ),
         )
 
         effective_line_markers = line_markers

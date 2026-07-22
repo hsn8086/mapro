@@ -231,12 +231,70 @@ def _corridor_length(chain: BundleChain) -> float:
     return total
 
 
+def _segment_length(p1: Point, p2: Point) -> float:
+    return ((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2) ** 0.5
+
+
+def _extend_offsets_through_connectors(
+    offsets: dict[tuple[str, SegmentKey], float],
+    line_polylines: dict[str, list[Point]],
+    segment_map: dict[SegmentKey, list[str]],
+    max_connector_length: float,
+) -> None:
+    """Carry corridor offsets across short collinear approach segments.
+
+    A line that turns onto a short connector aligned with its corridor
+    would otherwise climb to the centreline first and immediately ramp
+    onto its slot. If the connector ends at a corner within the length
+    budget, keep the slot offset all the way to that corner so the turn
+    itself absorbs the transition.
+    """
+    if max_connector_length <= 0:
+        return
+
+    for line_id, polyline in line_polylines.items():
+        count = len(polyline) - 1
+        if count < 2:
+            continue
+        keys = [_canonical_key(polyline[i], polyline[i + 1]) for i in range(count)]
+        dirs = [get_dir(polyline[i], polyline[i + 1]) for i in range(count)]
+
+        for index in range(count):
+            lateral = offsets.get((line_id, keys[index]))
+            if lateral is None:
+                continue
+            for step in (-1, 1):
+                cursor = index + step
+                travelled = 0.0
+                connectors: list[int] = []
+                absorbed = False
+                while 0 <= cursor < count:
+                    if (line_id, keys[cursor]) in offsets:
+                        break
+                    if dirs[cursor] != dirs[index]:
+                        absorbed = True
+                        break
+                    if len(segment_map.get(keys[cursor], [])) > 1:
+                        break
+                    travelled += _segment_length(polyline[cursor], polyline[cursor + 1])
+                    if travelled > max_connector_length:
+                        break
+                    connectors.append(cursor)
+                    cursor += step
+                if absorbed:
+                    for connector in connectors:
+                        offsets[(line_id, keys[connector])] = lateral
+
+    return
+
+
 def build_bundle_offsets(
     line_polylines: dict[str, list[Point]],
     segment_map: dict[SegmentKey, list[str]],
     *,
     slot_spacing: float,
     min_run_length: float = 0.0,
+    max_connector_length: float = 0.0,
 ) -> dict[tuple[str, SegmentKey], float]:
     """Anchored slot offsets for every (line, shared segment).
 
@@ -297,4 +355,7 @@ def build_bundle_offsets(
                 if key in members[line_id].covered_keys:
                     offsets[(line_id, key)] = value * flip
 
+    _extend_offsets_through_connectors(
+        offsets, line_polylines, segment_map, max_connector_length
+    )
     return offsets

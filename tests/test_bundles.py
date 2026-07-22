@@ -159,6 +159,43 @@ class MinRunLengthTests(unittest.TestCase):
         self.assertNotEqual(offsets, {})
 
 
+class ConnectorExtensionTests(unittest.TestCase):
+    def _polylines(self) -> dict[str, list[Point]]:
+        # B turns onto a short connector (20,0)..(40,0) aligned with the
+        # corridor (40,0)..(160,0), then leaves with a turn at the far end
+        return {
+            "A": [(0, 0), (40, 0), (160, 0), (200, 0)],
+            "B": [(20, 20), (20, 0), (40, 0), (160, 0), (160, 20)],
+        }
+
+    def test_offset_carries_back_to_absorbing_corner(self) -> None:
+        polylines = self._polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+            max_connector_length=30.0,
+        )
+
+        corridor_key = ((40, 0), (160, 0))
+        connector_key = ((20, 0), (40, 0))
+        self.assertIn(("B", connector_key), offsets)
+        self.assertEqual(offsets[("B", connector_key)], offsets[("B", corridor_key)])
+        # the anchor's surrounding segments stay untouched
+        self.assertNotIn(("A", ((0, 0), (40, 0))), offsets)
+
+    def test_connector_longer_than_budget_is_not_extended(self) -> None:
+        polylines = self._polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+            max_connector_length=10.0,
+        )
+
+        self.assertNotIn(("B", ((20, 0), (40, 0))), offsets)
+
+
 class CorridorMergeTests(unittest.TestCase):
     """A corridor whose member set changes mid-way keeps slots stable."""
 

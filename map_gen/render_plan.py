@@ -14,7 +14,11 @@ from .layout import Layout, get_pos_transform
 from .markers import build_station_markers
 from .router import build_line_polyline
 from .segments import SegmentData, build_segment_index
-from .stroke_builder import StrokeElement, build_line_strokes
+from .stroke_builder import (
+    StrokeElement,
+    build_active_segment_keys,
+    build_line_strokes,
+)
 from .styles import build_style_constants
 
 
@@ -32,6 +36,7 @@ class RenderPlan:
     line_width: float
     line_strokes: list[StrokeElement]
     bundle_offsets: dict[tuple[str, tuple[tuple[int, int], tuple[int, int]]], float]
+    active_segment_keys: set[tuple[tuple[int, int], tuple[int, int]]]
     badges_enabled: bool
 
 
@@ -113,6 +118,7 @@ def build_render_plan(
         segment_data.segment_map,
         slot_spacing=line_width + float(styles["BUNDLE_GAP"]),
         min_run_length=float(styles.get("BUNDLE_MIN_RUN", 0.0)),
+        max_connector_length=float(styles.get("BUNDLE_CONNECTOR_MAX", 0.0)),
     )
     line_strokes = build_line_strokes(
         segment_data.line_polylines,
@@ -122,6 +128,11 @@ def build_render_plan(
         bundle_offsets,
         styles,
         line_width,
+    )
+    active_segment_keys = build_active_segment_keys(
+        segment_data.line_polylines,
+        segment_data.line_meta,
+        lines,
     )
 
     return RenderPlan(
@@ -137,5 +148,6 @@ def build_render_plan(
         line_width=line_width,
         line_strokes=line_strokes,
         bundle_offsets=bundle_offsets,
+        active_segment_keys=active_segment_keys,
         badges_enabled=badges_enabled,
     )

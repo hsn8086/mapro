@@ -23,6 +23,7 @@ def build_style_constants(scale_factor: int) -> dict[str, float | str]:
         # bundle geometry (W = LINE_WIDTH)
         "BUNDLE_GAP": line_width * 0.15,
         "BUNDLE_MIN_RUN": line_width * 5.0,
+        "BUNDLE_CONNECTOR_MAX": line_width * 3.5,
         "CORNER_RADIUS": line_width * 1.25,
         # station symbols
         "STATION_DOT_RADIUS": line_width * 0.26,

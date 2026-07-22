@@ -361,6 +361,41 @@ def _build_line_elements(
     return elements
 
 
+def build_active_segment_keys(
+    line_polylines: dict[str, list[Point]],
+    line_meta: dict[str, dict[str, Any]],
+    lines: dict[str, Any],
+) -> set[SegmentKey]:
+    """Segment keys carried by at least one in-service line portion.
+
+    Segments only served by planned / under-construction strokes are not
+    included, so label placement can treat them as soft obstacles.
+    """
+    active: set[SegmentKey] = set()
+
+    for line_id, polyline in line_polylines.items():
+        line_data_raw = lines.get(line_id, {})
+        line_data = line_data_raw if isinstance(line_data_raw, dict) else {}
+        if is_non_active_status(str(line_data.get("status", "active"))):
+            continue
+        meta = line_meta.get(line_id)
+        if meta is None:
+            continue
+        point_map = _build_point_map(meta)
+        statuses = [str(status) for status in meta.get("statuses", [])]
+        station_index = 0
+        for index in range(len(polyline) - 1):
+            p1 = polyline[index]
+            p2 = polyline[index + 1]
+            if p1 in point_map:
+                station_index = point_map[p1]
+            segment_status = _resolve_segment_status(statuses, station_index)
+            if not is_non_active_status(segment_status):
+                active.add(_canonical_key(p1, p2))
+
+    return active
+
+
 def build_line_strokes(
     line_polylines: dict[str, list[Point]],
     line_meta: dict[str, dict[str, Any]],

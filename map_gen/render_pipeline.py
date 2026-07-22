@@ -26,6 +26,16 @@ def draw_render_plan(plan: RenderPlan, img, draw) -> None:
         styles,
     )
 
+    active_keys = plan.active_segment_keys
+    hard_segments = [
+        key for key in segment_data.line_segments_for_collision if key in active_keys
+    ]
+    soft_segments = [
+        key
+        for key in segment_data.line_segments_for_collision
+        if key not in active_keys
+    ]
+
     draw_stations(
         img,
         draw,
@@ -34,7 +44,7 @@ def draw_render_plan(plan: RenderPlan, img, draw) -> None:
         get_pos,
         segment_data.skip_map,
         plan.station_markers,
-        segment_data.line_segments_for_collision,
+        hard_segments,
         segment_data.tram_line_segments_for_collision,
         scale_factor,
         plan.font_paths,
@@ -43,6 +53,7 @@ def draw_render_plan(plan: RenderPlan, img, draw) -> None:
         segment_map=segment_data.segment_map,
         bundle_offsets=plan.bundle_offsets,
         badges_enabled=plan.badges_enabled,
+        soft_line_segments=soft_segments,
     )
 
     draw_title_block(draw, plan.meta, plan.font_paths, styles)

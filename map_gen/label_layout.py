@@ -186,6 +186,7 @@ def place_label_block(
     axis_dir: tuple[int, int] | None = None,
     obstacle_boxes: Sequence[LabelBox] = (),
     segment_extents: dict[LineSegment, float] | None = None,
+    soft_line_segments: Sequence[LineSegment] = (),
 ) -> LabelPlacement:
     search_layers = [1.0, 1.3, 1.6]
     if local_context and local_context.dense:
@@ -253,6 +254,15 @@ def place_label_block(
                     obstacle_boxes,
                     padding=float(scale_factor),
                 )
+            # planned / under-construction strokes are soft obstacles:
+            # avoid them when possible, but prefer covering them over
+            # covering an in-service line or another label
+            soft_collision = bool(soft_line_segments) and is_box_colliding_with_lines(
+                text_box,
+                soft_line_segments,
+                threshold=float(3 * scale_factor),
+                segment_extents=segment_extents,
+            )
             label_overlap = is_box_overlapping_other_labels(
                 text_box,
                 existing_boxes,
@@ -303,6 +313,8 @@ def place_label_block(
                 + neighbor_anchor_penalty
             )
             score = base_score
+            if soft_collision:
+                score += 8.0
             if label_overlap:
                 score += 40.0
             if line_collision:
