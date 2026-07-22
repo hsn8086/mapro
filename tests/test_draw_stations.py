@@ -442,10 +442,10 @@ class DrawStationsTests(unittest.TestCase):
                 bundle_offsets={},
             )
 
-        # slot symbol renders as a background-coloured line, not an ellipse
-        self.assertEqual(draw.ellipse_calls, [])
-        self.assertEqual(len(draw.line_calls), 1)
-        self.assertEqual(draw.line_calls[0][1], "#ffffff")
+        # slot symbol renders as an inset background-coloured dot
+        self.assertEqual(len(draw.ellipse_calls), 1)
+        self.assertEqual(draw.ellipse_calls[0][1], "#ffffff")
+        self.assertEqual(draw.line_calls, [])
 
 
 if __name__ == "__main__":

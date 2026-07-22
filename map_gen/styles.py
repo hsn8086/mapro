@@ -22,8 +22,10 @@ def build_style_constants(scale_factor: int) -> dict[str, float | str]:
         "COLOR_CONNECTION_BUS": "#8A8A8A",
         # bundle geometry (W = LINE_WIDTH)
         "BUNDLE_GAP": line_width * 0.15,
+        "BUNDLE_MIN_RUN": line_width * 5.0,
         "CORNER_RADIUS": line_width * 1.25,
         # station symbols
+        "STATION_DOT_RADIUS": line_width * 0.26,
         "STATION_SLOT_WIDTH": line_width * 0.35,
         "STATION_SLOT_BREADTH": line_width * 0.55,
         "TRANSFER_RING_RADIUS": line_width * 0.55,

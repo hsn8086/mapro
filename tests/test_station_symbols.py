@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import math
 import unittest
 
-from map_gen.draw.stations import _choose_station_axis
+from map_gen.draw.stations import _choose_station_axis, _corner_symbol_pose
 from map_gen.station_symbols import (
     build_station_symbol,
     find_station_axes,
@@ -137,6 +138,39 @@ class ChooseStationAxisTests(unittest.TestCase):
         self.assertEqual(laterals, [8.0])
 
 
+class CornerSymbolPoseTests(unittest.TestCase):
+    def test_station_on_right_angle_corner_moves_to_arc_midpoint(self) -> None:
+        # line travels east then turns south at (100, 0)
+        pose = _corner_symbol_pose(
+            (100, 0),
+            ["1"],
+            {"1": [(0, 0), (100, 0), (100, 100)]},
+            10.0,
+        )
+
+        self.assertIsNotNone(pose)
+        assert pose is not None
+        midpoint, radial, tangent_dir = pose
+        # arc centre sits at (90, 10); midpoint is pulled diagonally inward
+        self.assertLess(midpoint[0], 100.0)
+        self.assertGreater(midpoint[1], 0.0)
+        self.assertAlmostEqual(math.hypot(midpoint[0] - 90.0, midpoint[1] - 10.0), 10.0)
+        # radial points outward, away from the corner centre
+        self.assertGreater(radial[0], 0.0)
+        self.assertLess(radial[1], 0.0)
+        self.assertEqual(tangent_dir, (1, 1))
+
+    def test_station_on_straight_run_has_no_corner_pose(self) -> None:
+        pose = _corner_symbol_pose(
+            (50, 0),
+            ["1"],
+            {"1": [(0, 0), (50, 0), (100, 0)]},
+            10.0,
+        )
+
+        self.assertIsNone(pose)
+
+
 class BuildStationSymbolTests(unittest.TestCase):
     def test_non_transfer_station_gets_slot(self) -> None:
         symbol = build_station_symbol(
@@ -194,7 +228,7 @@ class BuildStationSymbolTests(unittest.TestCase):
 
 
 class RenderStationSymbolTests(unittest.TestCase):
-    def test_slot_renders_background_line_across_stroke(self) -> None:
+    def test_slot_renders_inset_background_dot(self) -> None:
         draw = SymbolDrawStub()
         symbol = build_station_symbol(
             (10, 10),
@@ -206,10 +240,31 @@ class RenderStationSymbolTests(unittest.TestCase):
 
         render_station_symbol(draw, symbol, STYLES)
 
-        self.assertEqual(len(draw.line_calls), 1)
-        self.assertEqual(draw.line_calls[0]["fill"], "#fafaf7")
-        self.assertEqual(draw.ellipse_calls, [])
+        self.assertEqual(len(draw.ellipse_calls), 1)
+        call = draw.ellipse_calls[0]
+        self.assertEqual(call["fill"], "#fafaf7")
+        self.assertIsNone(call["outline"])
+        # dot must stay strictly inside the stroke: diameter < LINE_WIDTH
+        left, top, right, bottom = call["bounds"]
+        self.assertLess(right - left, float(STYLES["LINE_WIDTH"]))
+        self.assertEqual(draw.line_calls, [])
         self.assertEqual(draw.polygon_calls, [])
+
+    def test_slot_dot_centres_inside_offset_stroke(self) -> None:
+        draw = SymbolDrawStub()
+        symbol = build_station_symbol(
+            (10, 10),
+            is_transfer=False,
+            normal=(0.0, 1.0),
+            laterals=[6.0],
+            styles=STYLES,
+        )
+
+        render_station_symbol(draw, symbol, STYLES)
+
+        left, top, right, bottom = draw.ellipse_calls[0]["bounds"]
+        self.assertAlmostEqual((top + bottom) / 2.0, 16.0)
+        self.assertAlmostEqual((left + right) / 2.0, 10.0)
 
     def test_ring_renders_single_ellipse_with_ink_outline(self) -> None:
         draw = SymbolDrawStub()

@@ -129,6 +129,36 @@ class BuildBundleOffsetsTests(unittest.TestCase):
         self.assertEqual(offsets[("B", key_1)], offsets[("B", key_2)])
 
 
+class MinRunLengthTests(unittest.TestCase):
+    def test_short_shared_run_is_left_overlapping(self) -> None:
+        polylines = {
+            "A": [(0, 0), (10, 0), (20, 0), (30, 0)],
+            "B": [(0, 10), (10, 0), (20, 0), (30, 10)],
+        }
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+            min_run_length=50.0,
+        )
+
+        self.assertEqual(offsets, {})
+
+    def test_long_shared_run_still_offsets(self) -> None:
+        polylines = {
+            "A": [(0, 0), (10, 0), (100, 0), (110, 0)],
+            "B": [(0, 10), (10, 0), (100, 0), (110, 10)],
+        }
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+            min_run_length=50.0,
+        )
+
+        self.assertNotEqual(offsets, {})
+
+
 class CorridorMergeTests(unittest.TestCase):
     """A corridor whose member set changes mid-way keeps slots stable."""
 

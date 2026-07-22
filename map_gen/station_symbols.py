@@ -13,7 +13,7 @@ class StationSymbol:
     """Resolved geometry for one station symbol.
 
     kind:
-      slot    - centred white slot inside the stroke(s); outer edges stay solid
+      slot    - inset background dot inside the stroke; edges stay solid
       ring    - white-core ink ring (single-stroke interchange)
       capsule - ink-outlined capsule spanning every stroke of a bundle
     """
@@ -106,7 +106,7 @@ def find_station_axis(
 
 
 def build_station_symbol(
-    pos: Point,
+    pos: Point | FloatPoint,
     *,
     is_transfer: bool,
     normal: FloatPoint,
@@ -115,7 +115,7 @@ def build_station_symbol(
 ) -> StationSymbol:
     line_width = float(styles["LINE_WIDTH"])
     slot_width = float(styles.get("STATION_SLOT_WIDTH", line_width * 0.35))
-    base_breadth = float(styles.get("STATION_SLOT_BREADTH", line_width * 0.55))
+    dot_radius = float(styles.get("STATION_DOT_RADIUS", line_width * 0.26))
     ring_radius = float(styles.get("TRANSFER_RING_RADIUS", line_width * 0.55))
     ring_stroke = float(styles.get("TRANSFER_RING_STROKE", line_width * 0.16))
 
@@ -128,7 +128,7 @@ def build_station_symbol(
     else:
         kind = "slot"
 
-    breadth = span + base_breadth
+    breadth = span + dot_radius * 2.0
     center = (
         pos[0] + normal[0] * (lat_min + lat_max) / 2.0,
         pos[1] + normal[1] * (lat_min + lat_max) / 2.0,
@@ -153,12 +153,11 @@ def build_station_symbol(
             max(end_a[1], end_b[1]) + extent,
         )
     else:
-        half = breadth / 2.0
         bbox = (
-            center[0] - half - slot_width / 2.0,
-            center[1] - half - slot_width / 2.0,
-            center[0] + half + slot_width / 2.0,
-            center[1] + half + slot_width / 2.0,
+            center[0] - dot_radius,
+            center[1] - dot_radius,
+            center[0] + dot_radius,
+            center[1] + dot_radius,
         )
 
     return StationSymbol(
@@ -217,20 +216,24 @@ def render_station_symbol(
     ink = str(styles.get("COLOR_INK", styles.get("COLOR_STATION_STROKE", "#1A1A1A")))
 
     if symbol.kind == "slot":
+        # inset background dot: the stroke edges stay solid so the line
+        # never reads as cut through
         center = (
             symbol.pos[0] + symbol.normal[0] * (symbol.lat_min + symbol.lat_max) / 2.0,
             symbol.pos[1] + symbol.normal[1] * (symbol.lat_min + symbol.lat_max) / 2.0,
         )
-        half = symbol.breadth / 2.0
-        start = (
-            center[0] - symbol.normal[0] * half,
-            center[1] - symbol.normal[1] * half,
+        radius = symbol.breadth / 2.0
+        draw.ellipse(
+            [
+                center[0] - radius,
+                center[1] - radius,
+                center[0] + radius,
+                center[1] + radius,
+            ],
+            fill=background,
+            outline=None,
+            width=0,
         )
-        end = (
-            center[0] + symbol.normal[0] * half,
-            center[1] + symbol.normal[1] * half,
-        )
-        draw.line([start, end], fill=background, width=int(round(symbol.slot_width)))
         return
 
     if symbol.kind == "ring":

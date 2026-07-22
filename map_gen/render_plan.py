@@ -112,6 +112,7 @@ def build_render_plan(
         segment_data.line_polylines,
         segment_data.segment_map,
         slot_spacing=line_width + float(styles["BUNDLE_GAP"]),
+        min_run_length=float(styles.get("BUNDLE_MIN_RUN", 0.0)),
     )
     line_strokes = build_line_strokes(
         segment_data.line_polylines,

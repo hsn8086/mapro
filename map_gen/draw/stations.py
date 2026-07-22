@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import os
 from dataclasses import dataclass
 
@@ -35,6 +36,91 @@ _TOILET_INSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_inside.png")
 _TOILET_OUTSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_outside.png")
 TOILET_ICON_INSIDE: Image.Image | None = None
 TOILET_ICON_OUTSIDE: Image.Image | None = None
+
+
+def _corner_symbol_pose(
+    pos: tuple[int, int],
+    station_line_ids: list[str],
+    line_polylines: dict[str, list[tuple[int, int]]],
+    corner_radius: float,
+) -> tuple[tuple[float, float], tuple[float, float], tuple[int, int]] | None:
+    """Pose for a station sitting exactly on a rounded corner vertex.
+
+    The stroke is pulled inward by the corner fillet, so the symbol must
+    move onto the arc midpoint and orient along the radial direction.
+    Returns (midpoint, radial_normal, tangent_dir) or None if the station
+    is not on a turning vertex.
+    """
+    candidates = list(station_line_ids) + [
+        lid for lid in line_polylines if lid not in station_line_ids
+    ]
+    for line_id in candidates:
+        polyline = line_polylines.get(line_id, [])
+        for index in range(1, len(polyline) - 1):
+            if polyline[index] != pos:
+                continue
+            prev_pt = polyline[index - 1]
+            next_pt = polyline[index + 1]
+            len_in = math.hypot(pos[0] - prev_pt[0], pos[1] - prev_pt[1])
+            len_out = math.hypot(next_pt[0] - pos[0], next_pt[1] - pos[1])
+            if len_in < 1e-9 or len_out < 1e-9:
+                continue
+            dir_in = ((pos[0] - prev_pt[0]) / len_in, (pos[1] - prev_pt[1]) / len_in)
+            dir_out = (
+                (next_pt[0] - pos[0]) / len_out,
+                (next_pt[1] - pos[1]) / len_out,
+            )
+            cross = dir_in[0] * dir_out[1] - dir_in[1] * dir_out[0]
+            if abs(cross) < 1e-9:
+                continue
+            dir_to_prev = (-dir_in[0], -dir_in[1])
+            dot = max(
+                -1.0,
+                min(
+                    1.0,
+                    dir_to_prev[0] * dir_out[0] + dir_to_prev[1] * dir_out[1],
+                ),
+            )
+            turn_angle = math.acos(dot)
+            if turn_angle <= 1e-6 or abs(turn_angle - math.pi) <= 1e-6:
+                continue
+            limit = min(len_in, len_out) * 0.45 * math.tan(turn_angle / 2.0)
+            radius = min(corner_radius, limit)
+            if radius <= 0.5:
+                return None
+            bis_x = dir_to_prev[0] + dir_out[0]
+            bis_y = dir_to_prev[1] + dir_out[1]
+            bis_len = math.hypot(bis_x, bis_y)
+            if bis_len < 1e-9:
+                continue
+            bisector = (bis_x / bis_len, bis_y / bis_len)
+            center_distance = radius / math.sin(turn_angle / 2.0)
+            center = (
+                pos[0] + bisector[0] * center_distance,
+                pos[1] + bisector[1] * center_distance,
+            )
+            radial = (pos[0] - center[0], pos[1] - center[1])
+            radial_len = math.hypot(radial[0], radial[1])
+            if radial_len < 1e-9:
+                continue
+            radial_normal = (radial[0] / radial_len, radial[1] / radial_len)
+            midpoint = (
+                center[0] + radial_normal[0] * radius,
+                center[1] + radial_normal[1] * radius,
+            )
+            tangent = (
+                dir_in[0] + dir_out[0],
+                dir_in[1] + dir_out[1],
+            )
+            tangent_dir = (
+                (0 if abs(tangent[0]) < 1e-9 else (1 if tangent[0] > 0 else -1)),
+                (0 if abs(tangent[1]) < 1e-9 else (1 if tangent[1] > 0 else -1)),
+            )
+            return (midpoint, radial_normal, tangent_dir)
+        # only inspect the first polyline that actually contains the vertex
+        if any(point == pos for point in polyline):
+            return None
+    return None
 
 
 def _choose_station_axis(
@@ -145,17 +231,30 @@ def draw_stations(
         )
         if axis is not None:
             normal, key, laterals = axis
-            symbol = build_station_symbol(
-                pos,
-                is_transfer=visual_state.is_transfer,
-                normal=normal,
-                laterals=laterals,
-                styles=styles,
-            )
+            symbol_pos: tuple[float, float] = (float(pos[0]), float(pos[1]))
+            span = (max(laterals) - min(laterals)) if laterals else 0.0
             direction = (key[1][0] - key[0][0], key[1][1] - key[0][1])
             axis_dir = (
                 (0 if direction[0] == 0 else (1 if direction[0] > 0 else -1)),
                 (0 if direction[1] == 0 else (1 if direction[1] > 0 else -1)),
+            )
+            offset_magnitude = max((abs(value) for value in laterals), default=0.0)
+            if span < 1e-6 and offset_magnitude < 1e-6:
+                corner_pose = _corner_symbol_pose(
+                    pos,
+                    station_line_ids,
+                    line_polylines,
+                    float(styles.get("CORNER_RADIUS", 0.0)),
+                )
+                if corner_pose is not None:
+                    symbol_pos, normal, axis_dir = corner_pose
+                    laterals = [0.0]
+            symbol = build_station_symbol(
+                symbol_pos,
+                is_transfer=visual_state.is_transfer,
+                normal=normal,
+                laterals=laterals,
+                styles=styles,
             )
 
         measured_stations.append(

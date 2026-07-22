@@ -222,11 +222,21 @@ def _natural_line_order(line_id: str) -> tuple[int, str]:
     return (int(digits) if digits else 1_000_000, line_id)
 
 
+def _corridor_length(chain: BundleChain) -> float:
+    total = 0.0
+    for index in range(len(chain.vertices) - 1):
+        v1 = chain.vertices[index]
+        v2 = chain.vertices[index + 1]
+        total += ((v2[0] - v1[0]) ** 2 + (v2[1] - v1[1]) ** 2) ** 0.5
+    return total
+
+
 def build_bundle_offsets(
     line_polylines: dict[str, list[Point]],
     segment_map: dict[SegmentKey, list[str]],
     *,
     slot_spacing: float,
+    min_run_length: float = 0.0,
 ) -> dict[tuple[str, SegmentKey], float]:
     """Anchored slot offsets for every (line, shared segment).
 
@@ -240,6 +250,10 @@ def build_bundle_offsets(
     offsets: dict[tuple[str, SegmentKey], float] = {}
 
     for chain in _merge_corridors(_detect_chains(line_polylines, segment_map)):
+        if _corridor_length(chain) < min_run_length:
+            # too short for entry/exit transitions to read cleanly:
+            # let the strokes simply overlap instead of offsetting
+            continue
         members: dict[str, _MemberGeometry] = {}
         for line_id in chain.line_ids:
             geometry = _member_geometry(chain, line_polylines.get(line_id, []))
