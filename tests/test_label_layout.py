@@ -9,6 +9,7 @@ from map_gen.label_layout import (
     is_box_overlapping_other_labels,
     is_line_intersecting_rect,
     place_label_block,
+    slide_offsets,
 )
 from map_gen.label_context import LocalLabelContext, NearbyStation
 
@@ -133,20 +134,27 @@ class LabelLayoutTests(unittest.TestCase):
         self.assertLess(placement.box[2], 101.0)
 
     def test_place_label_block_uses_nearer_safe_layer_when_multiple_exist(self) -> None:
+        segments = [
+            ((105, 95), (125, 95)),
+            ((105, 85), (125, 85)),
+        ]
         placement = place_label_block(
             (100, 100),
             block_w=20.0,
             block_h=10.0,
-            line_segments_for_collision=[
-                ((105, 95), (125, 95)),
-                ((105, 85), (125, 85)),
-            ],
+            line_segments_for_collision=segments,
             existing_boxes=[],
             label_offset_base=10.0,
             scale_factor=1,
         )
 
-        self.assertEqual((placement.x, placement.y), (110.0, 110.0))
+        # stays beside-right at the first layer (slid clear of the lines)
+        # instead of jumping to a farther diagonal spot
+        self.assertEqual(placement.x, 110.0)
+        self.assertLess(placement.y, 110.0)
+        self.assertFalse(
+            is_box_colliding_with_lines(placement.box, segments, threshold=3.0)
+        )
 
     def test_place_label_block_prefers_line_clear_candidate_when_all_overlap(
         self,
@@ -364,6 +372,53 @@ class LabelLayoutTests(unittest.TestCase):
 
         self.assertFalse(
             is_box_overlapping_other_labels(placement.box, [obstacle], padding=0.0)
+        )
+
+    def test_slide_offsets_cardinal_directions_shift_perpendicular(self) -> None:
+        # beside placements slide vertically, above/below slide horizontally
+        for dx, dy in ((1, 0), (-1, 0)):
+            for shift_x, shift_y in slide_offsets((dx, dy), 40.0, 20.0):
+                self.assertEqual(shift_x, 0.0)
+                self.assertNotEqual(shift_y, 0.0)
+        for dx, dy in ((0, 1), (0, -1)):
+            for shift_x, shift_y in slide_offsets((dx, dy), 40.0, 20.0):
+                self.assertNotEqual(shift_x, 0.0)
+                self.assertEqual(shift_y, 0.0)
+
+    def test_slide_offsets_diagonal_directions_shift_either_axis(self) -> None:
+        offsets = slide_offsets((1, 1), 40.0, 20.0)
+
+        self.assertIn((-20.0, 0.0), offsets)
+        self.assertIn((20.0, 0.0), offsets)
+        self.assertIn((0.0, -10.0), offsets)
+        self.assertIn((0.0, 10.0), offsets)
+        self.assertNotIn((0.0, 0.0), offsets)
+
+    def test_place_label_block_slides_into_tight_pocket_between_labels(self) -> None:
+        # two label blocks flank a pocket beside the station that is barely
+        # taller than the block: only a fine perpendicular slide fits; a
+        # vertical line closes off the left side
+        existing = [
+            (105.0, 20.0, 200.0, 95.0),
+            (105.0, 130.0, 200.0, 200.0),
+        ]
+        segments = [((55, -100), (55, 300))]
+        placement = place_label_block(
+            (100, 100),
+            block_w=40.0,
+            block_h=30.0,
+            line_segments_for_collision=segments,
+            existing_boxes=existing,
+            label_offset_base=10.0,
+            scale_factor=1,
+        )
+
+        # tucked beside-right, slid down into the free window
+        self.assertEqual(placement.x, 110.0)
+        self.assertGreater(placement.box[1], existing[0][3])
+        self.assertLess(placement.box[3], existing[1][1])
+        self.assertFalse(
+            is_box_overlapping_other_labels(placement.box, existing, padding=1.0)
         )
 
     def test_compute_leader_line_returns_subtle_connector_for_far_label(self) -> None:

@@ -156,6 +156,40 @@ def axis_direction_ranks(
     return _AXIS_DIRECTION_RANKS.get((dx, dy))
 
 
+_SLIDE_FRACTIONS_CARDINAL: tuple[float, ...] = (0.125, 0.25, 0.375, 0.5)
+_SLIDE_FRACTIONS_DIAGONAL: tuple[float, ...] = (0.25, 0.5)
+
+
+def slide_offsets(
+    direction: tuple[int, int],
+    block_w: float,
+    block_h: float,
+) -> tuple[tuple[float, float], ...]:
+    """Lateral shifts that let a label tuck into a gap beside its ray.
+
+    Sliding happens along the axis perpendicular to the placement
+    direction; diagonal directions may slide on either axis. Cardinal
+    directions use a finer step so labels can slip into tight pockets.
+    """
+    dx, dy = direction
+    offsets: list[tuple[float, float]] = []
+    if dx != 0 and dy != 0:
+        for fraction in _SLIDE_FRACTIONS_DIAGONAL:
+            offsets.append((-fraction * block_w, 0.0))
+            offsets.append((fraction * block_w, 0.0))
+            offsets.append((0.0, -fraction * block_h))
+            offsets.append((0.0, fraction * block_h))
+        return tuple(offsets)
+    for fraction in _SLIDE_FRACTIONS_CARDINAL:
+        if dx == 0:
+            offsets.append((-fraction * block_w, 0.0))
+            offsets.append((fraction * block_w, 0.0))
+        else:
+            offsets.append((0.0, -fraction * block_h))
+            offsets.append((0.0, fraction * block_h))
+    return tuple(offsets)
+
+
 def is_box_overlapping_other_labels(
     text_box: LabelBox,
     existing_boxes: Sequence[LabelBox],
@@ -231,6 +265,122 @@ def place_label_block(
             min_distance = min(min_distance, (dx * dx + dy * dy) ** 0.5)
         return min_distance
 
+    def direction_score_for(dx: int, dy: int) -> float:
+        if local_context and local_context.dense:
+            preferred_rank = local_context.preferred_directions.index((dx, dy))
+            direction_score = preferred_rank * 0.22
+            if dx == 0:
+                direction_score += 0.05
+            if dy > 0:
+                direction_score += 0.08
+            return direction_score
+        if axis_ranks is not None:
+            return axis_ranks.index((dx, dy)) * 0.25
+        if dx == 1 and dy == 0:
+            return 0.0
+        if dx == 1:
+            return 0.25
+        if dx == 0:
+            return 0.6
+        return 1.0
+
+    def evaluate_candidate(
+        tx: float,
+        ty: float,
+        dx: int,
+        dy: int,
+        layer_scale: float,
+        extra_penalty: float,
+    ) -> tuple[bool, bool]:
+        nonlocal best_candidate
+        nonlocal best_line_clear_candidate
+        nonlocal best_overlap_clear_candidate
+        nonlocal best_relaxed_candidate
+
+        text_box = (tx, ty, tx + block_w, ty + block_h)
+        line_collision = is_box_colliding_with_lines(
+            text_box,
+            line_segments_for_collision,
+            threshold=float(3 * scale_factor),
+            segment_extents=segment_extents,
+        )
+        if not line_collision and obstacle_boxes:
+            line_collision = is_box_overlapping_other_labels(
+                text_box,
+                obstacle_boxes,
+                padding=float(scale_factor),
+            )
+        # planned / under-construction strokes are soft obstacles:
+        # avoid them when possible, but prefer covering them over
+        # covering an in-service line or another label
+        soft_collision = bool(soft_line_segments) and is_box_colliding_with_lines(
+            text_box,
+            soft_line_segments,
+            threshold=float(3 * scale_factor),
+            segment_extents=segment_extents,
+        )
+        label_overlap = is_box_overlapping_other_labels(
+            text_box,
+            existing_boxes,
+            padding=float(scale_factor),
+        )
+
+        vertical_penalty = 0.0 if (dy <= 0 or axis_ranks is not None) else 0.2
+        layer_penalty = (layer_scale - 1.0) * 2.0
+        distance_penalty = abs(tx - pos[0]) / max(block_w, 1.0) * 0.05
+        label_clearance_penalty = 0.0
+        nearest_label_gap = nearest_box_distance(text_box)
+        if nearest_label_gap < 12 * scale_factor:
+            label_clearance_penalty = (12 * scale_factor - nearest_label_gap) * 0.04
+
+        neighbor_anchor_penalty = 0.0
+        nearest_neighbor_gap = nearest_neighbor_distance(text_box)
+        if nearest_neighbor_gap < 24 * scale_factor:
+            neighbor_anchor_penalty = (24 * scale_factor - nearest_neighbor_gap) * 0.05
+
+        score = (
+            direction_score_for(dx, dy)
+            + vertical_penalty
+            + layer_penalty
+            + distance_penalty
+            + label_clearance_penalty
+            + neighbor_anchor_penalty
+            + extra_penalty
+        )
+        if soft_collision:
+            score += 8.0
+        if label_overlap:
+            score += 40.0
+        if line_collision:
+            score += 80.0
+        candidate = LabelCandidate(
+            placement=LabelPlacement(x=tx, y=ty, box=text_box, score=score),
+            score=score,
+        )
+
+        if (
+            best_relaxed_candidate is None
+            or candidate.score < best_relaxed_candidate.score
+        ):
+            best_relaxed_candidate = candidate
+
+        if not line_collision and (
+            best_line_clear_candidate is None
+            or candidate.score < best_line_clear_candidate.score
+        ):
+            best_line_clear_candidate = candidate
+
+        if not label_overlap and (
+            best_overlap_clear_candidate is None
+            or candidate.score < best_overlap_clear_candidate.score
+        ):
+            best_overlap_clear_candidate = candidate
+
+        clean = not (line_collision or label_overlap)
+        if clean and (best_candidate is None or candidate.score < best_candidate.score):
+            best_candidate = candidate
+        return clean, soft_collision
+
     for layer_scale in search_layers:
         current_base = label_offset_base * layer_scale
 
@@ -240,113 +390,35 @@ def place_label_block(
 
             tx = target_cx - block_w / 2
             ty = target_cy - block_h / 2
-            text_box = (tx, ty, tx + block_w, ty + block_h)
 
-            line_collision = is_box_colliding_with_lines(
-                text_box,
-                line_segments_for_collision,
-                threshold=float(3 * scale_factor),
-                segment_extents=segment_extents,
-            )
-            if not line_collision and obstacle_boxes:
-                line_collision = is_box_overlapping_other_labels(
-                    text_box,
-                    obstacle_boxes,
-                    padding=float(scale_factor),
-                )
-            # planned / under-construction strokes are soft obstacles:
-            # avoid them when possible, but prefer covering them over
-            # covering an in-service line or another label
-            soft_collision = bool(soft_line_segments) and is_box_colliding_with_lines(
-                text_box,
-                soft_line_segments,
-                threshold=float(3 * scale_factor),
-                segment_extents=segment_extents,
-            )
-            label_overlap = is_box_overlapping_other_labels(
-                text_box,
-                existing_boxes,
-                padding=float(scale_factor),
-            )
-
-            if local_context and local_context.dense:
-                preferred_rank = local_context.preferred_directions.index((dx, dy))
-                direction_score = preferred_rank * 0.22
-                if dx == 0:
-                    direction_score += 0.05
-                if dy > 0:
-                    direction_score += 0.08
-            elif axis_ranks is not None:
-                direction_score = axis_ranks.index((dx, dy)) * 0.25
-            else:
-                direction_score = 0.0
-                if dx == 1 and dy == 0:
-                    direction_score = 0.0
-                elif dx == 1:
-                    direction_score = 0.25
-                elif dx == 0:
-                    direction_score = 0.6
-                else:
-                    direction_score = 1.0
-
-            vertical_penalty = 0.0 if (dy <= 0 or axis_ranks is not None) else 0.2
-            layer_penalty = (layer_scale - 1.0) * 2.0
-            distance_penalty = abs(tx - pos[0]) / max(block_w, 1.0) * 0.05
-            label_clearance_penalty = 0.0
-            nearest_label_gap = nearest_box_distance(text_box)
-            if nearest_label_gap < 12 * scale_factor:
-                label_clearance_penalty = (12 * scale_factor - nearest_label_gap) * 0.04
-
-            neighbor_anchor_penalty = 0.0
-            nearest_neighbor_gap = nearest_neighbor_distance(text_box)
-            if nearest_neighbor_gap < 24 * scale_factor:
-                neighbor_anchor_penalty = (
-                    24 * scale_factor - nearest_neighbor_gap
-                ) * 0.05
-
-            base_score = (
-                direction_score
-                + vertical_penalty
-                + layer_penalty
-                + distance_penalty
-                + label_clearance_penalty
-                + neighbor_anchor_penalty
-            )
-            score = base_score
-            if soft_collision:
-                score += 8.0
-            if label_overlap:
-                score += 40.0
-            if line_collision:
-                score += 80.0
-            candidate = LabelCandidate(
-                placement=LabelPlacement(x=tx, y=ty, box=text_box, score=score),
-                score=score,
-            )
-
-            if (
-                best_relaxed_candidate is None
-                or candidate.score < best_relaxed_candidate.score
-            ):
-                best_relaxed_candidate = candidate
-
-            if not line_collision and (
-                best_line_clear_candidate is None
-                or candidate.score < best_line_clear_candidate.score
-            ):
-                best_line_clear_candidate = candidate
-
-            if not label_overlap and (
-                best_overlap_clear_candidate is None
-                or candidate.score < best_overlap_clear_candidate.score
-            ):
-                best_overlap_clear_candidate = candidate
-
-            if line_collision or label_overlap:
+            clean, soft = evaluate_candidate(tx, ty, dx, dy, layer_scale, 0.0)
+            if clean and not soft:
                 continue
+            # blocked or covering a soft obstacle: try tucking the label
+            # into a nearby gap by sliding perpendicular to the ray
+            for shift_x, shift_y in slide_offsets((dx, dy), block_w, block_h):
+                # charge slides by displacement so a small tuck stays cheap
+                # while drifting far from the station costs like an extra
+                # search layer
+                slide_penalty = (
+                    (abs(shift_x) + abs(shift_y)) / max(label_offset_base, 1.0) * 0.7
+                )
+                evaluate_candidate(
+                    tx + shift_x,
+                    ty + shift_y,
+                    dx,
+                    dy,
+                    layer_scale,
+                    slide_penalty,
+                )
 
-            if best_candidate is None or candidate.score < best_candidate.score:
-                best_candidate = candidate
+        # deeper layers cost at least (layer - 1) * 2.0, so stop early once
+        # a clean candidate already beats anything they could produce
+        layer_index = search_layers.index(layer_scale)
+        if layer_index + 1 < len(search_layers) and best_candidate is not None:
+            next_layer_floor = (search_layers[layer_index + 1] - 1.0) * 2.0
+            if best_candidate.score <= next_layer_floor:
+                break
 
     if best_candidate is not None:
         return best_candidate.placement

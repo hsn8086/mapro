@@ -381,7 +381,9 @@ def draw_stations(
         label_boxes.append(placement.box)
         bx = placement.x
         by = placement.y
-        align_right = placement.box[2] <= pos[0]
+        # right-align text whenever the block sits mostly left of the
+        # station, so the (usually narrower) CJK title hugs its anchor
+        align_right = (placement.box[0] + placement.box[2]) / 2.0 < pos[0]
 
         context = local_contexts.get(s_id)
         if context and context.dense:
