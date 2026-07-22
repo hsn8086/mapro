@@ -213,6 +213,51 @@ class StrokeBuilderTests(unittest.TestCase):
         self.assertEqual(len(segments), 2)
         self.assertEqual(segments[0].end, segments[1].start)
 
+    def test_build_line_strokes_skips_shared_track_edges_and_splits_runs(
+        self,
+    ) -> None:
+        # guest runs a-b (own), b-c (shared with host), c-d (own): the shared
+        # edge is not drawn and the remaining edges stay disconnected
+        polyline = [(0, 0), (10, 0), (20, 0), (30, 0)]
+        strokes = build_line_strokes(
+            {"G": polyline},
+            {
+                "G": {
+                    "points": polyline,
+                    "statuses": ["active", "active", "active", "active"],
+                    "shared": [None, "H", "H", None],
+                }
+            },
+            {"G": {"id": "G", "color": "#ff0000", "type": "subway"}},
+            {},
+            {},
+            {"COLOR_INACTIVE": "#cccccc"},
+            18.0,
+        )
+
+        segments = [s for s in strokes if isinstance(s, StrokeSegment)]
+        self.assertEqual(len(segments), 2)
+        self.assertEqual(segments[0].start, (0.0, 0.0))
+        self.assertEqual(segments[0].end, (10.0, 0.0))
+        self.assertEqual(segments[1].start, (20.0, 0.0))
+        self.assertEqual(segments[1].end, (30.0, 0.0))
+
+    def test_build_active_segment_keys_skips_shared_track_edges(self) -> None:
+        polyline = [(0, 0), (10, 0), (20, 0)]
+        active = build_active_segment_keys(
+            {"G": polyline},
+            {
+                "G": {
+                    "points": polyline,
+                    "statuses": ["active", "active", "active"],
+                    "shared": [None, "H", "H"],
+                }
+            },
+            {"G": {"id": "G", "color": "#ff0000"}},
+        )
+
+        self.assertEqual(active, {((0, 0), (10, 0))})
+
     def test_build_active_segment_keys_excludes_inactive_portions(self) -> None:
         active = build_active_segment_keys(
             {

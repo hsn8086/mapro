@@ -31,6 +31,23 @@ class SegmentData:
     shared_segments: tuple[SharedSegment, ...]
 
 
+def resolve_edge_shared_host(
+    shared_hosts: list[str | None],
+    station_index: int,
+) -> str | None:
+    """Host line for the edge leaving `station_index`, if both ends share it.
+
+    An edge counts as shared track only when the line stations on both of
+    its ends declare the same `sharedTrack` host.
+    """
+    if 0 <= station_index and station_index + 1 < len(shared_hosts):
+        first = shared_hosts[station_index]
+        second = shared_hosts[station_index + 1]
+        if first is not None and first == second:
+            return first
+    return None
+
+
 def _sort_bundle_line_ids(
     key: SegmentKey,
     line_ids: list[str],
@@ -84,14 +101,19 @@ def build_segment_index(
         line_stations = line.get("stations", [])
         pts: list[Point] = []
         statuses: list[str] = []
+        shared_hosts: list[str | None] = []
 
         for s_item in line_stations:
             status = "active"
+            shared_host: str | None = None
             if isinstance(s_item, dict):
                 sid = s_item.get("id")
                 s_status = s_item.get("status")
                 if s_status:
                     status = s_status
+                s_shared = s_item.get("sharedTrack")
+                if s_shared:
+                    shared_host = str(s_shared)
 
                 if status in ["deferred", "pass"]:
                     skip_map.add((line_id, sid))
@@ -102,13 +124,18 @@ def build_segment_index(
             if pos:
                 pts.append(pos)
                 statuses.append(status)
+                shared_hosts.append(shared_host)
 
         if len(pts) > 1:
             # LineStation status applies to the adjacent edge, so station
             # vertices must survive even when consecutive sections are straight.
             polyline = build_line_polyline(pts)
             line_polylines[line_id] = polyline
-            line_meta[line_id] = {"points": pts, "statuses": statuses}
+            line_meta[line_id] = {
+                "points": pts,
+                "statuses": statuses,
+                "shared": shared_hosts,
+            }
             for p in polyline:
                 all_points.add(p)
 
@@ -167,6 +194,28 @@ def build_segment_index(
             p2 = processed_poly[i + 1]
             key = (p2, p1) if p1 > p2 else (p1, p2)
             segment_map[key].append(line_id)
+
+    # shared-track edges ride on the host line: drop the guest from those
+    # segments so bundling and station symbols see a single physical track
+    for line_id, poly in line_polylines.items():
+        meta = line_meta.get(line_id, {})
+        shared_hosts = list(meta.get("shared", []))
+        if not any(host is not None for host in shared_hosts):
+            continue
+        point_map = {point: index for index, point in enumerate(meta.get("points", []))}
+        station_index = 0
+        for i in range(len(poly) - 1):
+            p1 = poly[i]
+            p2 = poly[i + 1]
+            if p1 in point_map:
+                station_index = point_map[p1]
+            host = resolve_edge_shared_host(shared_hosts, station_index)
+            if host is None:
+                continue
+            key = (p2, p1) if p1 > p2 else (p1, p2)
+            members = segment_map.get(key, [])
+            if host in members and line_id in members:
+                members.remove(line_id)
 
     segment_offsets: dict[SegmentKey, dict[str, int]] = {}
     shared_segments: list[SharedSegment] = []

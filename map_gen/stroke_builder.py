@@ -4,6 +4,7 @@ import math
 from dataclasses import dataclass
 from typing import Any
 
+from .segments import resolve_edge_shared_host
 from .styles import is_non_active_status, resolve_status_color
 
 Point = tuple[int, int]
@@ -383,12 +384,18 @@ def build_active_segment_keys(
             continue
         point_map = _build_point_map(meta)
         statuses = [str(status) for status in meta.get("statuses", [])]
+        shared_hosts = [
+            host if isinstance(host, str) else None for host in meta.get("shared", [])
+        ]
         station_index = 0
         for index in range(len(polyline) - 1):
             p1 = polyline[index]
             p2 = polyline[index + 1]
             if p1 in point_map:
                 station_index = point_map[p1]
+            # shared-track edges belong to the host line's stroke
+            if resolve_edge_shared_host(shared_hosts, station_index) is not None:
+                continue
             segment_status = _resolve_segment_status(statuses, station_index)
             if not is_non_active_status(segment_status):
                 active.add(_canonical_key(p1, p2))
@@ -417,17 +424,28 @@ def build_line_strokes(
 
         point_map = _build_point_map(meta)
         statuses = [str(status) for status in meta.get("statuses", [])]
+        shared_hosts = [
+            host if isinstance(host, str) else None for host in meta.get("shared", [])
+        ]
         base_color, line_status = _resolve_base_color(line_data, styles)
         is_tram = str(line_data.get("type", "subway")) == "tram"
         thickness = line_width * (0.55 if is_tram else 1.0)
         station_index = 0
 
-        offset_segments: list[_OffsetSegment] = []
+        # shared-track edges are drawn by the host line only; split the
+        # remaining edges into contiguous runs so miters and corner arcs
+        # never join across a skipped stretch
+        segment_runs: list[list[_OffsetSegment]] = [[]]
         for index in range(len(polyline) - 1):
             p1 = polyline[index]
             p2 = polyline[index + 1]
             if p1 in point_map:
                 station_index = point_map[p1]
+
+            if resolve_edge_shared_host(shared_hosts, station_index) is not None:
+                if segment_runs[-1]:
+                    segment_runs.append([])
+                continue
 
             segment_status = _resolve_segment_status(statuses, station_index)
             color = resolve_status_color(
@@ -444,7 +462,7 @@ def build_line_strokes(
             direction = _normalize(p2[0] - p1[0], p2[1] - p1[1])
             if direction == (0.0, 0.0):
                 continue
-            offset_segments.append(
+            segment_runs[-1].append(
                 _OffsetSegment(
                     start=(p1[0] + offset_vec[0], p1[1] + offset_vec[1]),
                     end=(p2[0] + offset_vec[0], p2[1] + offset_vec[1]),
@@ -457,13 +475,14 @@ def build_line_strokes(
                 )
             )
 
-        stroke_elements.extend(
-            _build_line_elements(
-                line_id,
-                offset_segments,
-                corner_radius=corner_radius,
-                thickness=thickness,
+        for run in segment_runs:
+            stroke_elements.extend(
+                _build_line_elements(
+                    line_id,
+                    run,
+                    corner_radius=corner_radius,
+                    thickness=thickness,
+                )
             )
-        )
 
     return stroke_elements

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from map_gen.segments import build_segment_index
+from map_gen.segments import build_segment_index, resolve_edge_shared_host
 
 
 class SegmentIndexTests(unittest.TestCase):
@@ -90,6 +90,60 @@ class SegmentIndexTests(unittest.TestCase):
             segment_data.segment_map[((0, 0), (10, 0))],
             ["A"],
         )
+
+    def test_resolve_edge_shared_host_requires_both_ends_on_same_host(self) -> None:
+        shared: list[str | None] = [None, "H", "H", None]
+
+        self.assertIsNone(resolve_edge_shared_host(shared, 0))
+        self.assertEqual(resolve_edge_shared_host(shared, 1), "H")
+        self.assertIsNone(resolve_edge_shared_host(shared, 2))
+        self.assertIsNone(resolve_edge_shared_host(shared, 3))
+
+    def test_build_segment_index_drops_guest_from_shared_track_segments(self) -> None:
+        # guest G declares shared track with host H on b-c: the guest keeps
+        # its polyline but leaves the segment membership to the host
+        segment_data = build_segment_index(
+            {
+                "H": {"stations": ["b", "c"]},
+                "G": {
+                    "stations": [
+                        "a",
+                        {"id": "b", "sharedTrack": "H"},
+                        {"id": "c", "sharedTrack": "H"},
+                    ]
+                },
+            },
+            lambda station_id: {
+                "a": (0, 0),
+                "b": (10, 0),
+                "c": (20, 0),
+            }.get(station_id),
+            lambda points: list(points),
+        )
+
+        self.assertEqual(segment_data.line_polylines["G"], [(0, 0), (10, 0), (20, 0)])
+        self.assertEqual(segment_data.segment_map[((10, 0), (20, 0))], ["H"])
+        self.assertEqual(segment_data.segment_map[((0, 0), (10, 0))], ["G"])
+        self.assertEqual(segment_data.line_meta["G"]["shared"], [None, "H", "H"])
+
+    def test_build_segment_index_keeps_guest_when_host_absent_from_segment(
+        self,
+    ) -> None:
+        # sharedTrack pointing at a line that does not run there is ignored
+        segment_data = build_segment_index(
+            {
+                "G": {
+                    "stations": [
+                        {"id": "b", "sharedTrack": "H"},
+                        {"id": "c", "sharedTrack": "H"},
+                    ]
+                },
+            },
+            lambda station_id: {"b": (10, 0), "c": (20, 0)}.get(station_id),
+            lambda points: list(points),
+        )
+
+        self.assertEqual(segment_data.segment_map[((10, 0), (20, 0))], ["G"])
 
     def test_build_segment_index_orders_bundle_by_local_continuity(self) -> None:
         segment_data = build_segment_index(

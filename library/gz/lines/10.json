@@ -97,27 +97,32 @@
         {
           "id": "312",
           "num": "13",
-          "status": "planned"
+          "status": "planned",
+          "sharedTrack": "3B"
         },
         {
           "id": "313",
           "num": "14",
-          "status": "planned"
+          "status": "planned",
+          "sharedTrack": "3B"
         },
         {
           "id": "314",
           "num": "15",
-          "status": "planned"
+          "status": "planned",
+          "sharedTrack": "3B"
         },
         {
           "id": "315",
           "num": "16",
-          "status": "planned"
+          "status": "planned",
+          "sharedTrack": "3B"
         },
         {
           "id": "316",
           "num": "17",
-          "status": "planned"
+          "status": "planned",
+          "sharedTrack": "3B"
         }
       ],
       "segments": [
