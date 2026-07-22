@@ -213,11 +213,11 @@ class StrokeBuilderTests(unittest.TestCase):
         self.assertEqual(len(segments), 2)
         self.assertEqual(segments[0].end, segments[1].start)
 
-    def test_build_line_strokes_skips_shared_track_edges_and_splits_runs(
+    def test_build_line_strokes_turns_shared_track_edges_into_dash_overlay(
         self,
     ) -> None:
         # guest runs a-b (own), b-c (shared with host), c-d (own): the shared
-        # edge is not drawn and the remaining edges stay disconnected
+        # edge becomes a dashed overlay and the own edges stay disconnected
         polyline = [(0, 0), (10, 0), (20, 0), (30, 0)]
         strokes = build_line_strokes(
             {"G": polyline},
@@ -231,16 +231,63 @@ class StrokeBuilderTests(unittest.TestCase):
             {"G": {"id": "G", "color": "#ff0000", "type": "subway"}},
             {},
             {},
-            {"COLOR_INACTIVE": "#cccccc"},
+            {
+                "COLOR_INACTIVE": "#cccccc",
+                "SHARED_TRACK_DASH_LENGTH": 3.0,
+                "SHARED_TRACK_DASH_GAP": 2.0,
+                "SHARED_TRACK_DASH_WIDTH": 8.0,
+            },
             18.0,
         )
 
-        segments = [s for s in strokes if isinstance(s, StrokeSegment)]
-        self.assertEqual(len(segments), 2)
-        self.assertEqual(segments[0].start, (0.0, 0.0))
-        self.assertEqual(segments[0].end, (10.0, 0.0))
-        self.assertEqual(segments[1].start, (20.0, 0.0))
-        self.assertEqual(segments[1].end, (30.0, 0.0))
+        solid = [
+            s for s in strokes if isinstance(s, StrokeSegment) and not s.is_overlay
+        ]
+        self.assertEqual(len(solid), 2)
+        self.assertEqual(solid[0].start, (0.0, 0.0))
+        self.assertEqual(solid[0].end, (10.0, 0.0))
+        self.assertEqual(solid[1].start, (20.0, 0.0))
+        self.assertEqual(solid[1].end, (30.0, 0.0))
+
+        dashes = [s for s in strokes if isinstance(s, StrokeSegment) and s.is_overlay]
+        # 10 units with cycle 5 (3 on + 2 off) -> dashes at [10,13] and [15,18]
+        self.assertEqual(len(dashes), 2)
+        self.assertEqual(dashes[0].start, (10.0, 0.0))
+        self.assertEqual(dashes[0].end, (13.0, 0.0))
+        self.assertEqual(dashes[1].start, (15.0, 0.0))
+        self.assertEqual(dashes[1].end, (18.0, 0.0))
+        for dash in dashes:
+            self.assertEqual(dash.thickness, 8.0)
+            self.assertEqual(dash.color, "#ff0000")
+
+    def test_build_line_strokes_shared_dashes_ride_host_bundle_offset(self) -> None:
+        key = ((0, 0), (10, 0))
+        strokes = build_line_strokes(
+            {"G": [(0, 0), (10, 0)]},
+            {
+                "G": {
+                    "points": [(0, 0), (10, 0)],
+                    "statuses": ["active", "active"],
+                    "shared": ["H", "H"],
+                }
+            },
+            {"G": {"id": "G", "color": "#ff0000", "type": "subway"}},
+            {},
+            {("H", key): 4.5},
+            {
+                "SHARED_TRACK_DASH_LENGTH": 20.0,
+                "SHARED_TRACK_DASH_GAP": 5.0,
+                "SHARED_TRACK_DASH_WIDTH": 8.0,
+            },
+            18.0,
+        )
+
+        dashes = [s for s in strokes if isinstance(s, StrokeSegment) and s.is_overlay]
+        self.assertEqual(len(dashes), 1)
+        # canonical left normal of a +x segment points to -y... the host
+        # lateral is applied along the same normal the host stroke uses
+        self.assertEqual(dashes[0].start[1], dashes[0].end[1])
+        self.assertNotEqual(dashes[0].start[1], 0.0)
 
     def test_build_active_segment_keys_skips_shared_track_edges(self) -> None:
         polyline = [(0, 0), (10, 0), (20, 0)]

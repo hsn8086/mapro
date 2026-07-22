@@ -20,6 +20,7 @@ class StrokeSegment:
     color: str
     thickness: float
     is_inactive: bool
+    is_overlay: bool = False
 
 
 @dataclass(frozen=True)
@@ -33,6 +34,7 @@ class StrokeArc:
     color: str
     thickness: float
     is_inactive: bool
+    is_overlay: bool = False
 
     @property
     def start(self) -> FloatPoint:
@@ -154,6 +156,57 @@ def _corner_arc(
         thickness=thickness,
         is_inactive=is_inactive,
     )
+
+
+def _build_shared_dash_segments(
+    line_id: str,
+    edges: list[tuple[FloatPoint, FloatPoint, str, bool]],
+    *,
+    thickness: float,
+    dash_length: float,
+    dash_gap: float,
+) -> list[StrokeSegment]:
+    """Dashes riding along a contiguous shared-track run.
+
+    The dash phase runs continuously over the whole run so station
+    vertices and bends do not restart the pattern.
+    """
+    elements: list[StrokeSegment] = []
+    cycle = dash_length + dash_gap
+    if cycle <= 1e-9:
+        return elements
+
+    travelled = 0.0
+    for start, end, color, is_inactive in edges:
+        dx = end[0] - start[0]
+        dy = end[1] - start[1]
+        length = math.hypot(dx, dy)
+        if length < 1e-9:
+            continue
+        ux, uy = dx / length, dy / length
+
+        position = math.floor(travelled / cycle) * cycle
+        while position < travelled + length:
+            dash_start = max(position, travelled)
+            dash_end = min(position + dash_length, travelled + length)
+            if dash_end > dash_start + 1e-6:
+                t0 = dash_start - travelled
+                t1 = dash_end - travelled
+                elements.append(
+                    StrokeSegment(
+                        line_id=line_id,
+                        start=(start[0] + ux * t0, start[1] + uy * t0),
+                        end=(start[0] + ux * t1, start[1] + uy * t1),
+                        color=color,
+                        thickness=thickness,
+                        is_inactive=is_inactive,
+                        is_overlay=True,
+                    )
+                )
+            position += cycle
+        travelled += length
+
+    return elements
 
 
 def _build_line_elements(
@@ -432,20 +485,16 @@ def build_line_strokes(
         thickness = line_width * (0.55 if is_tram else 1.0)
         station_index = 0
 
-        # shared-track edges are drawn by the host line only; split the
-        # remaining edges into contiguous runs so miters and corner arcs
-        # never join across a skipped stretch
+        # shared-track edges become dashed overlays on the host stroke; the
+        # remaining edges split into contiguous runs so miters and corner
+        # arcs never join across a shared stretch
         segment_runs: list[list[_OffsetSegment]] = [[]]
+        overlay_runs: list[list[tuple[FloatPoint, FloatPoint, str, bool]]] = [[]]
         for index in range(len(polyline) - 1):
             p1 = polyline[index]
             p2 = polyline[index + 1]
             if p1 in point_map:
                 station_index = point_map[p1]
-
-            if resolve_edge_shared_host(shared_hosts, station_index) is not None:
-                if segment_runs[-1]:
-                    segment_runs.append([])
-                continue
 
             segment_status = _resolve_segment_status(statuses, station_index)
             color = resolve_status_color(
@@ -454,10 +503,31 @@ def build_line_strokes(
             is_inactive = is_non_active_status(line_status) or is_non_active_status(
                 segment_status
             )
-
             key = _canonical_key(p1, p2)
-            lateral = bundle_offsets.get((line_id, key), 0.0)
             normal = _canonical_left_normal(key)
+
+            shared_host = resolve_edge_shared_host(shared_hosts, station_index)
+            if shared_host is not None:
+                if segment_runs[-1]:
+                    segment_runs.append([])
+                # ride at the host's lateral offset so the dashes sit
+                # exactly on the host stroke
+                host_lateral = bundle_offsets.get((shared_host, key), 0.0)
+                host_offset = (normal[0] * host_lateral, normal[1] * host_lateral)
+                overlay_runs[-1].append(
+                    (
+                        (p1[0] + host_offset[0], p1[1] + host_offset[1]),
+                        (p2[0] + host_offset[0], p2[1] + host_offset[1]),
+                        color,
+                        is_inactive,
+                    )
+                )
+                continue
+
+            if overlay_runs[-1]:
+                overlay_runs.append([])
+
+            lateral = bundle_offsets.get((line_id, key), 0.0)
             offset_vec = (normal[0] * lateral, normal[1] * lateral)
             direction = _normalize(p2[0] - p1[0], p2[1] - p1[1])
             if direction == (0.0, 0.0):
@@ -482,6 +552,22 @@ def build_line_strokes(
                     run,
                     corner_radius=corner_radius,
                     thickness=thickness,
+                )
+            )
+        for overlay_run in overlay_runs:
+            stroke_elements.extend(
+                _build_shared_dash_segments(
+                    line_id,
+                    overlay_run,
+                    thickness=float(
+                        styles.get("SHARED_TRACK_DASH_WIDTH", line_width * 0.4)
+                    ),
+                    dash_length=float(
+                        styles.get("SHARED_TRACK_DASH_LENGTH", line_width * 1.5)
+                    ),
+                    dash_gap=float(
+                        styles.get("SHARED_TRACK_DASH_GAP", line_width * 1.5)
+                    ),
                 )
             )
 

@@ -12,7 +12,7 @@ def _group_stroke_paths(
 ) -> list[list[StrokeElement]]:
     grouped_paths: list[list[StrokeElement]] = []
     current_path: list[StrokeElement] = []
-    current_key: tuple[str, str, float, bool] | None = None
+    current_key: tuple[str, str, float, bool, bool] | None = None
 
     for segment in stroke_segments:
         segment_key = (
@@ -20,6 +20,7 @@ def _group_stroke_paths(
             segment.color,
             segment.thickness,
             segment.is_inactive,
+            segment.is_overlay,
         )
         if current_key != segment_key:
             if current_path:
@@ -226,6 +227,7 @@ def _scale_element(element: StrokeElement, factor: int) -> StrokeElement:
             color=element.color,
             thickness=element.thickness * factor,
             is_inactive=element.is_inactive,
+            is_overlay=element.is_overlay,
         )
     return StrokeSegment(
         line_id=element.line_id,
@@ -234,6 +236,7 @@ def _scale_element(element: StrokeElement, factor: int) -> StrokeElement:
         color=element.color,
         thickness=element.thickness * factor,
         is_inactive=element.is_inactive,
+        is_overlay=element.is_overlay,
     )
 
 
@@ -278,17 +281,23 @@ def _draw_path(draw, path: list[StrokeElement], scale_factor: int = 1) -> None:
 
 def draw_lines(draw, stroke_segments: list[StrokeElement]) -> None:
     grouped_paths = _group_stroke_paths(stroke_segments)
-    draw_buffer_inactive = [path for path in grouped_paths if path[0].is_inactive]
-    draw_buffer_active = [path for path in grouped_paths if not path[0].is_inactive]
+    # overlays (shared-track dashes) go on top of every regular stroke
+    draw_buffer_inactive = [
+        path for path in grouped_paths if path[0].is_inactive and not path[0].is_overlay
+    ]
+    draw_buffer_active = [
+        path
+        for path in grouped_paths
+        if not path[0].is_inactive and not path[0].is_overlay
+    ]
+    draw_buffer_overlay = [path for path in grouped_paths if path[0].is_overlay]
+    ordered_buffers = [draw_buffer_inactive, draw_buffer_active, draw_buffer_overlay]
 
     draw_path = getattr(draw, "path", None)
     if callable(draw_path):
-        for path in draw_buffer_inactive:
-            _draw_native_stroke_path(draw, path)
-
-        for path in draw_buffer_active:
-            _draw_native_stroke_path(draw, path)
-
+        for buffer in ordered_buffers:
+            for path in buffer:
+                _draw_native_stroke_path(draw, path)
         return
 
     if hasattr(draw, "_image"):
@@ -299,18 +308,14 @@ def draw_lines(draw, stroke_segments: list[StrokeElement]) -> None:
         )
         layer_draw = ImageDraw.Draw(line_layer)
 
-        for path in draw_buffer_inactive:
-            _draw_path(layer_draw, path, scale)
-
-        for path in draw_buffer_active:
-            _draw_path(layer_draw, path, scale)
+        for buffer in ordered_buffers:
+            for path in buffer:
+                _draw_path(layer_draw, path, scale)
 
         downsampled = line_layer.resize(base_image.size, Image.Resampling.LANCZOS)
         base_image.paste(downsampled, (0, 0), downsampled)
         return
 
-    for path in draw_buffer_inactive:
-        _draw_path(draw, path)
-
-    for path in draw_buffer_active:
-        _draw_path(draw, path)
+    for buffer in ordered_buffers:
+        for path in buffer:
+            _draw_path(draw, path)
