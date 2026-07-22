@@ -184,6 +184,30 @@ class ConnectorExtensionTests(unittest.TestCase):
         # the anchor's surrounding segments stay untouched
         self.assertNotIn(("A", ((0, 0), (40, 0))), offsets)
 
+    def test_connector_with_interior_station_is_not_extended(self) -> None:
+        polylines = self._polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+            max_connector_length=30.0,
+            station_points=frozenset({(30, 0), (25, 0)}),  # (25,0) mid-connector
+        )
+
+        self.assertNotIn(("B", ((20, 0), (40, 0))), offsets)
+
+    def test_station_at_connector_endpoint_does_not_block_extension(self) -> None:
+        polylines = self._polylines()
+        offsets = build_bundle_offsets(
+            polylines,
+            _segment_map_from(polylines),
+            slot_spacing=10.0,
+            max_connector_length=30.0,
+            station_points=frozenset({(20, 0), (40, 0)}),
+        )
+
+        self.assertIn(("B", ((20, 0), (40, 0))), offsets)
+
     def test_connector_longer_than_budget_is_not_extended(self) -> None:
         polylines = self._polylines()
         offsets = build_bundle_offsets(

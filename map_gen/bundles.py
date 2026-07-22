@@ -235,19 +235,36 @@ def _segment_length(p1: Point, p2: Point) -> float:
     return ((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2) ** 0.5
 
 
+def _has_interior_station(
+    p1: Point, p2: Point, station_points: frozenset[Point]
+) -> bool:
+    dx, dy = p2[0] - p1[0], p2[1] - p1[1]
+    for point in station_points:
+        if point == p1 or point == p2:
+            continue
+        px, py = point[0] - p1[0], point[1] - p1[1]
+        if dx * py - dy * px != 0:
+            continue
+        dot = dx * px + dy * py
+        if 0 < dot < dx * dx + dy * dy:
+            return True
+    return False
+
+
 def _extend_offsets_through_connectors(
     offsets: dict[tuple[str, SegmentKey], float],
     line_polylines: dict[str, list[Point]],
     segment_map: dict[SegmentKey, list[str]],
     max_connector_length: float,
+    station_points: frozenset[Point],
 ) -> None:
-    """Carry corridor offsets across short collinear approach segments.
+    """Carry corridor offsets across collinear approach segments.
 
-    A line that turns onto a short connector aligned with its corridor
-    would otherwise climb to the centreline first and immediately ramp
-    onto its slot. If the connector ends at a corner within the length
-    budget, keep the slot offset all the way to that corner so the turn
-    itself absorbs the transition.
+    A line that turns onto a connector aligned with its corridor would
+    otherwise climb to the centreline first and immediately ramp onto its
+    slot. If the connector ends at a corner, is free of intermediate
+    stations and fits the length budget, keep the slot offset all the way
+    to that corner so the turn itself absorbs the transition.
     """
     if max_connector_length <= 0:
         return
@@ -276,6 +293,10 @@ def _extend_offsets_through_connectors(
                         break
                     if len(segment_map.get(keys[cursor], [])) > 1:
                         break
+                    if _has_interior_station(
+                        polyline[cursor], polyline[cursor + 1], station_points
+                    ):
+                        break
                     travelled += _segment_length(polyline[cursor], polyline[cursor + 1])
                     if travelled > max_connector_length:
                         break
@@ -295,6 +316,7 @@ def build_bundle_offsets(
     slot_spacing: float,
     min_run_length: float = 0.0,
     max_connector_length: float = 0.0,
+    station_points: frozenset[Point] = frozenset(),
 ) -> dict[tuple[str, SegmentKey], float]:
     """Anchored slot offsets for every (line, shared segment).
 
@@ -356,6 +378,6 @@ def build_bundle_offsets(
                     offsets[(line_id, key)] = value * flip
 
     _extend_offsets_through_connectors(
-        offsets, line_polylines, segment_map, max_connector_length
+        offsets, line_polylines, segment_map, max_connector_length, station_points
     )
     return offsets

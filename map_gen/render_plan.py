@@ -113,12 +113,16 @@ def build_render_plan(
     segment_data = build_segment_index(lines, layout.get_pos, build_line_polyline)
     station_markers = build_station_markers(lines) if badges_enabled else {}
     line_width = float(styles["LINE_WIDTH"])
+    station_points = frozenset(
+        pos for pos in (layout.get_pos(s_id) for s_id in stations) if pos is not None
+    )
     bundle_offsets = build_bundle_offsets(
         segment_data.line_polylines,
         segment_data.segment_map,
         slot_spacing=line_width + float(styles["BUNDLE_GAP"]),
         min_run_length=float(styles.get("BUNDLE_MIN_RUN", 0.0)),
         max_connector_length=float(styles.get("BUNDLE_CONNECTOR_MAX", 0.0)),
+        station_points=station_points,
     )
     line_strokes = build_line_strokes(
         segment_data.line_polylines,
