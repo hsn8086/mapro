@@ -132,12 +132,15 @@ def _draw_native_stroke_path(draw, path: list[StrokeElement]) -> bool:
         return False
 
     first_segment = path[0]
+    # shared-track stripes need flat caps so the alternating colours meet
+    # at clean joints instead of round caps swallowing the gaps
+    linecap = "butt" if first_segment.is_overlay else "round"
     draw_path(
         _stroke_path_data(path),
         fill="none",
         stroke=first_segment.color,
         stroke_width=first_segment.thickness,
-        stroke_linecap="round",
+        stroke_linecap=linecap,
         stroke_linejoin="round",
     )
     return True
@@ -264,6 +267,10 @@ def _draw_path(draw, path: list[StrokeElement], scale_factor: int = 1) -> None:
             and _distance(current.end, nxt.start) <= 1e-6
         ):
             _draw_round_join(draw, current, nxt, scale_factor=1)
+
+    if first_segment.is_overlay:
+        # stripes keep flat ends so alternating colours join cleanly
+        return
 
     radius = max(0.0, (first_segment.thickness - 1) / 2.0) * scale_factor
     endpoints = [scaled_elements[0].start, scaled_elements[-1].end]

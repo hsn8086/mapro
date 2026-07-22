@@ -260,6 +260,38 @@ class StrokeBuilderTests(unittest.TestCase):
             self.assertEqual(dash.thickness, 8.0)
             self.assertEqual(dash.color, "#ff0000")
 
+    def test_build_line_strokes_shared_stripes_back_off_at_bends(self) -> None:
+        # L-shaped shared run: stripes must stay clear of the rounded
+        # corner by CORNER_RADIUS on both approaches
+        polyline = [(0, 0), (30, 0), (30, 30)]
+        strokes = build_line_strokes(
+            {"G": polyline},
+            {
+                "G": {
+                    "points": polyline,
+                    "statuses": ["active", "active", "active"],
+                    "shared": ["H", "H", "H"],
+                }
+            },
+            {"G": {"id": "G", "color": "#ff0000", "type": "subway"}},
+            {},
+            {},
+            {
+                "CORNER_RADIUS": 5.0,
+                "SHARED_TRACK_DASH_LENGTH": 10.0,
+                "SHARED_TRACK_DASH_GAP": 5.0,
+                "SHARED_TRACK_DASH_WIDTH": 18.0,
+            },
+            18.0,
+        )
+
+        dashes = [s for s in strokes if isinstance(s, StrokeSegment) and s.is_overlay]
+        self.assertTrue(dashes)
+        for dash in dashes:
+            for point in (dash.start, dash.end):
+                distance = ((point[0] - 30) ** 2 + (point[1] - 0) ** 2) ** 0.5
+                self.assertGreaterEqual(distance, 5.0 - 1e-6)
+
     def test_build_line_strokes_shared_dashes_ride_host_bundle_offset(self) -> None:
         key = ((0, 0), (10, 0))
         strokes = build_line_strokes(

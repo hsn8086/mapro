@@ -165,30 +165,56 @@ def _build_shared_dash_segments(
     thickness: float,
     dash_length: float,
     dash_gap: float,
+    corner_clearance: float = 0.0,
 ) -> list[StrokeSegment]:
-    """Dashes riding along a contiguous shared-track run.
+    """Colour stripes riding along a contiguous shared-track run.
 
-    The dash phase runs continuously over the whole run so station
-    vertices and bends do not restart the pattern.
+    The stripe phase runs continuously over the whole run so station
+    vertices and bends do not restart the pattern. Around direction
+    changes the stripes back off by `corner_clearance` so full-width
+    stripes never poke past the carrier stroke's rounded corners.
     """
     elements: list[StrokeSegment] = []
     cycle = dash_length + dash_gap
     if cycle <= 1e-9:
         return elements
 
-    travelled = 0.0
-    for start, end, color, is_inactive in edges:
+    directions: list[FloatPoint] = []
+    lengths: list[float] = []
+    for start, end, _color, _is_inactive in edges:
         dx = end[0] - start[0]
         dy = end[1] - start[1]
         length = math.hypot(dx, dy)
+        lengths.append(length)
+        directions.append((dx / length, dy / length) if length > 1e-9 else (0.0, 0.0))
+
+    def is_bend(index_a: int, index_b: int) -> bool:
+        da = directions[index_a]
+        db = directions[index_b]
+        return abs(da[0] - db[0]) > 1e-6 or abs(da[1] - db[1]) > 1e-6
+
+    travelled = 0.0
+    for index, (start, end, color, is_inactive) in enumerate(edges):
+        length = lengths[index]
         if length < 1e-9:
             continue
-        ux, uy = dx / length, dy / length
+        ux, uy = directions[index]
+
+        start_clearance = (
+            corner_clearance if index > 0 and is_bend(index - 1, index) else 0.0
+        )
+        end_clearance = (
+            corner_clearance
+            if index + 1 < len(edges) and is_bend(index, index + 1)
+            else 0.0
+        )
+        window_start = travelled + min(start_clearance, length)
+        window_end = travelled + max(0.0, length - end_clearance)
 
         position = math.floor(travelled / cycle) * cycle
         while position < travelled + length:
-            dash_start = max(position, travelled)
-            dash_end = min(position + dash_length, travelled + length)
+            dash_start = max(position, window_start)
+            dash_end = min(position + dash_length, window_end)
             if dash_end > dash_start + 1e-6:
                 t0 = dash_start - travelled
                 t1 = dash_end - travelled
@@ -559,15 +585,14 @@ def build_line_strokes(
                 _build_shared_dash_segments(
                     line_id,
                     overlay_run,
-                    thickness=float(
-                        styles.get("SHARED_TRACK_DASH_WIDTH", line_width * 0.4)
-                    ),
+                    thickness=float(styles.get("SHARED_TRACK_DASH_WIDTH", line_width)),
                     dash_length=float(
                         styles.get("SHARED_TRACK_DASH_LENGTH", line_width * 1.5)
                     ),
                     dash_gap=float(
                         styles.get("SHARED_TRACK_DASH_GAP", line_width * 1.5)
                     ),
+                    corner_clearance=corner_radius,
                 )
             )
 
