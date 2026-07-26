@@ -24,9 +24,11 @@ from ..station_labeling import (
     measure_label_text,
     resolve_station_fonts,
 )
+from ..stroke_builder import StrokeArc, StrokeElement
 from ..station_symbols import (
     StationSymbol,
     build_station_symbol,
+    fit_junction_spread,
     find_station_axes,
     render_station_symbol,
 )
@@ -36,6 +38,76 @@ _TOILET_INSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_inside.png")
 _TOILET_OUTSIDE_PATH = os.path.join(_ASSETS_DIR, "toilet_outside.png")
 TOILET_ICON_INSIDE: Image.Image | None = None
 TOILET_ICON_OUTSIDE: Image.Image | None = None
+
+
+def _line_corner_pose(
+    pos: tuple[int, int],
+    polyline: list[tuple[int, int]],
+    corner_radius: float,
+) -> tuple[tuple[float, float], tuple[float, float], tuple[int, int]] | None:
+    """Pose of one line's stroke where it turns at pos (see _corner_symbol_pose)."""
+    for index in range(1, len(polyline) - 1):
+        if polyline[index] != pos:
+            continue
+        prev_pt = polyline[index - 1]
+        next_pt = polyline[index + 1]
+        len_in = math.hypot(pos[0] - prev_pt[0], pos[1] - prev_pt[1])
+        len_out = math.hypot(next_pt[0] - pos[0], next_pt[1] - pos[1])
+        if len_in < 1e-9 or len_out < 1e-9:
+            continue
+        dir_in = ((pos[0] - prev_pt[0]) / len_in, (pos[1] - prev_pt[1]) / len_in)
+        dir_out = (
+            (next_pt[0] - pos[0]) / len_out,
+            (next_pt[1] - pos[1]) / len_out,
+        )
+        cross = dir_in[0] * dir_out[1] - dir_in[1] * dir_out[0]
+        if abs(cross) < 1e-9:
+            continue
+        dir_to_prev = (-dir_in[0], -dir_in[1])
+        dot = max(
+            -1.0,
+            min(
+                1.0,
+                dir_to_prev[0] * dir_out[0] + dir_to_prev[1] * dir_out[1],
+            ),
+        )
+        turn_angle = math.acos(dot)
+        if turn_angle <= 1e-6 or abs(turn_angle - math.pi) <= 1e-6:
+            continue
+        limit = min(len_in, len_out) * 0.45 * math.tan(turn_angle / 2.0)
+        radius = min(corner_radius, limit)
+        if radius <= 0.5:
+            return None
+        bis_x = dir_to_prev[0] + dir_out[0]
+        bis_y = dir_to_prev[1] + dir_out[1]
+        bis_len = math.hypot(bis_x, bis_y)
+        if bis_len < 1e-9:
+            continue
+        bisector = (bis_x / bis_len, bis_y / bis_len)
+        center_distance = radius / math.sin(turn_angle / 2.0)
+        center = (
+            pos[0] + bisector[0] * center_distance,
+            pos[1] + bisector[1] * center_distance,
+        )
+        radial = (pos[0] - center[0], pos[1] - center[1])
+        radial_len = math.hypot(radial[0], radial[1])
+        if radial_len < 1e-9:
+            continue
+        radial_normal = (radial[0] / radial_len, radial[1] / radial_len)
+        midpoint = (
+            center[0] + radial_normal[0] * radius,
+            center[1] + radial_normal[1] * radius,
+        )
+        tangent = (
+            dir_in[0] + dir_out[0],
+            dir_in[1] + dir_out[1],
+        )
+        tangent_dir = (
+            (0 if abs(tangent[0]) < 1e-9 else (1 if tangent[0] > 0 else -1)),
+            (0 if abs(tangent[1]) < 1e-9 else (1 if tangent[1] > 0 else -1)),
+        )
+        return (midpoint, radial_normal, tangent_dir)
+    return None
 
 
 def _corner_symbol_pose(
@@ -56,71 +128,91 @@ def _corner_symbol_pose(
     ]
     for line_id in candidates:
         polyline = line_polylines.get(line_id, [])
-        for index in range(1, len(polyline) - 1):
-            if polyline[index] != pos:
-                continue
-            prev_pt = polyline[index - 1]
-            next_pt = polyline[index + 1]
-            len_in = math.hypot(pos[0] - prev_pt[0], pos[1] - prev_pt[1])
-            len_out = math.hypot(next_pt[0] - pos[0], next_pt[1] - pos[1])
-            if len_in < 1e-9 or len_out < 1e-9:
-                continue
-            dir_in = ((pos[0] - prev_pt[0]) / len_in, (pos[1] - prev_pt[1]) / len_in)
-            dir_out = (
-                (next_pt[0] - pos[0]) / len_out,
-                (next_pt[1] - pos[1]) / len_out,
-            )
-            cross = dir_in[0] * dir_out[1] - dir_in[1] * dir_out[0]
-            if abs(cross) < 1e-9:
-                continue
-            dir_to_prev = (-dir_in[0], -dir_in[1])
-            dot = max(
-                -1.0,
-                min(
-                    1.0,
-                    dir_to_prev[0] * dir_out[0] + dir_to_prev[1] * dir_out[1],
-                ),
-            )
-            turn_angle = math.acos(dot)
-            if turn_angle <= 1e-6 or abs(turn_angle - math.pi) <= 1e-6:
-                continue
-            limit = min(len_in, len_out) * 0.45 * math.tan(turn_angle / 2.0)
-            radius = min(corner_radius, limit)
-            if radius <= 0.5:
-                return None
-            bis_x = dir_to_prev[0] + dir_out[0]
-            bis_y = dir_to_prev[1] + dir_out[1]
-            bis_len = math.hypot(bis_x, bis_y)
-            if bis_len < 1e-9:
-                continue
-            bisector = (bis_x / bis_len, bis_y / bis_len)
-            center_distance = radius / math.sin(turn_angle / 2.0)
-            center = (
-                pos[0] + bisector[0] * center_distance,
-                pos[1] + bisector[1] * center_distance,
-            )
-            radial = (pos[0] - center[0], pos[1] - center[1])
-            radial_len = math.hypot(radial[0], radial[1])
-            if radial_len < 1e-9:
-                continue
-            radial_normal = (radial[0] / radial_len, radial[1] / radial_len)
-            midpoint = (
-                center[0] + radial_normal[0] * radius,
-                center[1] + radial_normal[1] * radius,
-            )
-            tangent = (
-                dir_in[0] + dir_out[0],
-                dir_in[1] + dir_out[1],
-            )
-            tangent_dir = (
-                (0 if abs(tangent[0]) < 1e-9 else (1 if tangent[0] > 0 else -1)),
-                (0 if abs(tangent[1]) < 1e-9 else (1 if tangent[1] > 0 else -1)),
-            )
-            return (midpoint, radial_normal, tangent_dir)
+        pose = _line_corner_pose(pos, polyline, corner_radius)
+        if pose is not None:
+            return pose
         # only inspect the first polyline that actually contains the vertex
         if any(point == pos for point in polyline):
             return None
     return None
+
+
+def _closest_point_on_stroke(
+    element: StrokeElement,
+    point: tuple[float, float],
+) -> tuple[float, float]:
+    """Closest point of a drawn stroke element to point."""
+    if isinstance(element, StrokeArc):
+        # match the winding the renderer uses, or we would test against
+        # the complementary arc and land on the wrong side of the circle
+        start_angle = element.start_angle
+        end_angle = element.end_angle
+        if element.clockwise:
+            while end_angle >= start_angle:
+                end_angle -= 2 * math.pi
+        else:
+            while end_angle <= start_angle:
+                end_angle += 2 * math.pi
+        span = end_angle - start_angle
+
+        radial = (point[0] - element.center[0], point[1] - element.center[1])
+        if math.hypot(radial[0], radial[1]) > 1e-9:
+            delta = math.atan2(radial[1], radial[0]) - start_angle
+            two_pi = 2 * math.pi
+            if span >= 0:
+                delta -= two_pi * math.floor(delta / two_pi)
+                inside = delta <= span
+            else:
+                delta -= two_pi * math.ceil(delta / two_pi)
+                inside = delta >= span
+            if inside:
+                angle = start_angle + delta
+                return (
+                    element.center[0] + math.cos(angle) * element.radius,
+                    element.center[1] + math.sin(angle) * element.radius,
+                )
+        ends = (element.start, element.end)
+        return min(
+            ends, key=lambda end: math.hypot(end[0] - point[0], end[1] - point[1])
+        )
+    start, end = element.start, element.end
+    dx, dy = end[0] - start[0], end[1] - start[1]
+    length_squared = dx * dx + dy * dy
+    if length_squared < 1e-12:
+        return start
+    t = ((point[0] - start[0]) * dx + (point[1] - start[1]) * dy) / length_squared
+    t = max(0.0, min(1.0, t))
+    return (start[0] + t * dx, start[1] + t * dy)
+
+
+def _station_track_points(
+    pos: tuple[int, int],
+    station_line_ids: list[str],
+    strokes_by_line: dict[str, list[StrokeElement]],
+    search_radius: float,
+) -> list[tuple[float, float]]:
+    """Where each of the station's own lines actually lays its ink.
+
+    Read off the strokes as built - chamfered corners included - rather
+    than re-derived from the polyline, because a line turning at the
+    station no longer covers the vertex it turns on.
+    """
+    anchor = (float(pos[0]), float(pos[1]))
+    points: list[tuple[float, float]] = []
+    for line_id in station_line_ids:
+        best: tuple[float, float] | None = None
+        best_distance = search_radius
+        for element in strokes_by_line.get(line_id, []):
+            if element.is_overlay:
+                continue
+            candidate = _closest_point_on_stroke(element, anchor)
+            distance = math.hypot(candidate[0] - anchor[0], candidate[1] - anchor[1])
+            if distance < best_distance:
+                best_distance = distance
+                best = candidate
+        if best is not None:
+            points.append(best)
+    return points
 
 
 def _choose_station_axis(
@@ -181,12 +273,16 @@ def draw_stations(
     bundle_offsets: dict | None = None,
     badges_enabled: bool = True,
     soft_line_segments: list[tuple[tuple[int, int], tuple[int, int]]] | None = None,
+    line_strokes: list[StrokeElement] | None = None,
 ) -> None:
     global TOILET_ICON_INSIDE, TOILET_ICON_OUTSIDE
     line_polylines = line_polylines or {}
     segment_map = segment_map or {}
     bundle_offsets = bundle_offsets or {}
     soft_line_segments = soft_line_segments or []
+    strokes_by_line: dict[str, list[StrokeElement]] = {}
+    for element in line_strokes or []:
+        strokes_by_line.setdefault(element.line_id, []).append(element)
     if TOILET_ICON_INSIDE is None and os.path.exists(_TOILET_INSIDE_PATH):
         TOILET_ICON_INSIDE = Image.open(_TOILET_INSIDE_PATH).convert("RGBA")
     if TOILET_ICON_OUTSIDE is None and os.path.exists(_TOILET_OUTSIDE_PATH):
@@ -242,15 +338,43 @@ def draw_stations(
             )
             offset_magnitude = max((abs(value) for value in laterals), default=0.0)
             if span < 1e-6 and offset_magnitude < 1e-6:
-                corner_pose = _corner_symbol_pose(
-                    pos,
-                    station_line_ids,
-                    line_polylines,
-                    float(styles.get("CORNER_RADIUS", 0.0)),
+                corner_radius = float(styles.get("CORNER_RADIUS", 0.0))
+                line_width = float(styles["LINE_WIDTH"])
+                ring_radius = float(
+                    styles.get("TRANSFER_RING_RADIUS", line_width * 0.55)
                 )
-                if corner_pose is not None:
-                    symbol_pos, normal, axis_dir = corner_pose
-                    laterals = [0.0]
+                ring_stroke = float(
+                    styles.get("TRANSFER_RING_STROKE", line_width * 0.16)
+                )
+                junction = None
+                if visual_state.is_transfer:
+                    # no parallel bundle here, but the lines may still fan
+                    # out along one direction once their corners are cut
+                    junction = fit_junction_spread(
+                        (float(pos[0]), float(pos[1])),
+                        _station_track_points(
+                            pos,
+                            station_line_ids,
+                            strokes_by_line,
+                            search_radius=line_width * 3.0,
+                        ),
+                        tolerance=line_width * 0.35,
+                        # a ring only reads as one interchange while every
+                        # track's centreline still falls inside its core
+                        min_span=(ring_radius - ring_stroke) * 2.0,
+                    )
+                if junction is not None:
+                    normal, laterals = junction
+                else:
+                    corner_pose = _corner_symbol_pose(
+                        pos,
+                        station_line_ids,
+                        line_polylines,
+                        corner_radius,
+                    )
+                    if corner_pose is not None:
+                        symbol_pos, normal, axis_dir = corner_pose
+                        laterals = [0.0]
             symbol = build_station_symbol(
                 symbol_pos,
                 is_transfer=visual_state.is_transfer,

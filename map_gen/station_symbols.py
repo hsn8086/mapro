@@ -105,6 +105,59 @@ def find_station_axis(
     return axes[0] if axes else None
 
 
+def fit_junction_spread(
+    pos: FloatPoint,
+    points: list[FloatPoint],
+    *,
+    tolerance: float,
+    min_span: float,
+) -> tuple[FloatPoint, list[float]] | None:
+    """Axis and lateral offsets for tracks that fan out from a junction.
+
+    Where an interchange has no parallel bundle - every line turns or
+    crosses instead - the per-line track points still tend to line up
+    along one direction, because the corner fillets of two perpendicular
+    turns land on opposite sides of the shared vertex. When they do, the
+    symbol has to stretch along that direction to reach every stroke; a
+    ring centred on the vertex would leave the outer lines uncovered.
+
+    Returns (axis, laterals) with axis a unit vector and laterals the
+    signed projections of each point onto it relative to pos, or None if
+    the points miss a common line by more than tolerance, if pos itself
+    is off that line, or if they stay within min_span of each other.
+    """
+    if len(points) < 2:
+        return None
+    widest = 0.0
+    pair: tuple[FloatPoint, FloatPoint] | None = None
+    for index, point in enumerate(points):
+        for other in points[index + 1 :]:
+            distance = math.hypot(other[0] - point[0], other[1] - point[1])
+            if distance > widest:
+                widest = distance
+                pair = (point, other)
+    if pair is None or widest < min_span:
+        return None
+    axis = _normalize(pair[1][0] - pair[0][0], pair[1][1] - pair[0][1])
+    if axis == (0.0, 0.0):
+        return None
+
+    origin = pair[0]
+
+    def perpendicular(point: FloatPoint) -> float:
+        return (point[0] - origin[0]) * -axis[1] + (point[1] - origin[1]) * axis[0]
+
+    if any(abs(perpendicular(point)) > tolerance for point in points):
+        return None
+    if abs(perpendicular(pos)) > tolerance:
+        return None
+    laterals = [
+        (point[0] - pos[0]) * axis[0] + (point[1] - pos[1]) * axis[1]
+        for point in points
+    ]
+    return (axis, laterals)
+
+
 def build_station_symbol(
     pos: Point | FloatPoint,
     *,

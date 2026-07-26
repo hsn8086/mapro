@@ -3,13 +3,20 @@ from __future__ import annotations
 import math
 import unittest
 
-from map_gen.draw.stations import _choose_station_axis, _corner_symbol_pose
+from map_gen.draw.stations import (
+    _choose_station_axis,
+    _closest_point_on_stroke,
+    _corner_symbol_pose,
+    _station_track_points,
+)
 from map_gen.station_symbols import (
     build_station_symbol,
     find_station_axes,
     find_station_axis,
+    fit_junction_spread,
     render_station_symbol,
 )
+from map_gen.stroke_builder import StrokeArc, StrokeSegment
 
 STYLES: dict[str, float | str] = {
     "LINE_WIDTH": 8.0,
@@ -302,6 +309,281 @@ class RenderStationSymbolTests(unittest.TestCase):
         self.assertEqual(draw.polygon_calls[1]["fill"], "#fafaf7")
         self.assertEqual(draw.line_calls, [])
         self.assertEqual(draw.ellipse_calls, [])
+
+
+class FitJunctionSpreadTests(unittest.TestCase):
+    def test_returns_axis_and_laterals_for_collinear_tracks(self) -> None:
+        result = fit_junction_spread(
+            (100.0, 100.0),
+            [(94.0, 94.0), (100.0, 100.0), (106.0, 106.0)],
+            tolerance=2.0,
+            min_span=7.0,
+        )
+
+        self.assertIsNotNone(result)
+        assert result is not None
+        axis, laterals = result
+        self.assertAlmostEqual(abs(axis[0]), math.sqrt(0.5), places=6)
+        self.assertAlmostEqual(abs(axis[1]), math.sqrt(0.5), places=6)
+        self.assertAlmostEqual(min(laterals), -max(laterals), places=6)
+        self.assertAlmostEqual(max(laterals) - min(laterals), math.hypot(12.0, 12.0))
+
+    def test_returns_none_when_spread_stays_within_min_span(self) -> None:
+        self.assertIsNone(
+            fit_junction_spread(
+                (100.0, 100.0),
+                [(98.0, 98.0), (100.0, 100.0), (102.0, 102.0)],
+                tolerance=2.0,
+                min_span=7.0,
+            )
+        )
+
+    def test_returns_none_when_tracks_are_not_collinear(self) -> None:
+        self.assertIsNone(
+            fit_junction_spread(
+                (100.0, 100.0),
+                [(94.0, 94.0), (100.0, 90.0), (106.0, 106.0)],
+                tolerance=2.0,
+                min_span=7.0,
+            )
+        )
+
+    def test_returns_none_when_station_is_off_the_fitted_line(self) -> None:
+        self.assertIsNone(
+            fit_junction_spread(
+                (100.0, 130.0),
+                [(94.0, 94.0), (100.0, 100.0), (106.0, 106.0)],
+                tolerance=2.0,
+                min_span=7.0,
+            )
+        )
+
+    def test_returns_none_for_a_single_track(self) -> None:
+        self.assertIsNone(
+            fit_junction_spread(
+                (100.0, 100.0),
+                [(100.0, 100.0)],
+                tolerance=2.0,
+                min_span=7.0,
+            )
+        )
+
+
+class ClosestPointOnStrokeTests(unittest.TestCase):
+    def test_projects_onto_a_segment(self) -> None:
+        segment = StrokeSegment(
+            line_id="1",
+            start=(0.0, 10.0),
+            end=(20.0, 10.0),
+            color="#000000",
+            thickness=8.0,
+            is_inactive=False,
+        )
+
+        self.assertEqual(_closest_point_on_stroke(segment, (5.0, 0.0)), (5.0, 10.0))
+
+    def test_clamps_to_segment_ends(self) -> None:
+        segment = StrokeSegment(
+            line_id="1",
+            start=(0.0, 0.0),
+            end=(10.0, 0.0),
+            color="#000000",
+            thickness=8.0,
+            is_inactive=False,
+        )
+
+        self.assertEqual(_closest_point_on_stroke(segment, (50.0, 0.0)), (10.0, 0.0))
+
+    def test_follows_the_drawn_winding_of_a_clockwise_arc(self) -> None:
+        # the long way round: from due east clockwise to due north, so the
+        # arc passes through due west. Sampling the short way instead would
+        # never reach that side of the circle.
+        arc = StrokeArc(
+            line_id="1",
+            center=(0.0, 0.0),
+            radius=10.0,
+            start_angle=0.0,
+            end_angle=math.pi / 2,
+            clockwise=True,
+            color="#000000",
+            thickness=8.0,
+            is_inactive=False,
+        )
+
+        closest = _closest_point_on_stroke(arc, (-30.0, 0.0))
+
+        self.assertAlmostEqual(closest[0], -10.0, places=6)
+        self.assertAlmostEqual(closest[1], 0.0, places=6)
+
+    def test_follows_the_drawn_winding_of_a_counterclockwise_arc(self) -> None:
+        arc = StrokeArc(
+            line_id="1",
+            center=(120.0, 120.0),
+            radius=20.0,
+            start_angle=math.pi,
+            end_angle=-math.pi / 2,
+            clockwise=False,
+            color="#000000",
+            thickness=8.0,
+            is_inactive=False,
+        )
+
+        closest = _closest_point_on_stroke(arc, (100.0, 100.0))
+
+        self.assertAlmostEqual(closest[0], 120.0 - 20.0 * math.sqrt(0.5), places=2)
+        self.assertAlmostEqual(closest[1], 120.0 - 20.0 * math.sqrt(0.5), places=2)
+
+
+def _turning_line(
+    line_id: str,
+    *,
+    center: tuple[float, float],
+    start_angle: float,
+    end_angle: float,
+    clockwise: bool,
+) -> list[StrokeArc]:
+    return [
+        StrokeArc(
+            line_id=line_id,
+            center=center,
+            radius=20.0,
+            start_angle=start_angle,
+            end_angle=end_angle,
+            clockwise=clockwise,
+            color="#000000",
+            thickness=8.0,
+            is_inactive=False,
+        )
+    ]
+
+
+class StationTrackPointsTests(unittest.TestCase):
+    def _junction_strokes(self) -> dict[str, list]:
+        # two lines turning through the vertex from opposite sides, one
+        # line running straight through it - the Donghu arrangement
+        return {
+            "A": _turning_line(
+                "A",
+                center=(80.0, 80.0),
+                start_angle=math.pi / 2,
+                end_angle=0.0,
+                clockwise=True,
+            ),
+            "B": _turning_line(
+                "B",
+                center=(120.0, 120.0),
+                start_angle=math.pi,
+                end_angle=-math.pi / 2,
+                clockwise=False,
+            ),
+            "C": [
+                StrokeSegment(
+                    line_id="C",
+                    start=(80.0, 80.0),
+                    end=(120.0, 120.0),
+                    color="#000000",
+                    thickness=8.0,
+                    is_inactive=False,
+                )
+            ],
+        }
+
+    def test_reads_each_line_off_its_drawn_stroke(self) -> None:
+        points = _station_track_points(
+            (100, 100),
+            ["A", "B", "C"],
+            self._junction_strokes(),
+            search_radius=48.0,
+        )
+
+        self.assertEqual(len(points), 3)
+        offset = 20.0 - 20.0 * math.sqrt(0.5)
+        self.assertAlmostEqual(points[0][0], 100.0 - offset, places=2)
+        self.assertAlmostEqual(points[1][0], 100.0 + offset, places=2)
+        self.assertEqual(points[2], (100.0, 100.0))
+
+    def test_skips_lines_whose_stroke_is_out_of_range(self) -> None:
+        strokes = self._junction_strokes()
+        strokes["D"] = [
+            StrokeSegment(
+                line_id="D",
+                start=(900.0, 900.0),
+                end=(950.0, 900.0),
+                color="#000000",
+                thickness=8.0,
+                is_inactive=False,
+            )
+        ]
+
+        points = _station_track_points(
+            (100, 100), ["A", "B", "C", "D"], strokes, search_radius=48.0
+        )
+
+        self.assertEqual(len(points), 3)
+
+    def test_ignores_shared_track_overlays(self) -> None:
+        strokes = self._junction_strokes()
+        strokes["C"] = [
+            StrokeSegment(
+                line_id="C",
+                start=(80.0, 80.0),
+                end=(120.0, 120.0),
+                color="#000000",
+                thickness=4.0,
+                is_inactive=False,
+                is_overlay=True,
+            )
+        ]
+
+        points = _station_track_points(
+            (100, 100), ["A", "B", "C"], strokes, search_radius=48.0
+        )
+
+        self.assertEqual(len(points), 2)
+
+    def test_junction_tracks_fit_a_diagonal_capsule(self) -> None:
+        points = _station_track_points(
+            (100, 100),
+            ["A", "B", "C"],
+            self._junction_strokes(),
+            search_radius=48.0,
+        )
+
+        result = fit_junction_spread(
+            (100.0, 100.0), points, tolerance=2.8, min_span=7.0
+        )
+
+        self.assertIsNotNone(result)
+        assert result is not None
+        axis, laterals = result
+        self.assertAlmostEqual(abs(axis[0]), math.sqrt(0.5), places=3)
+        self.assertAlmostEqual(abs(axis[1]), math.sqrt(0.5), places=3)
+
+        symbol = build_station_symbol(
+            (100, 100),
+            is_transfer=True,
+            normal=axis,
+            laterals=laterals,
+            styles=STYLES,
+        )
+        self.assertEqual(symbol.kind, "capsule")
+        # every track centreline must sit on the capsule spine
+        end_a = (
+            symbol.pos[0] + symbol.normal[0] * symbol.lat_min,
+            symbol.pos[1] + symbol.normal[1] * symbol.lat_min,
+        )
+        end_b = (
+            symbol.pos[0] + symbol.normal[0] * symbol.lat_max,
+            symbol.pos[1] + symbol.normal[1] * symbol.lat_max,
+        )
+        for point in points:
+            dx, dy = end_b[0] - end_a[0], end_b[1] - end_a[1]
+            t = ((point[0] - end_a[0]) * dx + (point[1] - end_a[1]) * dy) / (
+                dx * dx + dy * dy
+            )
+            t = max(0.0, min(1.0, t))
+            spine = (end_a[0] + t * dx, end_a[1] + t * dy)
+            self.assertLessEqual(math.dist(point, spine), symbol.ring_radius)
 
 
 if __name__ == "__main__":

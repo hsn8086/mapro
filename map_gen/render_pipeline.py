@@ -54,6 +54,7 @@ def draw_render_plan(plan: RenderPlan, img, draw) -> None:
         bundle_offsets=plan.bundle_offsets,
         badges_enabled=plan.badges_enabled,
         soft_line_segments=soft_segments,
+        line_strokes=plan.line_strokes,
     )
 
     draw_title_block(draw, plan.meta, plan.font_paths, styles)
